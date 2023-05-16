@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,6 +18,10 @@ public class Telefone {
 	
 	@Column(name = "numero")
 	private Integer numero;
+	
+	@OneToOne
+	@JoinColumn(name="instrutor")
+	private Instrutor instrutor;
 
 	public Integer getId() {
 		return id;

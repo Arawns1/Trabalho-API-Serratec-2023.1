@@ -20,7 +20,8 @@ public class Instrutor {
 	
 	@Column(name = "nome")
 	private String nome;
-
+	
+	
 	public Integer getId() {
 		return id;
 	}
