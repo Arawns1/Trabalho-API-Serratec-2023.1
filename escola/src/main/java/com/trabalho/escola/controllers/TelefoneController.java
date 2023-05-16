@@ -17,7 +17,7 @@ import com.trabalho.escola.entities.Telefone;
 import com.trabalho.escola.services.TelefoneService;
 
 @RestController
-@RequestMapping("/telefonees")
+@RequestMapping("/telefones")
 public class TelefoneController {
 
 	@Autowired
@@ -57,9 +57,5 @@ public class TelefoneController {
 		else {
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
-		
 	}
-	
-	
-	
 }
