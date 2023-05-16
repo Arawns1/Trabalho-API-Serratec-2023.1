@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.trabalho.escola.entities.Instrutor;
 import com.trabalho.escola.services.InstrutorService;
 
@@ -23,6 +24,7 @@ public class InstrutorController {
 	@Autowired
 	InstrutorService instrutorService;
 	
+	@GetMapping
 	public ResponseEntity<List<Instrutor>> getAllInstrutores() {
 		return new ResponseEntity<>(instrutorService.getAllInstrutores(),HttpStatus.OK);
 	}

@@ -23,6 +23,7 @@ public class TelefoneController {
 	@Autowired
 	TelefoneService telefoneService;
 	
+	@GetMapping
 	public ResponseEntity<List<Telefone>> getAllTelefonees() {
 		return new ResponseEntity<>(telefoneService.getAllTelefones(),HttpStatus.OK);
 	}
