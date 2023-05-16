@@ -14,11 +14,11 @@ public class InstrutorService {
 	@Autowired
 	InstrutorRepository instrutorRepository;
 	
-	public List<Instrutor> findAll() {
+	public List<Instrutor> getAllInstrutores() {
 		return instrutorRepository.findAll();
 	}
 	
-	public Instrutor findById(Integer id) {
+	public Instrutor getInstrutorById(Integer id) {
 		return instrutorRepository.findById(id).orElse(null);
 	}
 	
@@ -26,7 +26,7 @@ public class InstrutorService {
 		return instrutorRepository.save(instrutor);
 	}
 	
-	public Instrutor updateInstrutor(Instrutor instrutor) {
+	public Instrutor updateInstrutor(Instrutor instrutor, Integer id) {
 		return instrutorRepository.save(instrutor);
 	}
 	

@@ -14,11 +14,11 @@ public class TelefoneService {
 	@Autowired
 	TelefoneRepository telefoneRepository;
 	
-	public List<Telefone> findAll() {
+	public List<Telefone> getAllTelefones() {
 		return telefoneRepository.findAll();
 	}
 	
-	public Telefone findById(Integer id) {
+	public Telefone getTelefoneById(Integer id) {
 		return telefoneRepository.findById(id).orElse(null);
 	}
 	
@@ -26,7 +26,7 @@ public class TelefoneService {
 		return telefoneRepository.save(telefone);
 	}
 	
-	public Telefone updateTelefone(Telefone telefone) {
+	public Telefone updateTelefone(Telefone telefone, Integer id) {
 		return telefoneRepository.save(telefone);
 	}
 	
