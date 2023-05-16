@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_turma")
-public class TurmaEntity {
+public class Turma {
 	
 	
 @Id
