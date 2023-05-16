@@ -13,23 +13,23 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.trabalho.escola.entities.Instrutor;
-import com.trabalho.escola.services.InstrutorService;
+import com.trabalho.escola.entities.Telefone;
+import com.trabalho.escola.services.TelefoneService;
 
 @RestController
-@RequestMapping("/instrutores")
-public class InstrutorController {
+@RequestMapping("/telefonees")
+public class TelefoneController {
 
 	@Autowired
-	InstrutorService instrutorService;
+	TelefoneService telefoneService;
 	
-	public ResponseEntity<List<Instrutor>> getAllInstrutores() {
-		return new ResponseEntity<>(instrutorService.getAllInstrutores(),HttpStatus.OK);
+	public ResponseEntity<List<Telefone>> getAllTelefonees() {
+		return new ResponseEntity<>(telefoneService.getAllTelefones(),HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Instrutor> getInstrutorById(@PathVariable Integer id) {
-		Instrutor response = instrutorService.getInstrutorById(id);
+	public ResponseEntity<Telefone> getTelefoneById(@PathVariable Integer id) {
+		Telefone response = telefoneService.getTelefoneById(id);
 		if(response != null) {
 			return new ResponseEntity<>(response,HttpStatus.OK);
 		}
@@ -39,18 +39,18 @@ public class InstrutorController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Instrutor> saveInstrutor(@RequestBody Instrutor instrutor) {
-		return new ResponseEntity<>(instrutorService.saveInstrutor(instrutor),HttpStatus.OK);
+	public ResponseEntity<Telefone> saveTelefone(@RequestBody Telefone telefone) {
+		return new ResponseEntity<>(telefoneService.saveTelefone(telefone),HttpStatus.OK);
 	}
 	
 	@PutMapping
-	public ResponseEntity<Instrutor> updateInstrutor(@RequestBody Instrutor instrutor, Integer id) {
-		return new ResponseEntity<>(instrutorService.updateInstrutor(instrutor, id),HttpStatus.OK);
+	public ResponseEntity<Telefone> updateTelefone(@RequestBody Telefone telefone, Integer id) {
+		return new ResponseEntity<>(telefoneService.updateTelefone(telefone, id),HttpStatus.OK);
 	}
 	
 	@DeleteMapping("{id}")
-	public ResponseEntity<Boolean> deleteInstrutor(@PathVariable Integer id) {
-		Boolean response = instrutorService.deleteInstrutor(id);
+	public ResponseEntity<Boolean> deleteTelefone(@PathVariable Integer id) {
+		Boolean response = telefoneService.deleteTelefone(id);
 		if(response != null) {
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
