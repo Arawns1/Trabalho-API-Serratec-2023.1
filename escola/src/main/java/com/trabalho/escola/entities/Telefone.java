@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_telefone")
-public class TelefoneEntity {
+public class Telefone {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -32,6 +32,5 @@ public class TelefoneEntity {
 	public void setNumero(Integer numero) {
 		this.numero = numero;
 	}
-	
 	
 }
