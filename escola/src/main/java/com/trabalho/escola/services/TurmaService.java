@@ -15,7 +15,7 @@ public class TurmaService {
 	@Autowired
 	TurmaRepository turmaRepository;
 	
-	public List<Turma> findAll() {
+	public List<Turma> GetAllTurmas() {
 		return turmaRepository.findAll();
 	}
 	public Turma getTurmaById(Integer id) {
@@ -27,7 +27,7 @@ public class TurmaService {
 	public Turma saveTurma (Turma turma) {
 		return turmaRepository.save(turma);
 	}
-	public Turma UpdateEditora (Turma turma ) {
+	public Turma UpdateTurma (Turma turma, Integer Id ) {
 		return turmaRepository.save(turma);
 	}
 	public Boolean delTurma(Integer Id) {
