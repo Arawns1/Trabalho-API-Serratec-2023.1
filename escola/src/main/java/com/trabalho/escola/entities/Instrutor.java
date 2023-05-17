@@ -16,7 +16,7 @@ public class Instrutor {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer idInstrutor;
 	
 	@Column(name = "rg")
 	private Integer rg;
@@ -25,14 +25,22 @@ public class Instrutor {
 	private String nome;
 	
 	@OneToMany(mappedBy = "instrutor")
-	private List<Turma> turmas;
-	
+  private List<Turma> turmas;	
+  
+	public List<Turma> getTurmas() {
+		return turmas;
+	}
+
+	public void setTurmas(List<Turma> turmas) {
+		this.turmas = turmas;
+	}
+
 	public Integer getId() {
-		return id;
+		return idInstrutor;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		this.idInstrutor = id;
 	}
 
 	public Integer getRg() {
