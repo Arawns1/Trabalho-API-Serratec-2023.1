@@ -14,7 +14,8 @@ import jakarta.persistence.Table;
 
 @JsonIdentityInfo(
 		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "idTelefone"
+		property = "idTelefone",
+		scope =  Telefone.class
 )
 @Entity
 @Table(name = "tb_telefone")
