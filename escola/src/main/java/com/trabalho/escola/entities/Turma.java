@@ -1,10 +1,14 @@
 package com.trabalho.escola.entities;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,9 +28,11 @@ public class Turma {
 	@Column(name = "diasemana")
 	private String diaSemana;
 	
-	@Column(name = "idinstrutor")
-	private Integer idInstrutor ;
-
+	@ManyToOne
+	@JoinColumn(name = "idinstrutor",
+	referencedColumnName = "idInstrutor")
+	private Instrutor instrutor;
+	
 	public Integer getId() {
 		return Id;
 	}
@@ -49,15 +55,5 @@ public class Turma {
 
 	public void setDiaSemana(String diaSemana) {
 		this.diaSemana = diaSemana;
-	}
-
-	public Integer getIdInstrutor() {
-		return idInstrutor;
-	}
-
-	public void setIdInstrutor(Integer idInstrutor) {
-		this.idInstrutor = idInstrutor;
-	}
-	
-	
+	}	
 }
