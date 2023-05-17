@@ -25,8 +25,8 @@ public class Instrutor {
 	private String nome;
 	
 	@OneToMany(mappedBy = "instrutor")
-    private List<Turma> turmas;
-	
+  private List<Turma> turmas;	
+  
 	public List<Turma> getTurmas() {
 		return turmas;
 	}
