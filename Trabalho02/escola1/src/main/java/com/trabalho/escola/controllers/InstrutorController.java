@@ -43,7 +43,7 @@ public class InstrutorController {
 	@PostMapping
 	public ResponseEntity<Instrutor> saveInstrutor(@RequestBody Instrutor instrutor) {
 		return new ResponseEntity<>(instrutorService.saveInstrutor(instrutor),HttpStatus.OK);
-	}
+	}		
 	
 	@PutMapping
 	public ResponseEntity<Instrutor> updateInstrutor(@RequestBody Instrutor instrutor, Integer id) {

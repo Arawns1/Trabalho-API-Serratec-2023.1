@@ -26,7 +26,7 @@ public class Telefone {
 	
 	@Column(name = "numero")
 	private Integer numero;
-
+	
 	@OneToOne
 	@JoinColumn(name="idInstrutor", referencedColumnName = "idInstrutor")
 	private Instrutor instrutor;
