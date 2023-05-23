@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.trabalho.escola.entities.Instrutor;
 import com.trabalho.escola.repositories.InstrutorRepository;
 
+import jakarta.mail.MessagingException;
+
 @Service
 public class InstrutorService {
 	
@@ -26,10 +28,15 @@ public class InstrutorService {
 	}
 	
 	public Instrutor saveInstrutor(Instrutor instrutor) {
-		emailService.enviarEmail("gabrieldamico22@gmail.com",
-				 "Instrutor cadastrado", 
-				 instrutor.toString());
-		return instrutorRepository.save(instrutor);
+		Instrutor instrutorSalvo = instrutorRepository.save(instrutor);
+		try {
+			emailService.enviarEmail("gabrieldamico22@gmail.com",
+					 "Instrutor cadastrado", 
+					 instrutorSalvo);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		return instrutorSalvo;
 	}
 	
 	public Instrutor updateInstrutor(Instrutor instrutor, Integer id) {

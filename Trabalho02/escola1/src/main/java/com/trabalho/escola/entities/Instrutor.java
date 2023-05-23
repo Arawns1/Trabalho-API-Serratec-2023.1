@@ -71,6 +71,10 @@ public class Instrutor {
 	public void setTurmas(List<Turma> turmas) {
 		this.turmas = turmas;
 	}
+	
+	public Telefone getTelefone() {
+		return telefone;
+	}
 
 	@Override
 	public String toString() {
