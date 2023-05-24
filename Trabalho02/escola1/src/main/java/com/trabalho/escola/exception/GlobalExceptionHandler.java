@@ -1,6 +1,7 @@
 package com.trabalho.escola.exception;
 
 import java.net.URI;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -22,6 +23,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
         
         problemDetail.setTitle("Recurso Não Encontrado");
+        problemDetail.setType(URI.create("https://api.escola.com/errors/not-found"));
+        return problemDetail;
+    }
+	
+	@ExceptionHandler(NoRegisteredInstrutorException.class)
+    ProblemDetail handleNoSuchElementException(NoRegisteredInstrutorException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        
+        problemDetail.setTitle("Sem Registro");
         problemDetail.setType(URI.create("https://api.escola.com/errors/not-found"));
         return problemDetail;
     }
