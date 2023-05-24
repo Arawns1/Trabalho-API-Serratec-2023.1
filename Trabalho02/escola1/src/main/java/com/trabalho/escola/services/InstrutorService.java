@@ -4,12 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.trabalho.escola.entities.Instrutor;
 import com.trabalho.escola.repositories.InstrutorRepository;
-
 import jakarta.mail.MessagingException;
-import jakarta.validation.Valid;
 
 @Service
 public class InstrutorService {

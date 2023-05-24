@@ -36,11 +36,7 @@ public class EmailService {
 		this.emailSender = javaMailSender;
 	}
 	
-	
-	
-	
 	public void enviarEmail(String destinatario, String assunto, Instrutor instrutor) throws MessagingException {
-		
 		/*	SimpleMailMessage mailMessage = new SimpleMailMessage();
 		 * mailMessage.setTo(destinatario); mailMessage.setSubject(assunto);
 		 * mailMessage.setText(mensagem); mailMessage.setFrom(mailFrom);
