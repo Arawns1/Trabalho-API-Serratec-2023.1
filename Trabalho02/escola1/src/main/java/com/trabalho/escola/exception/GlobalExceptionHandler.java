@@ -55,8 +55,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
                 BindingResult result = subEx.getBindingResult();
                 problemDetailBody.setTitle("Erro na requisição");
                 problemDetailBody.setDetail("Ocorreu um erro ao processar a Requisição");
-                problemDetailBody.setProperty("message", "Validation failed for object='" + 
-                		result.getObjectName() + "'. " + "Error count: " + result.getErrorCount());
+                problemDetailBody.setProperty("message", "Validation failed for object='" + result.getObjectName());
                 
                 problemDetailBody.setProperty("errors", result.getAllErrors().get(0).getDefaultMessage());
             }

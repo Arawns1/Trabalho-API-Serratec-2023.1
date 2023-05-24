@@ -31,12 +31,9 @@ public class Instrutor {
 	@Column(name = "idInstrutor")
 	private Integer idInstrutor;
 	
-	/**TODO COLOCAR como Integer e validar
-	 */
-	
 	@NotBlank(message="O RG não deve estar em branco")
 	@Pattern(regexp = "\\d{10}", message="O RG deve conter 10 digitos numéricos")
-	@Column(name = "rg")
+	@Column(name = "rg") 
 	private String rg;
 	
 	@NotBlank(message="O nome não deve estar em branco")
