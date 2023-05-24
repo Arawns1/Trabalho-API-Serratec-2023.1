@@ -110,6 +110,12 @@ public class AuthController {
 					roles.add(contRole);
 
 					break;
+				case "instrutor":
+					Role instRole = roleRepository.findByName(RoleEnum.ROLE_INSTRUTOR)
+							.orElseThrow(() -> new RuntimeException("Erro: Role não encontrada."));
+					roles.add(instRole);
+
+					break;
 				default:
 					Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
 							.orElseThrow(() -> new RuntimeException("Erro: Role não encontrada."));

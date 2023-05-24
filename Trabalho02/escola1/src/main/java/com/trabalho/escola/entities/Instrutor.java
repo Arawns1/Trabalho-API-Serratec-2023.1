@@ -13,6 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+
 
 @JsonIdentityInfo(
 		generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -28,9 +30,11 @@ public class Instrutor {
 	@Column(name = "idInstrutor")
 	private Integer idInstrutor;
 	
+	@NotBlank
 	@Column(name = "rg")
 	private Integer rg;
 	
+	@NotBlank
 	@Column(name = "nome")
 	private String nome;
 
