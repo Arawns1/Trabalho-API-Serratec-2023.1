@@ -22,7 +22,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
         
         problemDetail.setTitle("Recurso Não Encontrado");
-        problemDetail.setType(URI.create("https://api.biblioteca.com/errors/not-found"));
+        problemDetail.setType(URI.create("https://api.escola.com/errors/not-found"));
         return problemDetail;
     }
 	
@@ -30,7 +30,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     ProblemDetail handleBookmarkNotFoundException(InstrutorNotFoundException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
         problemDetail.setTitle("Instrutor Não Encontrado");
-        problemDetail.setType(URI.create("https://api.biblioteca.com/errors/not-found"));
+        problemDetail.setType(URI.create("https://api.escola.com/errors/not-found"));
         return problemDetail;
     }
 	

@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.trabalho.escola.entities.Instrutor;
+import com.trabalho.escola.exception.InstrutorNotFoundException;
 import com.trabalho.escola.repositories.InstrutorRepository;
 
 import jakarta.mail.MessagingException;
-import jakarta.validation.Valid;
 
 @Service
 public class InstrutorService {
@@ -25,7 +25,8 @@ public class InstrutorService {
 	}
 	
 	public Instrutor getInstrutorById(Integer id) {
-		return instrutorRepository.findById(id).orElse(null);
+		return instrutorRepository.findById(id)
+				.orElseThrow(() -> new InstrutorNotFoundException(id));
 	}
 	
 	public Instrutor saveInstrutor(Instrutor instrutor) {
