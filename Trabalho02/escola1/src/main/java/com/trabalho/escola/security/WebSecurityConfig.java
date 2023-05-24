@@ -43,7 +43,7 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**", "/roles/**").permitAll() //define as rotas publicas/abertas
                     .requestMatchers("/actuator/", "/instrutores/**").hasRole("DIRETOR") // autoriza o acesso a rotas por perfil
-                    .requestMatchers("/test/user/**").hasAnyRole("USER", "DIRETOR") //autoriza o acesso a rotas por perfis
+                   // .requestMatchers("/test/user/**").hasAnyRole("USER", "DIRETOR") //autoriza o acesso a rotas por perfis
                     .anyRequest().authenticated()); //demais rotas, nao configuradas acima, so poderao ser acessadas mediante autenticacao;
         http.authenticationProvider(authenticationProvider()); //define o provedor de autenticacao
 

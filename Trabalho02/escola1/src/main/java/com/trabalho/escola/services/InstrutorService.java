@@ -47,7 +47,8 @@ public class InstrutorService {
 	
 	public Boolean deleteInstrutor(Integer id) {
 		instrutorRepository.deleteById(id);
-		Instrutor resp = instrutorRepository.findById(id).orElse(null);
+		Instrutor resp = instrutorRepository.findById(id)
+				.orElseThrow(() -> new InstrutorNotFoundException(id));
 		if(resp == null) {
 			return true;
 		}
