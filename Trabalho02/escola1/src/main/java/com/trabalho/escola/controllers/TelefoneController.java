@@ -49,7 +49,7 @@ public class TelefoneController {
 		return new ResponseEntity<>(telefoneService.updateTelefone(telefone, id),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Boolean> deleteTelefone(@PathVariable Integer id) {
 		Boolean response = telefoneService.deleteTelefone(id);
 		if(response != null) {

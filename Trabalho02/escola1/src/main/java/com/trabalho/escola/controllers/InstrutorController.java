@@ -52,7 +52,7 @@ public class InstrutorController {
 		return new ResponseEntity<>(instrutorService.updateInstrutor(instrutor, id),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Boolean> deleteInstrutor(@PathVariable Integer id) {
 		Boolean response = instrutorService.deleteInstrutor(id);
 		if(response != null) {
