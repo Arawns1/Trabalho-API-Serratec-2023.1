@@ -33,25 +33,54 @@ public class WebSecurityConfig {
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
 
+	/*
+	 * @Bean public SecurityFilterChain filterChain(HttpSecurity http) throws
+	 * Exception { http .cors(Customizer.withDefaults()) //habilita o cors
+	 * .csrf(csrf -> csrf.disable()) //desabilita o csrf .exceptionHandling(handling
+	 * -> handling.authenticationEntryPoint(unauthorizedHandler)) //configura a
+	 * classe para tratamento da excecao de autenticacao .sessionManagement(sess ->
+	 * sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //define a
+	 * politica de sessao .authorizeHttpRequests(auth -> auth
+	 * .requestMatchers("/auth/signin", "/auth/signup", "/roles/**",
+	 * "/swagger-ui/**","/swagger-resources/", "/v3/api-docs/**",
+	 * "/actuator/").permitAll() //define as rotas publicas/abertas //
+	 * .requestMatchers("/auth/signin", "/auth/signup", "/roles/**",
+	 * "/swagger-ui/","/swagger-resources/", "/v3/api-docs/",
+	 * "/actuator/").hasRole("ADMIN") // autoriza o acesso a rotas por perfil
+	 * .requestMatchers("/auth/signin", "/auth/signup", "/roles/**",
+	 * "/actuator/").hasAnyRole("USER", "ADMIN") //autoriza o acesso a rotas por
+	 * perfis .anyRequest().authenticated()) //demais rotas, nao configuradas acima,
+	 * so poderao ser acessadas mediante autenticacao ;
+	 * 
+	 * http.authenticationProvider(authenticationProvider()); //define o provedor de
+	 * autenticacao
+	 * 
+	 * http.addFilterBefore(authenticationJwtTokenFilter(),
+	 * UsernamePasswordAuthenticationFilter.class); //define o filtro a ser aplicado
+	 * no ciclo de vida da requisicao return http.build(); }
+	 */
+	
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .cors(Customizer.withDefaults()) //habilita o cors
             .csrf(csrf -> csrf.disable()) //desabilita o csrf
             .exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandler)) //configura a classe para tratamento da excecao de autenticacao
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //define a politica de sessao
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/auth/**", "/h2-console/**", "/roles/**","/swagger-ui/**", "/v3/api-docs/**", "/escola/**").permitAll() //define as rotas publicas/abertas
-                    .requestMatchers( "/actuator/**").hasRole("ADMIN") // autoriza o acesso a rotas por perfil
+                    .requestMatchers("/auth/", "/swagger-ui/", "/v3/api-docs/", "/h2-console/", "/roles/").permitAll() //define as rotas publicas/abertas
+                    .requestMatchers("/actuator/").hasRole("ADMIN") // autoriza o acesso a rotas por perfil
                     .requestMatchers("/test/user/**").hasAnyRole("USER", "ADMIN") //autoriza o acesso a rotas por perfis
                     .anyRequest().authenticated()) //demais rotas, nao configuradas acima, so poderao ser acessadas mediante autenticacao
-		;		
-		
-		http.authenticationProvider(authenticationProvider()); //define o provedor de autenticacao
+        ;
 
-		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class); //define o filtro a ser aplicado no ciclo de vida da requisicao
-		return http.build();
-	}
+        http.authenticationProvider(authenticationProvider()); //define o provedor de autenticacao
+
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class); //define o filtro a ser aplicado no ciclo de vida da requisicao
+        return http.build();
+    }
+	
+	
 	
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {

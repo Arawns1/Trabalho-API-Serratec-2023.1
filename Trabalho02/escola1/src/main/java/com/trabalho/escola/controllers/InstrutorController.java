@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.trabalho.escola.entities.Instrutor;
 import com.trabalho.escola.services.InstrutorService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/instrutores")
 public class InstrutorController {
@@ -41,7 +43,7 @@ public class InstrutorController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Instrutor> saveInstrutor(@RequestBody Instrutor instrutor) {
+	public ResponseEntity<Instrutor> saveInstrutor(@Valid @RequestBody Instrutor instrutor) {
 		return new ResponseEntity<>(instrutorService.saveInstrutor(instrutor),HttpStatus.OK);
 	}		
 	
