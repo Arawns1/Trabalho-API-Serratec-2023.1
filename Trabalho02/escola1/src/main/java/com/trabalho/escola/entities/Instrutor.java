@@ -1,8 +1,10 @@
 package com.trabalho.escola.entities;
 
 import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @JsonIdentityInfo(
@@ -32,12 +34,13 @@ public class Instrutor {
 	/**TODO COLOCAR como Integer e validar
 	 */
 	
-	@NotNull
-	@Size(min = 10)
+	@NotBlank(message="O RG não deve estar em branco")
+	@Pattern(regexp = "\\d{10}", message="O RG deve conter 10 digitos numéricos")
 	@Column(name = "rg")
 	private String rg;
 	
-	@NotBlank
+	@NotBlank(message="O nome não deve estar em branco")
+	@Size(max= 50, message="O nome deve ter até 50 caracteres")
 	@Column(name = "nome")
 	private String nome;
 
