@@ -1,4 +1,4 @@
-package com.residencia.trabalhofinal.TrabalhoFinal;
+package com.residencia.trabalho_final;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

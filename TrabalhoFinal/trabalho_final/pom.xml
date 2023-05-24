@@ -8,18 +8,22 @@
 		<version>3.1.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.residencia.trabalhofinal</groupId>
-	<artifactId>TrabalhoFinal</artifactId>
+	<groupId>com.residencia</groupId>
+	<artifactId>trabalho_final</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>TrabalhoFinal</name>
-	<description>Trabalho Final da Matéria de API 2023.1</description>
+	<name>trabalho_final</name>
+	<description>Trabalho Final de API - Serratec 2023.1</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jdbc</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -61,7 +65,6 @@
 			<scope>test</scope>
 		</dependency>
 		
-		
 		<dependency>
 		    <groupId>io.jsonwebtoken</groupId>
 		    <artifactId>jjwt-api</artifactId>
@@ -88,12 +91,7 @@
 		    <groupId>jakarta.xml.bind</groupId>
 		    <artifactId>jakarta.xml.bind-api</artifactId>
 		</dependency>
-		
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
-        </dependency>
-        <dependency>
 	      <groupId>org.springdoc</groupId>
 	      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 	      <version>2.1.0</version>

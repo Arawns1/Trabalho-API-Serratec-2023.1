@@ -1,4 +1,4 @@
-package com.residencia.trabalhofinal.TrabalhoFinal;
+package com.residencia.trabalho_final;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
