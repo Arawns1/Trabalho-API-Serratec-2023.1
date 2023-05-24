@@ -9,6 +9,7 @@ import com.trabalho.escola.entities.Instrutor;
 import com.trabalho.escola.repositories.InstrutorRepository;
 
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 
 @Service
 public class InstrutorService {

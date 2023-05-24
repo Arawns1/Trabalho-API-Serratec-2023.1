@@ -14,6 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 
 @JsonIdentityInfo(
@@ -30,11 +31,11 @@ public class Instrutor {
 	@Column(name = "idInstrutor")
 	private Integer idInstrutor;
 	
-	@NotBlank
+	
 	@Column(name = "rg")
 	private Integer rg;
 	
-	@NotBlank
+	
 	@Column(name = "nome")
 	private String nome;
 
