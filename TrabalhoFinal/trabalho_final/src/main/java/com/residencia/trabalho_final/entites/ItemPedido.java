@@ -58,6 +58,7 @@ public class ItemPedido {
 	}
 
 	public Double getPreco_venda() {
+		preco_venda = produto.getValor_unitario();
 		return preco_venda;
 	}
 
@@ -74,6 +75,7 @@ public class ItemPedido {
 	}
 
 	public Double getValor_bruto() {
+		valor_bruto = produto.getValor_unitario() * quantidade;
 		return valor_bruto;
 	}
 
@@ -82,6 +84,7 @@ public class ItemPedido {
 	}
 
 	public Double getValor_liquido() {
+		valor_liquido = valor_bruto - (valor_bruto * (percentual_desconto/100));
 		return valor_liquido;
 	}
 

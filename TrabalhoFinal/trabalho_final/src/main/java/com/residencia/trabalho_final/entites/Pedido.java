@@ -76,6 +76,14 @@ public class Pedido {
 		this.status = status;
 	}
 	public Double getValor_total() {
+		double sum = 0.0;
+		
+		for(ItemPedido ip : itemPedido) {
+			sum += ip.getValor_liquido();
+		}
+		
+		valor_total = sum;
+		
 		return valor_total;
 	}
 	public void setValor_total(Double valor_total) {

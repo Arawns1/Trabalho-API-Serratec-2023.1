@@ -9,9 +9,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
 
 @Entity
 @Table(name = "produto")
@@ -37,6 +39,7 @@ public class Produto {
 	@Column(name = "valorunitario")
 	private Double valor_unitario;
 	
+	@Lob
 	@Column(name = "imagem")
 	private byte[] imagem;
 	
