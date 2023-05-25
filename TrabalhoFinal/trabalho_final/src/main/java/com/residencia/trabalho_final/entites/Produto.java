@@ -1,6 +1,7 @@
 package com.residencia.trabalho_final.entites;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -42,7 +44,8 @@ public class Produto {
 	@JoinColumn(name = "id_categoria", referencedColumnName = "idcategoria")
 	private Categoria categoria;
 	
-	
+	@OneToMany(mappedBy = "produto")
+	private List<ItemPedido> itemPedido;
 	
 	
 	public Integer getId_produto() {
@@ -93,5 +96,12 @@ public class Produto {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+	public List<ItemPedido> getItemPedido() {
+		return itemPedido;
+	}
+	public void setItemPedido(List<ItemPedido> itemPedido) {
+		this.itemPedido = itemPedido;
+	}
+	
 	
 }
