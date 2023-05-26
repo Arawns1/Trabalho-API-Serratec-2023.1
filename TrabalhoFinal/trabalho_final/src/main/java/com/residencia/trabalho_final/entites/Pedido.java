@@ -1,7 +1,12 @@
 package com.residencia.trabalho_final.entites;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,87 +18,104 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idPedido", scope = Pedido.class)
+
 @Entity
 @Table(name = "pedido")
 public class Pedido {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idpedido")
-	private Integer id_pedido;
+	@Column(name = "id_pedido")
+	private Integer idPedido;
 	
-	@Column(name = "datapedido")
-	private Date data_pedido;
+	@Column(name = "data_pedido")
+	private Date dataPedido;
 	
-	@Column(name = "dataentrega")
-	private Date data_entrega;
+	@Column(name = "data_entrega")
+	private Date dataEntrega;
 	
-	@Column(name = "dataenvio")
-	private Date data_envio;
+	@Column(name = "data_envio")
+	private Date dataEnvio;
 	
 	@Column(name = "status")
 	private String status;
 	
-	@Column(name = "valortotal")
-	private Double valor_total;
+	@Column(name = "valor_total")
+	private BigDecimal valorTotal;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_cliente", referencedColumnName = "idcliente")
+	@JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
 	private Cliente cliente;
 	
-	
+	//@JsonManagedReference(value = "pedido-back")
+	//@JsonIgnore
 	@OneToMany(mappedBy = "pedido")
-	private List<ItemPedido> itemPedido;
-	
-	public Integer getId_pedido() {
-		return id_pedido;
+	private List<ItemPedido> itens;
+
+	public Integer getIdPedido() {
+		return idPedido;
 	}
-	public void setId_pedido(Integer id_pedido) {
-		this.id_pedido = id_pedido;
+
+	public void setIdPedido(Integer idPedido) {
+		this.idPedido = idPedido;
 	}
-	public Date getData_pedido() {
-		return data_pedido;
+
+	public Date getDataPedido() {
+		return dataPedido;
 	}
-	public void setData_pedido(Date data_pedido) {
-		this.data_pedido = data_pedido;
+
+	public void setDataPedido(Date dataPedido) {
+		this.dataPedido = dataPedido;
 	}
-	public Date getData_entrega() {
-		return data_entrega;
+
+	public Date getDataEntrega() {
+		return dataEntrega;
 	}
-	public void setData_entrega(Date data_entrega) {
-		this.data_entrega = data_entrega;
+
+	public void setDataEntrega(Date dataEntrega) {
+		this.dataEntrega = dataEntrega;
 	}
-	public Date getData_envio() {
-		return data_envio;
+
+	public Date getDataEnvio() {
+		return dataEnvio;
 	}
-	public void setData_envio(Date data_envio) {
-		this.data_envio = data_envio;
+
+	public void setDataEnvio(Date dataEnvio) {
+		this.dataEnvio = dataEnvio;
 	}
+
 	public String getStatus() {
 		return status;
 	}
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Double getValor_total() {
-		double sum = 0.0;
-		
-		for(ItemPedido ip : itemPedido) {
-			sum += ip.getValor_liquido();
-		}
-		
-		valor_total = sum;
-		
-		return valor_total;
+
+	public BigDecimal getValorTotal() {
+		return valorTotal;
 	}
-	public void setValor_total(Double valor_total) {
-		this.valor_total = valor_total;
+
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
 	}
+
 	public Cliente getCliente() {
 		return cliente;
 	}
+
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
+
+	public List<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(List<ItemPedido> itens) {
+		this.itens = itens;
+	}
+
 }
