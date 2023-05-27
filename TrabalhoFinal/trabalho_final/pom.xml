@@ -64,6 +64,15 @@
     		<artifactId>hibernate-validator</artifactId>
 		</dependency>
 		
+<<<<<<< Updated upstream
+=======
+		<dependency>
+		  <groupId>org.modelmapper</groupId>
+		  <artifactId>modelmapper</artifactId>
+		  <version>3.0.0</version>
+		</dependency>
+
+>>>>>>> Stashed changes
 	</dependencies>
 
 	<build>
