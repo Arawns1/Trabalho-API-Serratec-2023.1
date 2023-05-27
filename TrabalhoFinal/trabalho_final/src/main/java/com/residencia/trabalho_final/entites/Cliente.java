@@ -2,6 +2,8 @@ package com.residencia.trabalho_final.entites;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -13,6 +15,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
 
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idCliente", scope = Cliente.class)
@@ -27,18 +33,23 @@ public class Cliente {
 	@Column(name = "id_cliente")
 	private Integer idCliente;
 	
+	@Email(message = "E-mail inválido")
 	@Column(name = "email")
 	private String email;
 	
+	@NotBlank(message = "O nome não pode ser nulo")
 	@Column(name = "nome_completo")
 	private String nomeCompleto;
 	
+	@CPF(message = "CPF inválido")
 	@Column(name = "cpf")
 	private String cpf;
-
+	
+	@Pattern(regexp = "\\d{8,15}")
 	@Column(name = "telefone")
 	private String telefone;
 	
+	@Past
 	@Column(name = "data_nascimento")
 	private Date dataNascimento;
 	

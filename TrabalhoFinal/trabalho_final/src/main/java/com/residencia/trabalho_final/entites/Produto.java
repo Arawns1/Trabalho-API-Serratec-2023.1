@@ -15,6 +15,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idProduto", scope = Produto.class)
 
@@ -27,6 +30,7 @@ public class Produto {
 	@Column(name = "id_produto")
 	private Integer idProduto;
 	
+	@NotBlank(message = "O nome do produto não pode ser nulo")
 	@Column(name = "nome")
 	private String nome;
 	
@@ -36,9 +40,11 @@ public class Produto {
 	@Column(name = "qtd_estoque")
 	private Integer qtdEstoque;
 	
+	@PastOrPresent(message = "A data cadastrada não pode estar no futuro")
 	@Column(name = "data_cadastro")
 	private Date dataCadastro;
 	
+	@Positive(message = "O valor do produto não pode ser nulo")
 	@Column(name = "valor_unitario")
 	private BigDecimal valorUnitario;
 	
