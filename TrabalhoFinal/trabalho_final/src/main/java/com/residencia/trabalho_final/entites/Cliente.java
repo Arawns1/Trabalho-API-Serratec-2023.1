@@ -1,7 +1,9 @@
 package com.residencia.trabalho_final.entites;
 
 import java.util.Date;
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,9 +11,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idCliente", scope = Cliente.class)
+
 
 @Entity
 @Table(name = "cliente")
@@ -19,14 +24,14 @@ public class Cliente {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idcliente")
-	private Integer id_cliente;
+	@Column(name = "id_cliente")
+	private Integer idCliente;
 	
 	@Column(name = "email")
 	private String email;
 	
-	@Column(name = "nomecompleto")
-	private String nome_completo;
+	@Column(name = "nome_completo")
+	private String nomeCompleto;
 	
 	@Column(name = "cpf")
 	private String cpf;
@@ -34,22 +39,19 @@ public class Cliente {
 	@Column(name = "telefone")
 	private String telefone;
 	
-	@Column(name = "datanascimento")
-	private Date data_nascimento;
+	@Column(name = "data_nascimento")
+	private Date dataNascimento;
 	
 	@OneToOne
-	@JoinColumn(name = "id_endereco", referencedColumnName = "idendereco")
+	@JoinColumn(name = "id_endereco", referencedColumnName = "id_endereco")
 	private Endereco endereco;
 
-	@OneToMany(mappedBy = "cliente") 
-	private List<Pedido> pedidos;
-	 
-	public Integer getId_cliente() {
-		return id_cliente;
+	public Integer getIdCliente() {
+		return idCliente;
 	}
 
-	public void setId_cliente(Integer id_cliente) {
-		this.id_cliente = id_cliente;
+	public void setIdCliente(Integer idCliente) {
+		this.idCliente = idCliente;
 	}
 
 	public String getEmail() {
@@ -60,12 +62,12 @@ public class Cliente {
 		this.email = email;
 	}
 
-	public String getNome_completo() {
-		return nome_completo;
+	public String getNomeCompleto() {
+		return nomeCompleto;
 	}
 
-	public void setNome_completo(String nome_completo) {
-		this.nome_completo = nome_completo;
+	public void setNomeCompleto(String nomeCompleto) {
+		this.nomeCompleto = nomeCompleto;
 	}
 
 	public String getCpf() {
@@ -84,12 +86,12 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 
-	public Date getData_nascimento() {
-		return data_nascimento;
+	public Date getDataNascimento() {
+		return dataNascimento;
 	}
 
-	public void setData_nascimento(Date data_nascimento) {
-		this.data_nascimento = data_nascimento;
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 
 	public Endereco getEndereco() {
@@ -99,13 +101,5 @@ public class Cliente {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-
-	public List<Pedido> getPedidos() {
-		return pedidos;
-	}
-
-	public void setPedidos(List<Pedido> pedidos) {
-		this.pedidos = pedidos;
-	}
-	
+	 
 }
