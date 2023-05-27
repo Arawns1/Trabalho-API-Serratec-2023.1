@@ -14,6 +14,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idItemPedido", scope = ItemPedido.class)
 
@@ -26,12 +28,15 @@ public class ItemPedido {
 	@Column(name = "id_item_pedido")
 	private Integer idItemPedido;
 	
+	@PositiveOrZero(message = "A quantidade não pode ser negativa")
 	@Column(name = "quantidade")
 	private Integer quantidade;
 	
+	@Positive(message = "O preço de venda não pode ser nulo")
 	@Column(name = "preco_venda")
 	private BigDecimal precoVenda;
 	
+	@PositiveOrZero(message = "A quantidade não pode ser negativa")
 	@Column(name = "percentual_desconto")
 	private Double percentualDesconto;
 	
@@ -45,8 +50,6 @@ public class ItemPedido {
 	@JoinColumn(name = "id_produto", referencedColumnName = "id_produto")
 	private Produto produto;
 	
-	//@JsonBackReference(value = "pedido-back")
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
 	private Pedido pedido;
@@ -114,4 +117,5 @@ public class ItemPedido {
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
+	
 }

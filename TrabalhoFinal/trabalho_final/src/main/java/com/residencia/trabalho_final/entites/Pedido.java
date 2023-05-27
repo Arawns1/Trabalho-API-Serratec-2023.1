@@ -17,6 +17,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.FutureOrPresent;
 
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idPedido", scope = Pedido.class)
@@ -30,14 +31,17 @@ public class Pedido {
 	@Column(name = "id_pedido")
 	private Integer idPedido;
 	
+	@FutureOrPresent(message = "A data do pedido não pode estar no passado")
 	@Column(name = "data_pedido")
 	private Date dataPedido;
 	
-	@Column(name = "data_entrega")
-	private Date dataEntrega;
-	
+	@FutureOrPresent(message = "A data do envio não pode estar no passado")
 	@Column(name = "data_envio")
 	private Date dataEnvio;
+	
+	@FutureOrPresent(message = "A data da entrega não pode estar no passado")
+	@Column(name = "data_entrega")
+	private Date dataEntrega;
 	
 	@Column(name = "status")
 	private String status;
@@ -49,8 +53,7 @@ public class Pedido {
 	@JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
 	private Cliente cliente;
 	
-	//@JsonManagedReference(value = "pedido-back")
-	//@JsonIgnore
+	@JsonIgnore
 	@OneToMany(mappedBy = "pedido")
 	private List<ItemPedido> itens;
 
@@ -70,20 +73,20 @@ public class Pedido {
 		this.dataPedido = dataPedido;
 	}
 
-	public Date getDataEntrega() {
-		return dataEntrega;
-	}
-
-	public void setDataEntrega(Date dataEntrega) {
-		this.dataEntrega = dataEntrega;
-	}
-
 	public Date getDataEnvio() {
 		return dataEnvio;
 	}
 
 	public void setDataEnvio(Date dataEnvio) {
 		this.dataEnvio = dataEnvio;
+	}
+
+	public Date getDataEntrega() {
+		return dataEntrega;
+	}
+
+	public void setDataEntrega(Date dataEntrega) {
+		this.dataEntrega = dataEntrega;
 	}
 
 	public String getStatus() {

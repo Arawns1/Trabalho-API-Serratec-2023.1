@@ -11,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idEndereco", scope = Endereco.class)
 
@@ -23,18 +25,22 @@ public class Endereco {
 	@Column(name = "id_endereco")
 	private Integer idEndereco;
 	
+	@NotBlank(message = "O CEP não pode ser nulo")
 	@Column(name = "cep")
 	private String cep;
 	
+	@NotBlank(message = "A rua não pode ser nula")
 	@Column(name = "rua")
 	private String rua;
 	
+	@NotBlank(message = "O bairro não pode ser nula")
 	@Column(name = "bairro")
 	private String bairro;
 	
 	@Column(name = "cidade")
 	private String cidade;
 	
+	@PositiveOrZero(message = "O número não pode ser nulo")
 	@Column(name = "numero")
 	private Integer numero;
 	

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.residencia.trabalho_final.entites.Produto;
 import com.residencia.trabalho_final.services.ProdutoService;
 
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/produtos")
@@ -44,7 +46,7 @@ public class ProdutoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Produto> saveProduto(@RequestBody Produto produto){
+	public ResponseEntity<Produto> saveProduto(@Valid @RequestBody Produto produto){
 		return new ResponseEntity<>(produtoService.saveProduto(produto),HttpStatus.CREATED);
 	}
 	

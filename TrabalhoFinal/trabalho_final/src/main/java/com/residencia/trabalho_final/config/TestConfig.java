@@ -50,6 +50,7 @@ public class TestConfig implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		/*
 		Endereco end1 = new Endereco();
 		end1.setRua("Rua do Imperador");
 		end1.setBairro("Centro");
@@ -139,7 +140,7 @@ public class TestConfig implements CommandLineRunner {
 		ip3.setQuantidade(2);
 		ip3.setPedido(ped2);
 		itemPedidoRepository.save(ip3);
-	
+	*/
 	}
 
 }
