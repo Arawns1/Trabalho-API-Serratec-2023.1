@@ -20,10 +20,6 @@ import com.residencia.trabalho_final.services.ItemPedidoService;
 
 import jakarta.validation.Valid;
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 @RestController
 @RequestMapping("/itempedidos")
 public class ItemPedidoController {
@@ -47,14 +43,8 @@ public class ItemPedidoController {
 	}
 
 	@PostMapping
-<<<<<<< Updated upstream
-	public ResponseEntity<ItemPedido> saveItemPedido(@Valid @RequestBody ItemPedido itemPedido){
-		return new ResponseEntity<>(itemPedidoService.saveItemPedido(itemPedido),HttpStatus.CREATED);
-=======
-
 	public ResponseEntity<ItemPedido> saveItemPedido(@Valid @RequestBody ItemPedido itemPedido) {
 		return new ResponseEntity<>(itemPedidoService.saveItemPedido(itemPedido), HttpStatus.CREATED);
->>>>>>> Stashed changes
 	}
 
 	@PutMapping

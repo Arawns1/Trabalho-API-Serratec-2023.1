@@ -1,7 +1,6 @@
 package com.residencia.trabalho_final.entites;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -106,14 +105,10 @@ public class Produto {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-<<<<<<< Updated upstream
-=======
 	@Override
 	public String toString() {
 		return "Produto [idProduto=" + idProduto + ", nome=" + nome + ", descricao=" + descricao + ", qtdEstoque="
 				+ qtdEstoque + ", dataCadastro=" + dataCadastro + ", valorUnitario=" + valorUnitario +"]";
 	}
 
-	
->>>>>>> Stashed changes
 }

@@ -23,6 +23,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.residencia.trabalho_final.security.services.UserDetailsServiceImpl;
 
+
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity

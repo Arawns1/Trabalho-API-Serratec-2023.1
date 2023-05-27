@@ -12,13 +12,10 @@ import org.springframework.web.client.RestTemplate;
 import com.residencia.trabalho_final.DTO.ClienteDTO;
 import com.residencia.trabalho_final.DTO.ViaCepDTO;
 import com.residencia.trabalho_final.entites.Cliente;
-<<<<<<< Updated upstream
-=======
 import com.residencia.trabalho_final.entites.Endereco;
 import com.residencia.trabalho_final.exception.ClienteCpfDuplicadoException;
 import com.residencia.trabalho_final.exception.ClienteEmailDuplicadoException;
 import com.residencia.trabalho_final.exception.ClienteNotFoundException;
->>>>>>> Stashed changes
 import com.residencia.trabalho_final.repositories.ClienteRepository;
 import com.residencia.trabalho_final.repositories.EnderecoRepository;
 
@@ -38,16 +35,10 @@ public class ClienteService {
 	}
 
 	public Cliente getClienteById(Integer id) {
-<<<<<<< Updated upstream
-		return clienteRepository.findById(id).orElse(null);
-=======
 		return clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException(id));
->>>>>>> Stashed changes
 	}
 
 	public Cliente saveCliente(Cliente cliente) {
-<<<<<<< Updated upstream
-=======
 		Cliente clienteCpfExistente = clienteRepository.findByCpf(cliente.getCpf());
 		Cliente clienteEmailExistente = clienteRepository.findByEmail(cliente.getEmail());
 		if (clienteCpfExistente != null) {
@@ -55,7 +46,6 @@ public class ClienteService {
 		} else if (clienteEmailExistente != null) {
 			throw new ClienteEmailDuplicadoException();
 		}
->>>>>>> Stashed changes
 		return clienteRepository.save(cliente);
 	}
 
@@ -73,9 +63,6 @@ public class ClienteService {
 		}
 
 	}
-<<<<<<< Updated upstream
-	
-=======
 
 	// ---------------//
 	//		 DTOs 	 //
@@ -110,6 +97,4 @@ public class ClienteService {
 		
 		return modelMapper.map(cliente, ClienteDTO.class);
 	}
-
->>>>>>> Stashed changes
 }

@@ -11,13 +11,10 @@ import org.springframework.stereotype.Service;
 import com.residencia.trabalho_final.DTO.ProdutoDTO;
 import com.residencia.trabalho_final.entites.Categoria;
 import com.residencia.trabalho_final.entites.Produto;
-<<<<<<< Updated upstream
-=======
 import com.residencia.trabalho_final.exception.NoSuchElementException;
 import com.residencia.trabalho_final.exception.ProdutoDescricaoDuplicadaException;
 import com.residencia.trabalho_final.exception.ProdutoNotFoundException;
 import com.residencia.trabalho_final.repositories.CategoriaRepository;
->>>>>>> Stashed changes
 import com.residencia.trabalho_final.repositories.ProdutoRepository;
 
 @Service
@@ -40,13 +37,10 @@ public class ProdutoService {
 	}
 	
 	public Produto saveProduto(Produto produto) {
-<<<<<<< Updated upstream
-=======
 		Produto produtoExistente = produtoRepository.findByDescricao(produto.getDescricao());
 		if (produtoExistente != null) {
 			throw new ProdutoDescricaoDuplicadaException();
 		}
->>>>>>> Stashed changes
 		return produtoRepository.save(produto);
 	}
 	
