@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.residencia.trabalho_final.entites.Produto;
+import com.residencia.trabalho_final.exception.ProdutoDescricaoDuplicadaException;
+import com.residencia.trabalho_final.exception.ProdutoNotFoundException;
+
 import com.residencia.trabalho_final.repositories.ProdutoRepository;
 
 @Service
@@ -18,8 +21,15 @@ public class ProdutoService {
 	}
 	
 	public Produto getProdutoById(Integer id) {
-		return produtoRepository.findById(id).orElse(null);
+		return produtoRepository.findById(id).orElseThrow(()-> new ProdutoNotFoundException(id));
 	}
+	
+	public Produto saveProduto(Produto produto) {
+		Produto produtoExistente = produtoRepository.findByDescricao(produto.getDescricao());
+		if (produtoExistente != null) {
+			throw new ProdutoDescricaoDuplicadaException();
+		}
+
 	
 	public Produto saveProduto(Produto produto) {
 		return produtoRepository.save(produto);

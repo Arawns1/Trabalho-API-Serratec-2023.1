@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.residencia.trabalho_final.entites.Cliente;
+import com.residencia.trabalho_final.exception.ClienteCpfDuplicadoException;
+import com.residencia.trabalho_final.exception.ClienteEmailDuplicadoException;
+import com.residencia.trabalho_final.exception.ClienteNotFoundException;
 import com.residencia.trabalho_final.repositories.ClienteRepository;
 
 @Service
@@ -18,10 +21,17 @@ public class ClienteService {
 	}
 	
 	public Cliente getClienteById(Integer id) {
-		return clienteRepository.findById(id).orElse(null);
+		return clienteRepository.findById(id).orElseThrow (()-> new ClienteNotFoundException (id));
 	}
 	
 	public Cliente saveCliente(Cliente cliente) {
+		Cliente clienteCpfExistente = clienteRepository.findByCpf(cliente.getCpf());
+		Cliente clienteEmailExistente = clienteRepository.findByEmail(cliente.getEmail());
+		if (clienteCpfExistente != null) {
+			throw new ClienteCpfDuplicadoException();
+		}else if(clienteEmailExistente != null){
+			throw new ClienteEmailDuplicadoException();
+		}
 		return clienteRepository.save(cliente);
 	}
 	
@@ -40,5 +50,4 @@ public class ClienteService {
 		}
 		
 	}
-	
 }

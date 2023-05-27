@@ -1,4 +1,4 @@
-package com.trabalho.escola.exception;
+package com.residencia.trabalho_final.exception;
 
 public class CustomException extends RuntimeException {
     private static final long serialVersionUID = 1L;
@@ -7,4 +7,3 @@ public class CustomException extends RuntimeException {
         super(message);
     }
 }
-

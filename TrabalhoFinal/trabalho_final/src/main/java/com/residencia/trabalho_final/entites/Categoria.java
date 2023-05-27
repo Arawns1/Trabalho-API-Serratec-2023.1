@@ -14,7 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idCategoria", scope = Categoria.class)
 
 @Entity
@@ -23,6 +22,7 @@ public class Categoria {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	@Column(name = "id_categoria")
 	private Integer idCategoria;
 	
@@ -33,6 +33,7 @@ public class Categoria {
 	@Column(name = "descricao")
 	private String descricao;
 	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "categoria")
 	private List<Produto> produtos;

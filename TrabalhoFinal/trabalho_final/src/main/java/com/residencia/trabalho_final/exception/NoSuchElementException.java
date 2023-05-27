@@ -1,4 +1,4 @@
-package com.trabalho.escola.exception;
+package com.residencia.trabalho_final.exception;
 
 public class NoSuchElementException extends RuntimeException{
 	private static final long serialVersionUID = 1L;
@@ -8,7 +8,6 @@ public class NoSuchElementException extends RuntimeException{
     }
 
     public NoSuchElementException(String entidade, Integer id) {
-        super("Não foi encontrado(a) " + entidade + " com o id = "+id);
+        super("Não foi encontrado(a) " + entidade + " com o id = " + id);
     }
-
 }

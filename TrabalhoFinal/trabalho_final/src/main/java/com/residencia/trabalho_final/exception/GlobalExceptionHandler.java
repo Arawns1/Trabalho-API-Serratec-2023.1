@@ -1,4 +1,4 @@
-package com.trabalho.escola.exception;
+package com.residencia.trabalho_final.exception;
 
 import java.net.URI;
 import org.springframework.http.HttpHeaders;
@@ -22,30 +22,49 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
         
         problemDetail.setTitle("Recurso Não Encontrado");
-        problemDetail.setType(URI.create("https://api.escola.com/errors/not-found"));
+        problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/not-found"));
         return problemDetail;
     }
-	
-	@ExceptionHandler(NoRegisteredInstrutorException.class)
-    ProblemDetail handleNoSuchElementException(NoRegisteredInstrutorException e) {
+	@ExceptionHandler(BadRequestException.class)
+    ProblemDetail handleBadRequestException(BadRequestException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
         
-        problemDetail.setTitle("Sem Registro");
-        problemDetail.setType(URI.create("https://api.escola.com/errors/not-found"));
+        problemDetail.setTitle("Bad request");
+        problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/bad-request"));
         return problemDetail;
     }
 	
-	@ExceptionHandler(InstrutorNotFoundException.class)
-    ProblemDetail handleBookmarkNotFoundException(InstrutorNotFoundException e) {
+	@ExceptionHandler(ProdutoNotFoundException.class)
+    ProblemDetail handleBookmarkNotFoundException(ProdutoNotFoundException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
-        problemDetail.setTitle("Instrutor Não Encontrado");
-        problemDetail.setType(URI.create("https://api.escola.com/errors/not-found"));
+        problemDetail.setTitle("Produto Não Encontrado");
+        problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/not-found"));
         return problemDetail;
     }
-	
-	@Override
+	@ExceptionHandler(ProdutoDescricaoDuplicadaException.class)
+	ProblemDetail handleBookmarkBadRequestException(ProdutoDescricaoDuplicadaException e) {
+		ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+		problemDetail.setTitle("Descrição ja existe");
+		problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/bad-request"));
+		return problemDetail;
+	}
+	@ExceptionHandler(ClienteCpfDuplicadoException.class)
+	ProblemDetail handleBookmarkBadRequestException(ClienteCpfDuplicadoException e) {
+		ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+		problemDetail.setTitle("Cpf ja existe");
+		problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/bad-request"));
+		return problemDetail;
+	}
+	@ExceptionHandler(ClienteNotFoundException.class)
+    ProblemDetail handleBookmarkNotFoundException(ClienteNotFoundException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+        problemDetail.setTitle("Cliente nao encontrado");
+        problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/not-found"));
+        return problemDetail;
+    }
+    @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, 
-    		HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
+            HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
         ResponseEntity<Object> response = super.handleExceptionInternal(ex, body, headers, statusCode, request);
 
         if (response.getBody() instanceof ProblemDetail problemDetailBody) {
@@ -55,9 +74,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
                 problemDetailBody.setTitle("Erro na requisição");
                 problemDetailBody.setDetail("Ocorreu um erro ao processar a Requisição");
                 problemDetailBody.setProperty("message", "Validation failed for object='" + result.getObjectName());
+                
                 problemDetailBody.setProperty("errors", result.getAllErrors().get(0).getDefaultMessage());
             }
         }
         return response;
     }
 }
+	
+	

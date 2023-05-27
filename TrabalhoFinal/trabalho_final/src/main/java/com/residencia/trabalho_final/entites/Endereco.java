@@ -3,7 +3,6 @@ package com.residencia.trabalho_final.entites;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,6 +39,7 @@ public class Endereco {
 	@Column(name = "cidade")
 	private String cidade;
 	
+
 	@PositiveOrZero(message = "O número não pode ser nulo")
 	@Column(name = "numero")
 	private Integer numero;
