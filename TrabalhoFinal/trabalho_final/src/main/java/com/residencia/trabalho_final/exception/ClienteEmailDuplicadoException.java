@@ -6,5 +6,5 @@ public class ClienteEmailDuplicadoException extends RuntimeException {
 	public ClienteEmailDuplicadoException() {
         super("Este Email já esta cadastrado.");
     }
-
 }
+

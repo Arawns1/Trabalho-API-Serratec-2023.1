@@ -26,13 +26,11 @@ public class EnderecoController {
 	
 	@GetMapping
 	public ResponseEntity<List<Endereco>> getAllEnderecos(){
-		//return enderecoService.getAllEnderecos();
 		return new ResponseEntity<>(enderecoService.getAllEnderecos(),HttpStatus.FOUND);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Endereco> getEnderecoById(@PathVariable Integer id){
-		//return enderecoService.getEnderecoById(id);
 		Endereco enderecoResponse = enderecoService.getEnderecoById(id);
 		if(enderecoResponse == null) {
 			return new ResponseEntity<>(enderecoResponse, HttpStatus.NOT_FOUND);
@@ -49,7 +47,6 @@ public class EnderecoController {
 	}
 	
 	@PutMapping
-	//@PutMapping("/{id}")
 	public ResponseEntity<Endereco> updateEndereco(@RequestBody Endereco endereco, Integer id){
 		
 		Endereco enderecoResponse = enderecoService.updateEndereco(endereco,id);

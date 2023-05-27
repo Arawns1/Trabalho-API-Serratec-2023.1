@@ -10,7 +10,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.residencia.trabalho_final.entites.User;
+import com.residencia.trabalho_final.entites.seguranca.User;
+
 
 public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;

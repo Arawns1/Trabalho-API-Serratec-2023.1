@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/auth/**", "/h2-console/**", "/roles/**").permitAll() //define as rotas publicas/abertas
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/actuator/**").hasRole("ADMIN") // autoriza o acesso a rotas por perfil
                     .requestMatchers("/test/user/**").hasAnyRole("USER", "ADMIN") //autoriza o acesso a rotas por perfis
-                    .anyRequest().authenticated()) //demais rotas, nao configuradas acima, so poderao ser acessadas mediante autenticacao
+                    .anyRequest().permitAll()) //demais rotas, nao configuradas acima, so poderao ser acessadas mediante autenticacao
 		;		
 		
 		http.authenticationProvider(authenticationProvider()); //define o provedor de autenticacao

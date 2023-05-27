@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.trabalho_final.DTO.CategoriaDTO;
 import com.residencia.trabalho_final.entites.Categoria;
 import com.residencia.trabalho_final.services.CategoriaService;
 
@@ -33,7 +34,6 @@ public class CategoriaController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Categoria> getCategoriaById(@PathVariable Integer id){
-		//return categoriaService.getCategoriaById(id);
 		Categoria categoriaResponse = categoriaService.getCategoriaById(id);
 		if(categoriaResponse == null) {
 			return new ResponseEntity<>(categoriaResponse, HttpStatus.NOT_FOUND);
@@ -48,8 +48,8 @@ public class CategoriaController {
 		return new ResponseEntity<>(categoriaService.saveCategoria(categoria),HttpStatus.CREATED);
 	}
 	
+	
 	@PutMapping
-	//@PutMapping("/{id}")
 	public ResponseEntity<Categoria> updateCategoria(@RequestBody Categoria categoria, Integer id){
 		
 		Categoria categoriaResponse = categoriaService.updateCategoria(categoria,id);
@@ -72,6 +72,17 @@ public class CategoriaController {
 		else {
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	
+	//--------//
+	//  DTOs  //
+	// ------ //
+	
+	/*  ---  INPUT --- */
+	@PostMapping("/dto")
+	public ResponseEntity<CategoriaDTO> saveCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO){
+		return new ResponseEntity<>(categoriaService.saveCategoriaDTO(categoriaDTO),HttpStatus.CREATED);
 	}
 
 }

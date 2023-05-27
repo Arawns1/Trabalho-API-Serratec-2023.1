@@ -26,13 +26,11 @@ public class PedidoController {
 	
 	@GetMapping
 	public ResponseEntity<List<Pedido>> getAllPedidos(){
-		//return pedidoService.getAllPedidos();
 		return new ResponseEntity<>(pedidoService.getAllPedidos(),HttpStatus.FOUND);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Pedido> getPedidoById(@PathVariable Integer id){
-		//return pedidoService.getPedidoById(id);
 		Pedido pedidoResponse = pedidoService.getPedidoById(id);
 		if(pedidoResponse == null) {
 			return new ResponseEntity<>(pedidoResponse, HttpStatus.NOT_FOUND);
@@ -49,7 +47,6 @@ public class PedidoController {
 	}
 	
 	@PutMapping
-	//@PutMapping("/{id}")
 	public ResponseEntity<Pedido> updatePedido(@RequestBody Pedido pedido, Integer id){
 		
 		Pedido pedidoResponse = pedidoService.updatePedido(pedido,id);

@@ -1,27 +1,39 @@
 package com.residencia.trabalho_final.services;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.residencia.trabalho_final.DTO.ProdutoDTO;
+import com.residencia.trabalho_final.entites.Categoria;
 import com.residencia.trabalho_final.entites.Produto;
+import com.residencia.trabalho_final.exception.NoSuchElementException;
 import com.residencia.trabalho_final.exception.ProdutoDescricaoDuplicadaException;
 import com.residencia.trabalho_final.exception.ProdutoNotFoundException;
-
+import com.residencia.trabalho_final.repositories.CategoriaRepository;
 import com.residencia.trabalho_final.repositories.ProdutoRepository;
 
 @Service
 public class ProdutoService {
 	@Autowired
-	ProdutoRepository produtoRepository;	
+	ProdutoRepository produtoRepository;
+	
+	@Autowired
+	CategoriaRepository categoriaRepository;
+	
+	@Autowired
+	ModelMapper modelMapper;	
 	
 	public List<Produto> getAllProdutos() {
 		return produtoRepository.findAll();
 	}
 	
 	public Produto getProdutoById(Integer id) {
-		return produtoRepository.findById(id).orElseThrow(()-> new ProdutoNotFoundException(id));
+		return produtoRepository.findById(id).orElseThrow(() -> new ProdutoNotFoundException(id));
 	}
 	
 	public Produto saveProduto(Produto produto) {
@@ -29,11 +41,9 @@ public class ProdutoService {
 		if (produtoExistente != null) {
 			throw new ProdutoDescricaoDuplicadaException();
 		}
-
-	
-	public Produto saveProduto(Produto produto) {
 		return produtoRepository.save(produto);
 	}
+	
 	
 	public Produto updateProduto(Produto produto, Integer id) {
 		return produtoRepository.save(produto);
@@ -51,4 +61,37 @@ public class ProdutoService {
 		
 	}
 	
+		// ---------------//
+		//	    DTOs	  //
+		//----------------//
+	
+		public ProdutoDTO saveProdutoDTO(ProdutoDTO produtoDTO) {
+			
+			Produto produto = new Produto();
+			produto.setNome(produtoDTO.getNome());
+			produto.setDescricao(produtoDTO.getDescricao());
+			produto.setImagem(produtoDTO.getImagem());
+			produto.setValorUnitario(produtoDTO.getValorUnitario());
+			
+			Produto produtoExistente = produtoRepository.findByDescricao(produto.getDescricao());
+			if (produtoExistente != null) {
+				throw new ProdutoDescricaoDuplicadaException();
+			}
+			
+			Categoria categoria = categoriaRepository.findById(produtoDTO.getIdCategoria())
+								  .orElseThrow(() -> new NoSuchElementException("Categoria", produtoDTO.getIdCategoria()));
+			
+			produto.setCategoria(categoria);
+			System.out.println(categoria);
+			
+			if(produto.getQtdEstoque() == null) {
+				produto.setQtdEstoque(0);
+			}
+			
+			produto.setQtdEstoque(produto.getQtdEstoque() + 1);
+			produto.setDataCadastro(Date.from(Instant.now()));
+			
+			produtoRepository.save(produto);
+			return modelMapper.map(produto, ProdutoDTO.class);
+		}
 }
