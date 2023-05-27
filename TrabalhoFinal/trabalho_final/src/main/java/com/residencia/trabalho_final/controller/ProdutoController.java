@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.trabalho_final.DTO.ProdutoDTO;
 import com.residencia.trabalho_final.entites.Produto;
 import com.residencia.trabalho_final.services.ProdutoService;
 
@@ -29,13 +30,11 @@ public class ProdutoController {
 	
 	@GetMapping
 	public ResponseEntity<List<Produto>> getAllProdutos(){
-		//return produtoService.getAllProdutos();
 		return new ResponseEntity<>(produtoService.getAllProdutos(),HttpStatus.FOUND);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Produto> getProdutoById(@PathVariable Integer id){
-		//return produtoService.getProdutoById(id);
 		Produto produtoResponse = produtoService.getProdutoById(id);
 		if(produtoResponse == null) {
 			return new ResponseEntity<>(produtoResponse, HttpStatus.NOT_FOUND);
@@ -51,7 +50,6 @@ public class ProdutoController {
 	}
 	
 	@PutMapping
-	//@PutMapping("/{id}")
 	public ResponseEntity<Produto> updateProduto(@RequestBody Produto produto, Integer id){
 		
 		Produto produtoResponse = produtoService.updateProduto(produto,id);
@@ -74,6 +72,16 @@ public class ProdutoController {
 		else {
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	//--------//
+	//  DTOs  //
+	// ------ //
+	
+	/*  ---  INPUT --- */
+	@PostMapping("/dto")
+	public ResponseEntity<ProdutoDTO> saveCategoria(@Valid @RequestBody ProdutoDTO produtoDTO){
+		return new ResponseEntity<>(produtoService.saveProdutoDTO(produtoDTO),HttpStatus.CREATED);
 	}
 
 }

@@ -2,16 +2,21 @@ package com.residencia.trabalho_final.services;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.residencia.trabalho_final.DTO.CategoriaDTO;
 import com.residencia.trabalho_final.entites.Categoria;
 import com.residencia.trabalho_final.repositories.CategoriaRepository;
 
 @Service
 public class CategoriaService {
 	@Autowired
-	CategoriaRepository categoriaRepository;	
+	CategoriaRepository categoriaRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	public List<Categoria> getAllCategorias() {
 		return categoriaRepository.findAll();
@@ -39,6 +44,16 @@ public class CategoriaService {
 			return false;
 		}
 		
+	}
+	// ---------------//
+	//	    DTOs	  //
+	//----------------//
+	
+	
+	public CategoriaDTO saveCategoriaDTO(CategoriaDTO categoriaDTO) {
+		Categoria categoria = modelMapper.map(categoriaDTO, Categoria.class);
+		categoriaRepository.save(categoria);
+		return modelMapper.map(categoria, CategoriaDTO.class);
 	}
 	
 }
