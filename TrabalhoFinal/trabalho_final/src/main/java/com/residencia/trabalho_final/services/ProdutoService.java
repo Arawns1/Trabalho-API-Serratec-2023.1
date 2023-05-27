@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.residencia.trabalho_final.entites.Produto;
 import com.residencia.trabalho_final.exception.ProdutoDescricaoDuplicadaException;
 import com.residencia.trabalho_final.exception.ProdutoNotFoundException;
+
 import com.residencia.trabalho_final.repositories.ProdutoRepository;
 
 @Service
@@ -20,7 +21,6 @@ public class ProdutoService {
 	}
 	
 	public Produto getProdutoById(Integer id) {
-
 		return produtoRepository.findById(id).orElseThrow(()-> new ProdutoNotFoundException(id));
 	}
 	
@@ -29,6 +29,9 @@ public class ProdutoService {
 		if (produtoExistente != null) {
 			throw new ProdutoDescricaoDuplicadaException();
 		}
+
+	
+	public Produto saveProduto(Produto produto) {
 		return produtoRepository.save(produto);
 	}
 	

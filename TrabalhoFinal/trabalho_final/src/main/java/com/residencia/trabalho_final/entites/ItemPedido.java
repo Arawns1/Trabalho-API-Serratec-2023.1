@@ -1,5 +1,8 @@
 package com.residencia.trabalho_final.entites;
-
+import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,44 +12,52 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idItemPedido", scope = ItemPedido.class)
+
 @Entity
 @Table(name = "item_pedido")
 public class ItemPedido {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "iditempedido")
-	private Integer id_item_pedido;
+	@Column(name = "id_item_pedido")
+	private Integer idItemPedido;
 	
+	@PositiveOrZero(message = "A quantidade não pode ser negativa")
 	@Column(name = "quantidade")
 	private Integer quantidade;
 	
-	@Column(name = "precovenda")
-	private Double preco_venda;
+	@Positive(message = "O preço de venda não pode ser nulo")
+	@Column(name = "preco_venda")
+	private BigDecimal precoVenda;
 	
-	@Column(name = "percentualdesconto")
-	private Double percentual_desconto;
+	@PositiveOrZero(message = "A quantidade não pode ser negativa")
+	@Column(name = "percentual_desconto")
+	private Double percentualDesconto;
 	
-	@Column(name = "valorbruto")
-	private Double valor_bruto;
+	@Column(name = "valor_bruto")
+	private BigDecimal valorBruto;
 	
-	@Column(name = "valorliquido")
-	private Double valor_liquido;
+	@Column(name = "valor_liquido")
+	private BigDecimal valorLiquido;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_produto", referencedColumnName = "idproduto")
+	@JoinColumn(name = "id_produto", referencedColumnName = "id_produto")
 	private Produto produto;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_pedido", referencedColumnName = "idpedido")
+	@JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
 	private Pedido pedido;
 
-
-	public Integer getId_item_pedido() {
-		return id_item_pedido;
+	public Integer getIdItemPedido() {
+		return idItemPedido;
 	}
 
-	public void setId_item_pedido(Integer id_item_pedido) {
-		this.id_item_pedido = id_item_pedido;
+	public void setIdItemPedido(Integer idItemPedido) {
+		this.idItemPedido = idItemPedido;
 	}
 
 	public Integer getQuantidade() {
@@ -56,37 +67,37 @@ public class ItemPedido {
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
 	}
-
-	public Double getPreco_venda() {
-		return preco_venda;
+  
+	public BigDecimal getPrecoVenda() {
+		return precoVenda;
 	}
 
-	public void setPreco_venda(Double preco_venda) {
-		this.preco_venda = preco_venda;
+	public void setPrecoVenda(BigDecimal precoVenda) {
+		this.precoVenda = precoVenda;
 	}
 
-	public Double getPercentual_desconto() {
-		return percentual_desconto;
+	public Double getPercentualDesconto() {
+		return percentualDesconto;
 	}
 
-	public void setPercentual_desconto(Double percentual_desconto) {
-		this.percentual_desconto = percentual_desconto;
+	public void setPercentualDesconto(Double percentualDesconto) {
+		this.percentualDesconto = percentualDesconto;
 	}
 
-	public Double getValor_bruto() {
-		return valor_bruto;
+	public BigDecimal getValorBruto() {
+		return valorBruto;
 	}
 
-	public void setValor_bruto(Double valor_bruto) {
-		this.valor_bruto = valor_bruto;
+	public void setValorBruto(BigDecimal valorBruto) {
+		this.valorBruto = valorBruto;
 	}
 
-	public Double getValor_liquido() {
-		return valor_liquido;
+	public BigDecimal getValorLiquido() {
+		return valorLiquido;
 	}
 
-	public void setValor_liquido(Double valor_liquido) {
-		this.valor_liquido = valor_liquido;
+	public void setValorLiquido(BigDecimal valorLiquido) {
+		this.valorLiquido = valorLiquido;
 	}
 
 	public Produto getProduto() {
@@ -104,6 +115,4 @@ public class ItemPedido {
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
-	
-
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.residencia.trabalho_final.entites.Categoria;
 import com.residencia.trabalho_final.services.CategoriaService;
 
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/categorias")
@@ -27,7 +28,6 @@ public class CategoriaController {
 	
 	@GetMapping
 	public ResponseEntity<List<Categoria>> getAllCategorias(){
-		//return categoriaService.getAllCategorias();
 		return new ResponseEntity<>(categoriaService.getAllCategorias(),HttpStatus.FOUND);
 	}
 	
@@ -44,7 +44,7 @@ public class CategoriaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Categoria> saveCategoria(@RequestBody Categoria categoria){
+	public ResponseEntity<Categoria> saveCategoria(@Valid @RequestBody Categoria categoria){
 		return new ResponseEntity<>(categoriaService.saveCategoria(categoria),HttpStatus.CREATED);
 	}
 	

@@ -2,20 +2,26 @@ package com.residencia.trabalho_final.entites;
 
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.residencia.trabalho_final.repositories.ProdutoRepository;
-
+import java.math.BigDecimal;
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idProduto", scope = Produto.class)
 
 @Entity
 @Table(name = "produto")
@@ -23,43 +29,42 @@ public class Produto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idproduto")
-	private Integer id_produto;
+  
+	@Column(name = "id_produto")
+	private Integer idProduto;
 	
+	@NotBlank(message = "O nome do produto não pode ser nulo")
 	@Column(name = "nome")
 	private String nome;
 	
 	@Column(name = "descricao")
 	private String descricao;
 	
-	@Column(name = "qtdestoque")
-	private Integer qtd_estoque;
+	@Column(name = "qtd_estoque")
+	private Integer qtdEstoque;
 	
-	@Column(name = "datacadastro")
-	private Date data_cadastro;
+	@PastOrPresent(message = "A data cadastrada não pode estar no futuro")
+	@Column(name = "data_cadastro")
+	private Date dataCadastro;
 	
-	@Column(name = "valorunitario")
-	private Double valor_unitario;
+	@Positive(message = "O valor do produto não pode ser nulo")
+	@Column(name = "valor_unitario")
+	private BigDecimal valorUnitario;
 	
+	@Lob
 	@Column(name = "imagem")
 	private byte[] imagem;
 	
-	@Autowired
-	private ProdutoRepository produtoRepository;
-	
 	@ManyToOne
-	@JoinColumn(name = "id_categoria", referencedColumnName = "idcategoria")
+	@JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
 	private Categoria categoria;
 	
-	@OneToMany(mappedBy = "produto")
-	private List<ItemPedido> itemPedido;
 	
-	
-	public Integer getId_produto() {
-		return id_produto;
+	public Integer getIdProduto() {
+		return idProduto;
 	}
-	public void setId_produto(Integer id_produto) {
-		this.id_produto = id_produto;
+	public void setIdProduto(Integer idProduto) {
+		this.idProduto = idProduto;
 	}
 	public String getNome() {
 		return nome;
@@ -73,23 +78,24 @@ public class Produto {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public Integer getQtd_estoque() {
-		return qtd_estoque;
+
+	public Integer getQtdEstoque() {
+		return qtdEstoque;
 	}
-	public void setQtd_estoque(Integer qtd_estoque) {
-		this.qtd_estoque = qtd_estoque;
+	public void setQtdEstoque(Integer qtdEstoque) {
+		this.qtdEstoque = qtdEstoque;
 	}
-	public Date getData_cadastro() {
-		return data_cadastro;
+	public Date getDataCadastro() {
+		return dataCadastro;
 	}
-	public void setData_cadastro(Date data_cadastro) {
-		this.data_cadastro = data_cadastro;
+	public void setDataCadastro(Date dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
-	public Double getValor_unitario() {
-		return valor_unitario;
+	public BigDecimal getValorUnitario() {
+		return valorUnitario;
 	}
-	public void setValor_unitario(Double valor_unitario) {
-		this.valor_unitario = valor_unitario;
+	public void setValorUnitario(BigDecimal valorUnitario) {
+		this.valorUnitario = valorUnitario;
 	}
 	public byte[] getImagem() {
 		return imagem;
@@ -109,4 +115,5 @@ public class Produto {
 	public void setItemPedido(List<ItemPedido> itemPedido) {
 		this.itemPedido = itemPedido;
 	}
+
 }

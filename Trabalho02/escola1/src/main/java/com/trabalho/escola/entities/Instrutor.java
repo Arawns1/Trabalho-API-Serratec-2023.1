@@ -14,7 +14,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @JsonIdentityInfo(
 		generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -30,11 +31,13 @@ public class Instrutor {
 	@Column(name = "idInstrutor")
 	private Integer idInstrutor;
 	
-	@NotBlank
-	@Column(name = "rg")
-	private Integer rg;
+	@NotBlank(message="O RG não deve estar em branco")
+	@Pattern(regexp = "\\d{10}", message="O RG deve conter 10 digitos numéricos")
+	@Column(name = "rg") 
+	private String rg;
 	
-	@NotBlank
+	@NotBlank(message="O nome não deve estar em branco")
+	@Size(max= 50, message="O nome deve ter até 50 caracteres")
 	@Column(name = "nome")
 	private String nome;
 
@@ -52,12 +55,16 @@ public class Instrutor {
 		this.idInstrutor = idInstrutor;
 	}
 
-	public Integer getRg() {
+	public String getRg() {
 		return rg;
 	}
 
-	public void setRg(Integer rg) {
+	public void setRg(String rg) {
 		this.rg = rg;
+	}
+
+	public void setTelefone(Telefone telefone) {
+		this.telefone = telefone;
 	}
 
 	public String getNome() {

@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.residencia.trabalho_final.entites.Cliente;
 import com.residencia.trabalho_final.services.ClienteService;
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -44,7 +44,7 @@ public class ClienteController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Cliente> saveCliente(@RequestBody Cliente cliente){
+	public ResponseEntity<Cliente> saveCliente(@Valid @RequestBody Cliente cliente){
 		return new ResponseEntity<>(clienteService.saveCliente(cliente),HttpStatus.CREATED);
 	}
 	

@@ -6,4 +6,5 @@ import com.residencia.trabalho_final.entites.Produto;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 	Produto findByDescricao(String descricao);
+
 }

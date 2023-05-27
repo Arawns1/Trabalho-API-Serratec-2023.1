@@ -22,7 +22,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
         
         problemDetail.setTitle("Recurso Não Encontrado");
-        problemDetail.setType(URI.create("https://api.biblioteca.com/errors/not-found"));
+        problemDetail.setType(URI.create("https://api.escola.com/errors/not-found"));
+        return problemDetail;
+    }
+	
+	@ExceptionHandler(NoRegisteredInstrutorException.class)
+    ProblemDetail handleNoSuchElementException(NoRegisteredInstrutorException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        
+        problemDetail.setTitle("Sem Registro");
+        problemDetail.setType(URI.create("https://api.escola.com/errors/not-found"));
         return problemDetail;
     }
 	
@@ -30,7 +39,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     ProblemDetail handleBookmarkNotFoundException(InstrutorNotFoundException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
         problemDetail.setTitle("Instrutor Não Encontrado");
-        problemDetail.setType(URI.create("https://api.biblioteca.com/errors/not-found"));
+        problemDetail.setType(URI.create("https://api.escola.com/errors/not-found"));
         return problemDetail;
     }
 	
@@ -45,14 +54,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
                 BindingResult result = subEx.getBindingResult();
                 problemDetailBody.setTitle("Erro na requisição");
                 problemDetailBody.setDetail("Ocorreu um erro ao processar a Requisição");
-                problemDetailBody.setProperty("message", "Validation failed for object='" + 
-                		result.getObjectName() + "'. " + "Error count: " + result.getErrorCount());
-                
-                problemDetailBody.setProperty("errors", result.getAllErrors());
+                problemDetailBody.setProperty("message", "Validation failed for object='" + result.getObjectName());
+                problemDetailBody.setProperty("errors", result.getAllErrors().get(0).getDefaultMessage());
             }
         }
         return response;
     }
 }
-	
-	

@@ -1,4 +1,4 @@
-package com.trabalho.escola.controllers.seguranca;
+package com.residencia.trabalho_final.controller;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,17 +18,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.trabalho.escola.dto.JwtResponseDTO;
-import com.trabalho.escola.dto.LoginRequestDTO;
-import com.trabalho.escola.dto.MessageResponseDTO;
-import com.trabalho.escola.dto.SignupRequestDTO;
-import com.trabalho.escola.entities.seguranca.Role;
-import com.trabalho.escola.entities.seguranca.RoleEnum;
-import com.trabalho.escola.entities.seguranca.User;
-import com.trabalho.escola.repositories.seguranca.RoleRepository;
-import com.trabalho.escola.repositories.seguranca.UserRepository;
-import com.trabalho.escola.security.jwt.JwtUtils;
-import com.trabalho.escola.security.service.UserDetailsImpl;
+import com.residencia.trabalho_final.DTO.JwtResponseDTO;
+import com.residencia.trabalho_final.DTO.LoginRequestDTO;
+import com.residencia.trabalho_final.DTO.MessageResponseDTO;
+import com.residencia.trabalho_final.DTO.SignupRequestDTO;
+import com.residencia.trabalho_final.entites.Role;
+import com.residencia.trabalho_final.entites.RoleEnum;
+import com.residencia.trabalho_final.entites.User;
+import com.residencia.trabalho_final.repositories.RoleRepository;
+import com.residencia.trabalho_final.repositories.UserRepository;
+import com.residencia.trabalho_final.security.jwt.JwtUtils;
+import com.residencia.trabalho_final.security.services.UserDetailsImpl;
 
 import jakarta.validation.Valid;
 
@@ -86,24 +86,18 @@ public class AuthController {
 		Set<Role> roles = new HashSet<>();
 
 		if (strRoles == null) {
-			Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
+			Role clienteRole = roleRepository.findByName(RoleEnum.ROLE_CLIENTE)
 					.orElseThrow(() -> new RuntimeException("Erro: Role não encontrada."));
-			roles.add(userRole);
+			roles.add(clienteRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
-				case "instrutor":
-					Role instRole = roleRepository.findByName(RoleEnum.ROLE_INSTRUTOR)
+				case "admin":
+					Role adminRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
 							.orElseThrow(() -> new RuntimeException("Erro: Role não encontrada."));
-					roles.add(instRole);
-				break;
-				
-				case "diretor":
-					Role diretorRole = roleRepository.findByName(RoleEnum.ROLE_DIRETOR)
-							.orElseThrow(() -> new RuntimeException("Erro: Role não encontrada."));
-					roles.add(diretorRole);
+					roles.add(adminRole);
 
-				break;
+					break;
 				default:
 					Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
 							.orElseThrow(() -> new RuntimeException("Erro: Role não encontrada."));
