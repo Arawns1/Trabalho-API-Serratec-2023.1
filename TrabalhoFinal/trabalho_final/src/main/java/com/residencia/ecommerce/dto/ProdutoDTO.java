@@ -1,4 +1,4 @@
-package com.residencia.ecommerce.DTO;
+package com.residencia.ecommerce.dto;
 
 import java.math.BigDecimal;
 

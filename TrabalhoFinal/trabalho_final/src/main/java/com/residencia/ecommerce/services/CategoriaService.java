@@ -6,7 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.residencia.ecommerce.DTO.CategoriaDTO;
+import com.residencia.ecommerce.dto.CategoriaDTO;
 import com.residencia.ecommerce.entites.Categoria;
 import com.residencia.ecommerce.repositories.CategoriaRepository;
 

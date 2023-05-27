@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.residencia.ecommerce.DTO.ClienteDTO;
-import com.residencia.ecommerce.DTO.ViaCepDTO;
+import com.residencia.ecommerce.dto.ClienteDTO;
+import com.residencia.ecommerce.dto.ViaCepDTO;
 import com.residencia.ecommerce.entites.Cliente;
 import com.residencia.ecommerce.entites.Endereco;
 import com.residencia.ecommerce.exception.ClienteCpfDuplicadoException;

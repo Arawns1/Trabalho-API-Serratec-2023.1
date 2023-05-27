@@ -7,7 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.residencia.ecommerce.DTO.ItemPedidoDTO;
+import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.entites.ItemPedido;
 import com.residencia.ecommerce.entites.Produto;
 import com.residencia.ecommerce.exception.NoSuchElementException;

@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.residencia.ecommerce.DTO.Seguranca.JwtResponseDTO;
-import com.residencia.ecommerce.DTO.Seguranca.LoginRequestDTO;
-import com.residencia.ecommerce.DTO.Seguranca.MessageResponseDTO;
-import com.residencia.ecommerce.DTO.Seguranca.SignupRequestDTO;
+import com.residencia.ecommerce.dto.Seguranca.JwtResponseDTO;
+import com.residencia.ecommerce.dto.Seguranca.LoginRequestDTO;
+import com.residencia.ecommerce.dto.Seguranca.MessageResponseDTO;
+import com.residencia.ecommerce.dto.Seguranca.SignupRequestDTO;
 import com.residencia.ecommerce.entites.seguranca.Role;
 import com.residencia.ecommerce.entites.seguranca.RoleEnum;
 import com.residencia.ecommerce.entites.seguranca.User;

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.residencia.ecommerce.DTO.ProdutoDTO;
+import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entites.Produto;
 import com.residencia.ecommerce.services.ProdutoService;
 

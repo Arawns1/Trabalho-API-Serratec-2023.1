@@ -1,4 +1,4 @@
-package com.residencia.ecommerce.DTO.Seguranca;
+package com.residencia.ecommerce.dto.Seguranca;
 
 import jakarta.validation.constraints.NotBlank;
 

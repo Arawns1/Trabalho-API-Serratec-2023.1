@@ -1,8 +1,10 @@
-package com.residencia.ecommerce.DTO;
+package com.residencia.ecommerce.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.FutureOrPresent;
 
@@ -10,12 +12,15 @@ import jakarta.validation.constraints.FutureOrPresent;
 public class PedidoDTO {
 	
 	@FutureOrPresent(message = "A data do pedido não pode estar no passado")
+	@JsonFormat(pattern = "dd/MM/yyyy", timezone = "America/Sao_Paulo" )
 	private Date dataPedido;
 	
 	@FutureOrPresent(message = "A data do envio não pode estar no passado")
+	@JsonFormat(pattern = "dd/MM/yyyy", timezone = "America/Sao_Paulo" )
 	private Date dataEnvio;
 	
 	@FutureOrPresent(message = "A data da entrega não pode estar no passado")
+	@JsonFormat(pattern = "dd/MM/yyyy", timezone = "America/Sao_Paulo" )
 	private Date dataEntrega;
 	
 	private String status;
