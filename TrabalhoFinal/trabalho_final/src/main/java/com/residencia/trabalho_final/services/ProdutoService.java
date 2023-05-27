@@ -33,7 +33,7 @@ public class ProdutoService {
 	}
 	
 	public Produto getProdutoById(Integer id) {
-		return produtoRepository.findById(id).orElse(null);
+		return produtoRepository.findById(id).orElseThrow(() -> new ProdutoNotFoundException(id));
 	}
 	
 	public Produto saveProduto(Produto produto) {
@@ -66,11 +66,17 @@ public class ProdutoService {
 		//----------------//
 	
 		public ProdutoDTO saveProdutoDTO(ProdutoDTO produtoDTO) {
+			
 			Produto produto = new Produto();
 			produto.setNome(produtoDTO.getNome());
 			produto.setDescricao(produtoDTO.getDescricao());
 			produto.setImagem(produtoDTO.getImagem());
 			produto.setValorUnitario(produtoDTO.getValorUnitario());
+			
+			Produto produtoExistente = produtoRepository.findByDescricao(produto.getDescricao());
+			if (produtoExistente != null) {
+				throw new ProdutoDescricaoDuplicadaException();
+			}
 			
 			Categoria categoria = categoriaRepository.findById(produtoDTO.getIdCategoria())
 								  .orElseThrow(() -> new NoSuchElementException("Categoria", produtoDTO.getIdCategoria()));

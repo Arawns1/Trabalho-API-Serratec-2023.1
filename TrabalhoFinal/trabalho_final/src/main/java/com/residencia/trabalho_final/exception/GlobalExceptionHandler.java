@@ -55,6 +55,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 		problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/bad-request"));
 		return problemDetail;
 	}
+	
+	@ExceptionHandler(ClienteEmailDuplicadoException.class)
+	ProblemDetail handleBookmarkBadRequestException(ClienteEmailDuplicadoException e) {
+		ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+		problemDetail.setTitle("Email ja existe");
+		problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/bad-request"));
+		return problemDetail;
+	}
+	
 	@ExceptionHandler(ClienteNotFoundException.class)
     ProblemDetail handleBookmarkNotFoundException(ClienteNotFoundException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
@@ -62,6 +71,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/not-found"));
         return problemDetail;
     }
+	
+	
+	
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, 
             HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {

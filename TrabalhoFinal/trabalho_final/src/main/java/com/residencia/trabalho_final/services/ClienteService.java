@@ -69,16 +69,22 @@ public class ClienteService {
 	// --------------//
 
 	public ClienteDTO saveClienteDTO(ClienteDTO clienteDTO) {
-		System.out.println("aa");
 		Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
-		System.out.println(cliente);
+		
+		Cliente clienteCpfExistente = clienteRepository.findByCpf(cliente.getCpf());
+		Cliente clienteEmailExistente = clienteRepository.findByEmail(cliente.getEmail());
+		if (clienteCpfExistente != null) {
+			throw new ClienteCpfDuplicadoException();
+		} else if (clienteEmailExistente != null) {
+			throw new ClienteEmailDuplicadoException();
+		}
+		
 		RestTemplate restTemplate = new RestTemplate();
 		String uri= "http://viacep.com.br/ws/{cep}/json";
 		Map<String, String> params = new HashMap<>();	
 		params.put("cep", clienteDTO.getCep());
 		ViaCepDTO responseViaCep = restTemplate.getForObject(uri, ViaCepDTO.class, params);
 		
-		System.out.println("aa");
 		Endereco endereco = new Endereco();
 		endereco.setCep(responseViaCep.getCep());
 		endereco.setRua(responseViaCep.getLogradouro());
@@ -88,7 +94,6 @@ public class ClienteService {
 		endereco.setComplemento(clienteDTO.getComplemento());
 		endereco.setNumero(clienteDTO.getNumero());
 		
-		System.out.println(endereco);
 		cliente.setEndereco(endereco);
 		
 		enderecoRepository.save(endereco);
