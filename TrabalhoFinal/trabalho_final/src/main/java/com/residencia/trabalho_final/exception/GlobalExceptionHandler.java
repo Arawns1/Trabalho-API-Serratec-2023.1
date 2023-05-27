@@ -71,9 +71,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/not-found"));
         return problemDetail;
     }
-	
-	
-	
+  
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, 
             HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
@@ -93,5 +91,3 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         return response;
     }
 }
-	
-	

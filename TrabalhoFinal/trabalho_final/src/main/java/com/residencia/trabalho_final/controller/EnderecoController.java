@@ -13,12 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.residencia.trabalho_final.entites.Endereco;
 import com.residencia.trabalho_final.services.EnderecoService;
-
 import jakarta.validation.Valid;
-
 
 @RestController
 @RequestMapping("/enderecos")
@@ -44,6 +41,7 @@ public class EnderecoController {
 	}
 	
 	@PostMapping
+
 	public ResponseEntity<Endereco> saveEndereco(@Valid @RequestBody Endereco endereco){
 		return new ResponseEntity<>(enderecoService.saveEndereco(endereco),HttpStatus.CREATED);
 	}

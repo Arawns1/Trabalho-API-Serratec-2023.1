@@ -1,11 +1,13 @@
 package com.residencia.trabalho_final.entites;
 
+import java.util.Date;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.residencia.trabalho_final.repositories.ProdutoRepository;
 import java.math.BigDecimal;
 import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,7 @@ public class Produto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+  
 	@Column(name = "id_produto")
 	private Integer idProduto;
 	
@@ -75,6 +78,7 @@ public class Produto {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+
 	public Integer getQtdEstoque() {
 		return qtdEstoque;
 	}

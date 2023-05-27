@@ -1,7 +1,6 @@
 package com.trabalho.escola.exception;
 
 import java.net.URI;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -56,13 +55,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
                 problemDetailBody.setTitle("Erro na requisição");
                 problemDetailBody.setDetail("Ocorreu um erro ao processar a Requisição");
                 problemDetailBody.setProperty("message", "Validation failed for object='" + result.getObjectName());
-                
                 problemDetailBody.setProperty("errors", result.getAllErrors().get(0).getDefaultMessage());
             }
         }
         return response;
     }
 }
-	
-	
-

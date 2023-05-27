@@ -7,3 +7,4 @@ public class ClienteCpfDuplicadoException extends RuntimeException{
         super("Este cpf já esta cadastrado.");
     }
 }
+

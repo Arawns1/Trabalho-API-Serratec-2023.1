@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.residencia.trabalho_final.DTO.ClienteDTO;
+
 import com.residencia.trabalho_final.entites.Cliente;
 import com.residencia.trabalho_final.services.ClienteService;
-
 import jakarta.validation.Valid;
 
 @RestController

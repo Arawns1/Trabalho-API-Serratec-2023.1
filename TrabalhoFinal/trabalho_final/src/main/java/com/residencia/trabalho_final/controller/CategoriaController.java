@@ -20,7 +20,6 @@ import com.residencia.trabalho_final.services.CategoriaService;
 
 import jakarta.validation.Valid;
 
-
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
