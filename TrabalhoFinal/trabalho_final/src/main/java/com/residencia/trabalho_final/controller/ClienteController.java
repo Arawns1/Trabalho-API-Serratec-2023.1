@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.residencia.trabalho_final.DTO.ClienteDTO;
 
+import com.residencia.trabalho_final.DTO.ClienteDTO;
 import com.residencia.trabalho_final.entites.Cliente;
 import com.residencia.trabalho_final.services.ClienteService;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -28,11 +29,13 @@ public class ClienteController {
 
 	@GetMapping
 	public ResponseEntity<List<Cliente>> getAllClientes() {
+		// return clienteService.getAllClientes();
 		return new ResponseEntity<>(clienteService.getAllClientes(), HttpStatus.FOUND);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Cliente> getClienteById(@PathVariable Integer id) {
+		// return clienteService.getClienteById(id);
 		Cliente clienteResponse = clienteService.getClienteById(id);
 		if (clienteResponse == null) {
 			return new ResponseEntity<>(clienteResponse, HttpStatus.NOT_FOUND);
@@ -69,15 +72,13 @@ public class ClienteController {
 		}
 	}
 
-	// ------- //
-	// 	DTOs   //
-	// ------ //
-
+	// -------  //
+	//   DTOs 	//
+	// ------  //
 	/* --- INPUT --- */
 	@PostMapping("/dto")
 	public ResponseEntity<ClienteDTO> saveCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
 		return new ResponseEntity<>(clienteService.saveClienteDTO(clienteDTO), HttpStatus.CREATED);
 	}
-
 
 }
