@@ -1,13 +1,5 @@
 package com.residencia.ecommerce.services;
 
-import java.util.Date;
-import java.time.Instant;
-import java.util.List;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entites.Categoria;
 import com.residencia.ecommerce.entites.Produto;
@@ -16,6 +8,12 @@ import com.residencia.ecommerce.exception.ProdutoDescricaoDuplicadaException;
 import com.residencia.ecommerce.exception.ProdutoNotFoundException;
 import com.residencia.ecommerce.repositories.CategoriaRepository;
 import com.residencia.ecommerce.repositories.ProdutoRepository;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ProdutoService {
@@ -55,7 +53,7 @@ public class ProdutoService {
 	}
 
 	// ---------------//
-	// DTOs 
+	// DTOs
 	// ----------------//
 
 	public ProdutoDTO getProdutoDTOById(Integer id) {
@@ -79,7 +77,7 @@ public class ProdutoService {
 				.orElseThrow(() -> new NoSuchElementException("Categoria", produtoDTO.getIdCategoria()));
 
 		produto.setCategoria(categoria);
-		
+
 		if (produto.getQtdEstoque() == null) {
 			produto.setQtdEstoque(0);
 		}

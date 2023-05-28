@@ -1,27 +1,25 @@
 package com.residencia.ecommerce.services;
 
-import java.math.BigDecimal;
-import java.util.List;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.entites.ItemPedido;
 import com.residencia.ecommerce.entites.Produto;
 import com.residencia.ecommerce.exception.NoSuchElementException;
 import com.residencia.ecommerce.repositories.ItemPedidoRepository;
 import com.residencia.ecommerce.repositories.ProdutoRepository;
+import java.math.BigDecimal;
+import java.util.List;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ItemPedidoService {
 	@Autowired
 	ItemPedidoRepository itemPedidoRepository;
-	
+
 	@Autowired
 	ProdutoRepository produtoRepository;
-	
+
 	@Autowired
 	ModelMapper modelMapper;
 
@@ -48,38 +46,38 @@ public class ItemPedidoService {
 	}
 
 	// --------------- //
-	// 		DTOs 	   //
+	// DTOs //
 	// ----------------//
 
 	public ItemPedidoDTO getItemPedidoDTOById(Integer id) {
-		ItemPedido itemPedido = itemPedidoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Item Pedido", id));
+		ItemPedido itemPedido = itemPedidoRepository.findById(id)
+				.orElseThrow(() -> new NoSuchElementException("Item Pedido", id));
 		return modelMapper.map(itemPedido, ItemPedidoDTO.class);
 	}
-	
+
 	public ItemPedidoDTO saveItemPedidoDTO(ItemPedidoDTO itemPedidoDTO) {
 		ItemPedido itemPedido = new ItemPedido();
-		
+
 		itemPedido.setQuantidade(itemPedidoDTO.getQuantidade());
 		itemPedido.setPercentualDesconto(itemPedidoDTO.getPercentualDesconto());
-		
+
 		Produto produto = produtoRepository.findById(itemPedidoDTO.getProdutoID())
-						 .orElseThrow(() -> new NoSuchElementException("Produto", itemPedidoDTO.getProdutoID()));
-		
+				.orElseThrow(() -> new NoSuchElementException("Produto", itemPedidoDTO.getProdutoID()));
+
 		itemPedido.setPrecoVenda(produto.getValorUnitario());
-		itemPedido.setValorBruto(produto.getValorUnitario()
-								.multiply(BigDecimal.valueOf(itemPedidoDTO.getQuantidade())));
+		itemPedido
+				.setValorBruto(produto.getValorUnitario().multiply(BigDecimal.valueOf(itemPedidoDTO.getQuantidade())));
 		BigDecimal valorPorcentagem = itemPedido.getValorBruto()
-								 	  .multiply(BigDecimal.valueOf(itemPedidoDTO.getPercentualDesconto()));
-		
+				.multiply(BigDecimal.valueOf(itemPedidoDTO.getPercentualDesconto()));
+
 		itemPedido.setValorLiquido((itemPedido.getValorBruto()).subtract(valorPorcentagem));
-		
+
 		itemPedido.setProduto(produto);
 		itemPedidoRepository.save(itemPedido);
-		
+
 		ItemPedidoDTO itemPedidoSalvo = modelMapper.map(itemPedido, ItemPedidoDTO.class);
 		itemPedidoSalvo.setIdItemPedido(itemPedido.getIdItemPedido());
-		
+
 		return itemPedidoSalvo;
 	}
-
 }

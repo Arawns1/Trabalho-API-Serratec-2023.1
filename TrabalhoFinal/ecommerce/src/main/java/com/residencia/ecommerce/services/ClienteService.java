@@ -27,10 +27,10 @@ import com.residencia.ecommerce.repositories.EnderecoRepository;
 public class ClienteService {
 	@Autowired
 	ClienteRepository clienteRepository;
-	
+
 	@Autowired
 	EnderecoRepository enderecoRepository;
-	
+
 	@Autowired
 	ModelMapper modelMapper;
 
@@ -64,19 +64,17 @@ public class ClienteService {
 	}
 
 	// ---------------//
-	//		 DTOs 	 //
+	// DTOs //
 	// --------------//
 
-	
 	public ClienteDTO getClienteDTOById(Integer id) {
 		Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException(id));
 		return modelMapper.map(cliente, ClienteDTO.class);
 	}
-	
-	
+
 	public ClienteDTO saveClienteDTO(ClienteDTO clienteDTO) {
 		Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
-		
+
 		Cliente clienteCpfExistente = clienteRepository.findByCpf(cliente.getCpf());
 		Cliente clienteEmailExistente = clienteRepository.findByEmail(cliente.getEmail());
 		if (clienteCpfExistente != null) {
@@ -84,15 +82,15 @@ public class ClienteService {
 		} else if (clienteEmailExistente != null) {
 			throw new ClienteEmailDuplicadoException();
 		}
-		
+
 		RestTemplate restTemplate = new RestTemplate();
-		String uri= "http://viacep.com.br/ws/{cep}/json";
-		Map<String, String> params = new HashMap<>();	
+		String uri = "http://viacep.com.br/ws/{cep}/json";
+		Map<String, String> params = new HashMap<>();
 		params.put("cep", clienteDTO.getCep());
-		
-		try{
+
+		try {
 			ViaCepDTO responseViaCep = restTemplate.getForObject(uri, ViaCepDTO.class, params);
-			if( responseViaCep == null || responseViaCep.getErro()) {
+			if (responseViaCep == null || responseViaCep.getErro()) {
 				throw new CEPNotFoundException(clienteDTO.getCep());
 			}
 			Endereco endereco = new Endereco();
@@ -105,13 +103,10 @@ public class ClienteService {
 			endereco.setNumero(clienteDTO.getNumero());
 			cliente.setEndereco(endereco);
 			enderecoRepository.save(endereco);
-		}
-		catch(HttpClientErrorException | HttpServerErrorException | UnknownHttpStatusCodeException e)
-		{
+		} catch (HttpClientErrorException | HttpServerErrorException | UnknownHttpStatusCodeException e) {
 			throw new CEPNotFoundException(clienteDTO.getCep());
 		}
-	
-		
+
 		clienteRepository.save(cliente);
 		ClienteDTO clienteSalvo = modelMapper.map(cliente, ClienteDTO.class);
 		clienteSalvo.setIdCliente(cliente.getIdCliente());
