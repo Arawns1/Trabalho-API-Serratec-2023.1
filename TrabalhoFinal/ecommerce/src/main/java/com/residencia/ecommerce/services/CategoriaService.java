@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.residencia.ecommerce.dto.CategoriaDTO;
 import com.residencia.ecommerce.entites.Categoria;
+import com.residencia.ecommerce.exception.NoSuchElementException;
 import com.residencia.ecommerce.repositories.CategoriaRepository;
 
 @Service
@@ -49,11 +50,18 @@ public class CategoriaService {
 	//	    DTOs	  //
 	//----------------//
 	
+	public CategoriaDTO getCategoriaDTOById(Integer id) {
+		Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Categoria", id));
+		return modelMapper.map(categoria, CategoriaDTO.class);
+	}
 	
 	public CategoriaDTO saveCategoriaDTO(CategoriaDTO categoriaDTO) {
 		Categoria categoria = modelMapper.map(categoriaDTO, Categoria.class);
 		categoriaRepository.save(categoria);
-		return modelMapper.map(categoria, CategoriaDTO.class);
+		CategoriaDTO categoriaSalva = modelMapper.map(categoria, CategoriaDTO.class);
+		categoriaSalva.setIdCategoria(categoria.getIdCategoria());
+		return categoriaSalva;
+		
 	}
 	
 }

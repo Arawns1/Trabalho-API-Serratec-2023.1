@@ -79,7 +79,16 @@ public class CategoriaController {
 	//  DTOs  //
 	// ------ //
 	
-	/*  ---  INPUT --- */
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<CategoriaDTO> getCategoriaDTOById(@PathVariable Integer id) {
+		CategoriaDTO categoriaResponse = categoriaService.getCategoriaDTOById(id);
+		if (categoriaResponse == null) {
+			return new ResponseEntity<>(categoriaResponse, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(categoriaResponse, HttpStatus.FOUND);
+		}
+	}
+	
 	@PostMapping("/dto")
 	public ResponseEntity<CategoriaDTO> saveCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO){
 		return new ResponseEntity<>(categoriaService.saveCategoriaDTO(categoriaDTO),HttpStatus.CREATED);

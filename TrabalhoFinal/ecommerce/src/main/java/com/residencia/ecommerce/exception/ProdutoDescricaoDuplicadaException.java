@@ -4,7 +4,7 @@ public class ProdutoDescricaoDuplicadaException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	
 	public ProdutoDescricaoDuplicadaException() {
-        super("Não e possivel cadastras outro produto com a mesma descrição.");
+        super("Não é possivel cadastrar outro produto com a mesma descrição.");
     }
 }
 

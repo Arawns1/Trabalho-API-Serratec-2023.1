@@ -5,6 +5,7 @@ import java.util.Date;
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +14,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 
 public class ClienteDTO {
+	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private Integer idCliente;
 	
 	@NotBlank(message = "O nome não pode ser nulo")
 	private String nomeCompleto;
@@ -30,12 +34,19 @@ public class ClienteDTO {
 	@JsonFormat(pattern = "dd/MM/yyyy", timezone = "America/Sao_Paulo" )
 	private Date dataNascimento; 
 	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@NotBlank(message = "O cep não pode ser nulo")
 	private String cep;
 	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@PositiveOrZero(message = "O número não pode ser nulo")
 	private Integer numero;
 	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String complemento;
+	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private EnderecoDTO endereco;
 	
 	public ClienteDTO() {
 		super();
@@ -54,6 +65,14 @@ public class ClienteDTO {
 		this.cep = cep;
 		this.numero = numero;
 		this.complemento = complemento;
+	}
+
+	public Integer getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(Integer idCliente) {
+		this.idCliente = idCliente;
 	}
 
 	public String getNomeCompleto() {
@@ -118,6 +137,14 @@ public class ClienteDTO {
 
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
+	}
+
+	public EnderecoDTO getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(EnderecoDTO endereco) {
+		this.endereco = endereco;
 	}
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.ecommerce.dto.PedidoDTO;
 import com.residencia.ecommerce.entites.Pedido;
 import com.residencia.ecommerce.services.PedidoService;
 
@@ -72,5 +73,24 @@ public class PedidoController {
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	// --------//
+	// 	 DTOs //
+	// ------ //
+
+		@GetMapping("/dto/{id}")
+		public ResponseEntity<PedidoDTO> getPedidoDTOById(@PathVariable Integer id) {
+			PedidoDTO pedidoResponse = pedidoService.getPedidoDTOById(id);
+			if (pedidoResponse == null) {
+				return new ResponseEntity<>(pedidoResponse, HttpStatus.NOT_FOUND);
+			} else {
+				return new ResponseEntity<>(pedidoResponse, HttpStatus.FOUND);
+			}
+		}
+		
+		@PostMapping("/dto")
+		public ResponseEntity<PedidoDTO> savePedidoDTO(@Valid @RequestBody PedidoDTO pedidoDTO) {
+			return new ResponseEntity<>(pedidoService.savePedidoDTO(pedidoDTO), HttpStatus.CREATED);
+		}
 
 }

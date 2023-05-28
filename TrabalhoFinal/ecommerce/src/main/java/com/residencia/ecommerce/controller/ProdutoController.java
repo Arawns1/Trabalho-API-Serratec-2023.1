@@ -78,7 +78,17 @@ public class ProdutoController {
 	//  DTOs  //
 	// ------ //
 	
-	/*  ---  INPUT --- */
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<ProdutoDTO> getProdutoDTOById(@PathVariable Integer id){
+		ProdutoDTO produtoResponse = produtoService.getProdutoDTOById(id);
+		if(produtoResponse == null) {
+			return new ResponseEntity<>(produtoResponse, HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<>(produtoResponse,HttpStatus.FOUND);
+		}
+	}
+	
 	@PostMapping("/dto")
 	public ResponseEntity<ProdutoDTO> saveCategoria(@Valid @RequestBody ProdutoDTO produtoDTO){
 		return new ResponseEntity<>(produtoService.saveProdutoDTO(produtoDTO),HttpStatus.CREATED);

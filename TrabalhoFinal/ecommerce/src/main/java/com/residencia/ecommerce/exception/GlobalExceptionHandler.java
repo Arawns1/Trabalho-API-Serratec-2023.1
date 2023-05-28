@@ -44,7 +44,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 	@ExceptionHandler(ProdutoDescricaoDuplicadaException.class)
 	ProblemDetail handleBookmarkBadRequestException(ProdutoDescricaoDuplicadaException e) {
 		ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
-		problemDetail.setTitle("Descrição ja existe");
+		problemDetail.setTitle("Descrição já existe");
 		problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/bad-request"));
 		return problemDetail;
 	}
@@ -59,7 +59,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 	@ExceptionHandler(ClienteEmailDuplicadoException.class)
 	ProblemDetail handleBookmarkBadRequestException(ClienteEmailDuplicadoException e) {
 		ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
-		problemDetail.setTitle("Email ja existe");
+		problemDetail.setTitle("Email já existe");
 		problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/bad-request"));
 		return problemDetail;
 	}
@@ -67,8 +67,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 	@ExceptionHandler(ClienteNotFoundException.class)
     ProblemDetail handleBookmarkNotFoundException(ClienteNotFoundException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
-        problemDetail.setTitle("Cliente nao encontrado");
+        problemDetail.setTitle("Cliente não encontrado");
         problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/not-found"));
+        return problemDetail;
+    }
+	
+	@ExceptionHandler(CEPNotFoundException.class)
+    ProblemDetail handleBadRequestException(CEPNotFoundException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        
+        problemDetail.setTitle("CEP Inválido");
+        problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/bad-request"));
         return problemDetail;
     }
   

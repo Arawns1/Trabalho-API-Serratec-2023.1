@@ -74,7 +74,16 @@ public class ItemPedidoController {
 	// 	 DTOs //
 	// ------ //
 
-	/* --- INPUT --- */
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<ItemPedidoDTO> getItemPedidoDTOById(@PathVariable Integer id) {
+		ItemPedidoDTO itemPedidoResponse = itemPedidoService.getItemPedidoDTOById(id);
+		if (itemPedidoResponse == null) {
+			return new ResponseEntity<>(itemPedidoResponse, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(itemPedidoResponse, HttpStatus.FOUND);
+		}
+	}
+	
 	@PostMapping("/dto")
 	public ResponseEntity<ItemPedidoDTO> saveItemPedidoDTO(@Valid @RequestBody ItemPedidoDTO itemPedidoDTO) {
 		return new ResponseEntity<>(itemPedidoService.saveItemPedidoDTO(itemPedidoDTO), HttpStatus.CREATED);

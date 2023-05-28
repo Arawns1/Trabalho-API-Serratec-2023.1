@@ -44,20 +44,19 @@ public class ItemPedidoService {
 	public Boolean deleteItemPedido(Integer id) {
 		itemPedidoRepository.deleteById(id);
 		ItemPedido itemPedidoDeletada = itemPedidoRepository.findById(id).orElse(null);
-		if (itemPedidoDeletada == null) {
-			return true;
-		} else {
-			return false;
-		}
-
+		return itemPedidoDeletada == null;
 	}
 
-	// ---------------//
+	// --------------- //
 	// 		DTOs 	   //
 	// ----------------//
 
+	public ItemPedidoDTO getItemPedidoDTOById(Integer id) {
+		ItemPedido itemPedido = itemPedidoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Item Pedido", id));
+		return modelMapper.map(itemPedido, ItemPedidoDTO.class);
+	}
+	
 	public ItemPedidoDTO saveItemPedidoDTO(ItemPedidoDTO itemPedidoDTO) {
-		
 		ItemPedido itemPedido = new ItemPedido();
 		
 		itemPedido.setQuantidade(itemPedidoDTO.getQuantidade());
@@ -73,9 +72,14 @@ public class ItemPedidoService {
 								 	  .multiply(BigDecimal.valueOf(itemPedidoDTO.getPercentualDesconto()));
 		
 		itemPedido.setValorLiquido((itemPedido.getValorBruto()).subtract(valorPorcentagem));
+		
 		itemPedido.setProduto(produto);
 		itemPedidoRepository.save(itemPedido);
-		return modelMapper.map(itemPedido, ItemPedidoDTO.class);
+		
+		ItemPedidoDTO itemPedidoSalvo = modelMapper.map(itemPedido, ItemPedidoDTO.class);
+		itemPedidoSalvo.setIdItemPedido(itemPedido.getIdItemPedido());
+		
+		return itemPedidoSalvo;
 	}
 
 }

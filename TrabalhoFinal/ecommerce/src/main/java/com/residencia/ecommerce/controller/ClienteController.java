@@ -50,9 +50,9 @@ public class ClienteController {
 	}
 
 	@PutMapping
-	public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente cliente, Integer id) {
+	public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente cliente) {
 
-		Cliente clienteResponse = clienteService.updateCliente(cliente, id);
+		Cliente clienteResponse = clienteService.updateCliente(cliente);
 		if (clienteResponse == null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
 		} else {
@@ -76,6 +76,17 @@ public class ClienteController {
 	//   DTOs 	//
 	// ------  //
 	/* --- INPUT --- */
+	
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<ClienteDTO> getClienteDTOById(@PathVariable Integer id) {
+		ClienteDTO clienteResponse = clienteService.getClienteDTOById(id);
+		if (clienteResponse == null) {
+			return new ResponseEntity<>(clienteResponse, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(clienteResponse, HttpStatus.FOUND);
+		}
+	}
+	
 	@PostMapping("/dto")
 	public ResponseEntity<ClienteDTO> saveCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
 		return new ResponseEntity<>(clienteService.saveClienteDTO(clienteDTO), HttpStatus.CREATED);
