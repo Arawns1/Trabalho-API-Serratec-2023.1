@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -49,7 +50,8 @@ public class Cliente {
 	@Pattern(regexp = "\\d{8,15}")
 	@Column(name = "telefone")
 	private String telefone;
-
+	
+	@JsonFormat(pattern = "dd/MM/yyyy", timezone = "America/Sao_Paulo" )
 	@Past(message = "A data de nascimento deve estar no passado")
 	@Column(name = "data_nascimento")
 	private Date dataNascimento;

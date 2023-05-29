@@ -3,6 +3,7 @@ package com.residencia.ecommerce.services;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,13 @@ import org.springframework.web.client.UnknownHttpStatusCodeException;
 import com.residencia.ecommerce.dto.ClienteDTO;
 import com.residencia.ecommerce.dto.ViaCepDTO;
 import com.residencia.ecommerce.entites.Cliente;
+import com.residencia.ecommerce.entites.Cliente;
 import com.residencia.ecommerce.entites.Endereco;
 import com.residencia.ecommerce.exception.CEPNotFoundException;
 import com.residencia.ecommerce.exception.ClienteCpfDuplicadoException;
 import com.residencia.ecommerce.exception.ClienteEmailDuplicadoException;
 import com.residencia.ecommerce.exception.ClienteNotFoundException;
+import com.residencia.ecommerce.exception.NoSuchElementException;
 import com.residencia.ecommerce.repositories.ClienteRepository;
 import com.residencia.ecommerce.repositories.EnderecoRepository;
 
@@ -58,6 +61,11 @@ public class ClienteService {
 	}
 
 	public Boolean deleteCliente(Integer id) {
+		Optional<Cliente> clienteEncontrada = clienteRepository.findById(id);
+		
+		if(clienteEncontrada.isEmpty()) {
+			throw new NoSuchElementException("Cliente com id: " + id + " não encontrada!");
+		}
 		clienteRepository.deleteById(id);
 		Cliente clienteDeletada = clienteRepository.findById(id).orElse(null);
 		return clienteDeletada == null;
