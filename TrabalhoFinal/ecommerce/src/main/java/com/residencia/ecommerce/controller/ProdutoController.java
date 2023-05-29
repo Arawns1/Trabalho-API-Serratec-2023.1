@@ -72,13 +72,31 @@ public class ProdutoController {
 			return new ResponseEntity<>(produtoResponse, HttpStatus.FOUND);
 		}
 	}
+	
+	@GetMapping("/dto-comfoto/{id}")
+	public ResponseEntity<?> getProdutoDTOByIdComFoto(@PathVariable Integer id) {
+		
+		ProdutoDTO produtoResponse = produtoService.getProdutoDTOByIdComFoto(id);
+		if (produtoResponse == null) {
+			return new ResponseEntity<>(produtoResponse, HttpStatus.NOT_FOUND);
+		} else {
+			 HttpHeaders headers = new HttpHeaders();
+			 headers.set("Content-type", MediaType.IMAGE_JPEG_VALUE);
+			   // headers.set("Content-type", MediaType.IMAGE_JPEG_VALUE);
+			    //headers.set("Content-Disposition","attachment; filename=\""+ produtoResponse.getNomeImagem()); // to view in browser change attachment to inline 
+			    return ResponseEntity.status(HttpStatus.OK).headers(headers).body(produtoResponse);
+		}
+	}
+	
 	@PostMapping("/dto")
 	public ResponseEntity<ProdutoDTO> saveProduto(@RequestBody ProdutoDTO produtoDTO){
 		return new ResponseEntity<>(produtoService.saveProdutoDTO(produtoDTO), HttpStatus.CREATED);
 	}
-	@PostMapping("/dto/com-imagem")
-	public ResponseEntity<ProdutoDTO> saveProduto(@RequestBody ProdutoDTO produtoDTO){
-		return new ResponseEntity<>(produtoService.saveProdutoDTO(produtoDTO), HttpStatus.CREATED);
+	
+	@PostMapping(value = "/dto-comfoto", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<ProdutoDTO> saveProdutoComImagem(@Valid @RequestPart("produto") String produtoDTO, 
+																  @RequestPart("file") MultipartFile file) throws Exception {
+		return new ResponseEntity<>(produtoService.saveProdutoDTOComFoto(produtoDTO, file), HttpStatus.CREATED);
 	}
 	
 }

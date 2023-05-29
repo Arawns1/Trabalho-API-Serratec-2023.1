@@ -37,16 +37,28 @@ public class ProdutoDTO {
 
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private CategoriaDTO categoria;
+	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private Integer idImagem;
+	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private String nomeImagem;
+	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private byte[] imagem;
+	
+	private String url;
 
 	public ProdutoDTO() {
 		super();
 	}
 
+	
 	public ProdutoDTO(@NotBlank(message = "O nome do produto não pode ser nulo") String nome, String descricao,
 			@Positive(message = "O valor do produto não pode ser nulo") BigDecimal valorUnitario, Integer idCategoria,
 			Integer qtdEstoque,
 			@PastOrPresent(message = "A data cadastrada não pode estar no futuro") Date dataCadastro,
-			CategoriaDTO categoria) {
+			CategoriaDTO categoria, Integer idImagem, String nomeImagem, byte[] imagem, String url) {
 		super();
 		this.nome = nome;
 		this.descricao = descricao;
@@ -55,7 +67,13 @@ public class ProdutoDTO {
 		this.qtdEstoque = qtdEstoque;
 		this.dataCadastro = dataCadastro;
 		this.categoria = categoria;
+		this.idImagem = idImagem;
+		this.nomeImagem = nomeImagem;
+		this.imagem = imagem;
+		this.url = url;
 	}
+
+
 
 	public String getNome() {
 		return nome;
@@ -112,6 +130,40 @@ public class ProdutoDTO {
 	public void setCategoria(CategoriaDTO categoria) {
 		this.categoria = categoria;
 	}
+
+	public Integer getIdImagem() {
+		return idImagem;
+	}
+
+	public void setIdImagem(Integer idImagem) {
+		this.idImagem = idImagem;
+	}
+
+	public String getNomeImagem() {
+		return nomeImagem;
+	}
+
+	public void setNomeImagem(String nomeImagem) {
+		this.nomeImagem = nomeImagem;
+	}
+
+	public byte[] getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(byte[] imagem) {
+		this.imagem = imagem;
+	}
+	
+	public String getUrl() {
+		return url;
+	}
+
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 
 	@Override
 	public String toString() {
