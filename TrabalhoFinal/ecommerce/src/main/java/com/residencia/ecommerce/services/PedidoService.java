@@ -94,7 +94,6 @@ public class PedidoService {
 		}
 		PedidoDTO pedidoDto = modelMapper.map(pedido, PedidoDTO.class);
 		pedidoDto.setItensPedido(itemsDTO);
-
 		return pedidoDto;
 	}
 
@@ -108,7 +107,6 @@ public class PedidoService {
 
 		Cliente cliente = clienteRepository.findById(pedidoDTO.getIdCliente())
 				.orElseThrow(() -> new ClienteNotFoundException(pedidoDTO.getIdCliente()));
-
 		pedido.setCliente(cliente);
 		pedido.setStatus("Pago");
 
@@ -128,7 +126,6 @@ public class PedidoService {
 			valorTotal = valorTotal.add(itemPedido.getValorLiquido());
 			items.add(itemPedido);
 		}
-		
 
 		pedido.setItems(items);
 		pedido.setValorTotal(valorTotal);

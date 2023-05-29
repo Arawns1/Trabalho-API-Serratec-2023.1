@@ -3,7 +3,6 @@ package com.residencia.ecommerce.dto;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
@@ -33,28 +32,17 @@ public class ProdutoDTO {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private CategoriaDTO categoria;
 	
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	private Integer idImagem;
+	private ImagemDTO imagem;
 	
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	private String nomeImagem;
-	
-	@JsonIgnore
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	private byte[] imagem;
-	
-	private String url;
-
 	public ProdutoDTO() {
 		super();
 	}
 
-	
 	public ProdutoDTO(@NotBlank(message = "O nome do produto não pode ser nulo") String nome, String descricao,
 			@Positive(message = "O valor do produto não pode ser nulo") BigDecimal valorUnitario, Integer idCategoria,
 			Integer qtdEstoque,
 			@PastOrPresent(message = "A data cadastrada não pode estar no futuro") Date dataCadastro,
-			CategoriaDTO categoria, Integer idImagem, String nomeImagem, byte[] imagem, String url) {
+			CategoriaDTO categoria, ImagemDTO imagem) {
 		super();
 		this.nome = nome;
 		this.descricao = descricao;
@@ -63,10 +51,7 @@ public class ProdutoDTO {
 		this.qtdEstoque = qtdEstoque;
 		this.dataCadastro = dataCadastro;
 		this.categoria = categoria;
-		this.idImagem = idImagem;
-		this.nomeImagem = nomeImagem;
 		this.imagem = imagem;
-		this.url = url;
 	}
 
 
@@ -127,45 +112,23 @@ public class ProdutoDTO {
 		this.categoria = categoria;
 	}
 
-	public Integer getIdImagem() {
-		return idImagem;
-	}
 
-	public void setIdImagem(Integer idImagem) {
-		this.idImagem = idImagem;
-	}
-
-	public String getNomeImagem() {
-		return nomeImagem;
-	}
-
-	public void setNomeImagem(String nomeImagem) {
-		this.nomeImagem = nomeImagem;
-	}
-
-	public byte[] getImagem() {
+	public ImagemDTO getImagem() {
 		return imagem;
 	}
 
-	public void setImagem(byte[] imagem) {
+
+	public void setImagem(ImagemDTO imagem) {
 		this.imagem = imagem;
 	}
-	
-	public String getUrl() {
-		return url;
-	}
 
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
 
 
 	@Override
 	public String toString() {
 		return "ProdutoDTO [nome=" + nome + ", descricao=" + descricao + ", valorUnitario=" + valorUnitario
 				+ ", idCategoria=" + idCategoria + ", qtdEstoque=" + qtdEstoque + ", dataCadastro=" + dataCadastro
-				+ ", categoria=" + categoria + "]";
+				+ ", categoria=" + categoria + ", imagem=" + imagem + "]";
 	}
 
 }

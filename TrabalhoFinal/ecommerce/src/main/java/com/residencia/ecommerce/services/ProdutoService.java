@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.residencia.ecommerce.dto.CategoriaDTO;
+import com.residencia.ecommerce.dto.ImagemDTO;
 import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entites.Categoria;
 import com.residencia.ecommerce.entites.Imagem;
@@ -80,8 +81,7 @@ public class ProdutoService {
 	public ProdutoDTO getProdutoDTOByIdComFoto(Integer id) {
 		Produto produto = produtoRepository.findById(id).orElseThrow(() -> new ProdutoNotFoundException(id));
 		ProdutoDTO produtoDto = modelMapper.map(produto, ProdutoDTO.class);
-		produtoDto.setImagem(produto.getImagem().getDados());
-				
+		produtoDto.getImagem().setImagemDados(produto.getImagem().getDados());
 		return produtoDto;
 	}
 	
@@ -125,7 +125,6 @@ public class ProdutoService {
 		}
 		
 		Produto produto = new Produto();
-		
 		produto.setNome(produtoDTO.getNome());
 		produto.setDescricao(produtoDTO.getDescricao());
 		produto.setValorUnitario(produtoDTO.getValorUnitario());
@@ -133,7 +132,6 @@ public class ProdutoService {
 		produto.setDataCadastro(produtoDTO.getDataCadastro());
 		
 		Produto produtoExistente = produtoRepository.findByDescricao(produto.getDescricao());
-		
 		if (produtoExistente != null) {
 			throw new ProdutoDescricaoDuplicadaException();
 		}
@@ -168,10 +166,11 @@ public class ProdutoService {
 		produtoDtoSalvo.setQtdEstoque(produto.getQtdEstoque());
 		produtoDtoSalvo.setDataCadastro(produto.getDataCadastro());
 		
+		ImagemDTO imagemDto = modelMapper.map(produto.getImagem(), ImagemDTO.class);
+		produtoDtoSalvo.setImagem(imagemDto);
+		
 		CategoriaDTO categoriadto = modelMapper.map(produto.getCategoria(), CategoriaDTO.class);
 		produtoDtoSalvo.setCategoria(categoriadto);
-		produtoDtoSalvo.setNomeImagem(produto.getImagem().getNome());
-		produtoDtoSalvo.setIdImagem(produto.getImagem().getIdImagem());
 		
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentContextPath()
@@ -179,7 +178,7 @@ public class ProdutoService {
 				.buildAndExpand(produto.getIdProduto())
 				.toUri();
 		
-		produtoDtoSalvo.setUrl(uri.toString());
+		produtoDtoSalvo.getImagem().setUrl(uri.toString());
 		
 		return produtoDtoSalvo;
 	}

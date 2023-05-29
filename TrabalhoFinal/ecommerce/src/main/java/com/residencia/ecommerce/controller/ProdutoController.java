@@ -1,6 +1,5 @@
 package com.residencia.ecommerce.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -75,17 +73,11 @@ public class ProdutoController {
 	
 	@GetMapping("/dto-comfoto/{id}")
 	public ResponseEntity<?> getProdutoDTOByIdComFoto(@PathVariable Integer id) {
-		
 		ProdutoDTO produtoResponse = produtoService.getProdutoDTOByIdComFoto(id);
 		if (produtoResponse == null) {
 			return new ResponseEntity<>(produtoResponse, HttpStatus.NOT_FOUND);
 		} else {
-			 HttpHeaders headers = new HttpHeaders();
-			 headers.set("Content-type", MediaType.IMAGE_JPEG_VALUE);
-			   // headers.set("Content-type", MediaType.IMAGE_JPEG_VALUE);
-			    //headers.set("Content-Disposition","attachment; filename=\""+ produtoResponse.getNomeImagem()); // to view in browser change attachment to inline 
-			    //return ResponseEntity.status(HttpStatus.OK).headers(headers).body(produtoResponse);
-			 return new ResponseEntity<>(produtoResponse.getImagem(), headers, HttpStatus.OK);
+			 return new ResponseEntity<>(produtoResponse, HttpStatus.OK);
 		}
 	}
 	
@@ -96,9 +88,10 @@ public class ProdutoController {
 			return new ResponseEntity<>(produtoResponse, HttpStatus.NOT_FOUND);
 		} else {
 			 HttpHeaders headers = new HttpHeaders();
-			   headers.set("Content-type", MediaType.IMAGE_JPEG_VALUE);
-			   headers.set("Content-Disposition","inline; filename=\""+ produtoResponse.getNomeImagem()); // to view in browser change attachment to inline 
-			 return new ResponseEntity<>(produtoResponse.getImagem(), headers, HttpStatus.OK);
+			   headers.set("Content-type", produtoResponse.getImagem().getTipo());
+			   headers.set("Content-Disposition","inline; filename=\""+ produtoResponse.getImagem().getNome()); 
+			   headers.set("Content-length", String.valueOf(produtoResponse.getImagem().getImagemDados().length));
+			 return new ResponseEntity<>(produtoResponse.getImagem().getImagemDados(), headers, HttpStatus.OK);
 		}
 	}
 	
