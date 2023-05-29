@@ -1,5 +1,6 @@
 package com.residencia.ecommerce.controller;
 
+import com.residencia.ecommerce.dto.Seguranca.MessageResponseDTO;
 import com.residencia.ecommerce.entites.Endereco;
 import com.residencia.ecommerce.services.EnderecoService;
 import jakarta.validation.Valid;
@@ -53,13 +54,12 @@ public class EnderecoController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Boolean> deleteEndereco(@PathVariable Integer id) {
+	public ResponseEntity<?> deleteEndereco(@PathVariable Integer id) {
 		Boolean response = enderecoService.deleteEndereco(id);
-
 		if (response) {
-			return new ResponseEntity<>(response, HttpStatus.OK);
+			return ResponseEntity.ok(new MessageResponseDTO("Endereco deletado com Sucesso!"));
 		} else {
-			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+			return ResponseEntity.badRequest().body(new MessageResponseDTO("Não foi possível deletar o Endereco"));
 		}
 	}
 }

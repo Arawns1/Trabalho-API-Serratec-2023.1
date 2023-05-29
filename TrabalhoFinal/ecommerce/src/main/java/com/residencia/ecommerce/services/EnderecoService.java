@@ -1,10 +1,14 @@
 package com.residencia.ecommerce.services;
 
-import com.residencia.ecommerce.entites.Endereco;
-import com.residencia.ecommerce.repositories.EnderecoRepository;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.residencia.ecommerce.entites.Endereco;
+import com.residencia.ecommerce.exception.NoSuchElementException;
+import com.residencia.ecommerce.repositories.EnderecoRepository;
 
 @Service
 public class EnderecoService {
@@ -28,8 +32,13 @@ public class EnderecoService {
   }
 
   public Boolean deleteEndereco(Integer id) {
-    enderecoRepository.deleteById(id);
-    Endereco enderecoDeletada = enderecoRepository.findById(id).orElse(null);
-    return enderecoDeletada == null;
-  }
+		Optional<Endereco> enderecoEncontrado = enderecoRepository.findById(id);
+		
+		if(enderecoEncontrado.isEmpty()) {
+			throw new NoSuchElementException("Endereco com id: " + id + " não encontrado!");
+		}
+		enderecoRepository.deleteById(id);
+		Endereco enderecoDeletado = enderecoRepository.findById(id).orElse(null);
+		return enderecoDeletado == null;
+	}
 }
