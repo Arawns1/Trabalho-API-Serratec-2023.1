@@ -3,6 +3,8 @@ package com.residencia.ecommerce.entites;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
@@ -24,12 +26,17 @@ public class Imagem {
 	@Column(name="id_imagem")
 	private Integer idImagem;
 	
+	@JsonIgnore
+	@Lob
 	@Column(name = "imagem_bytes", columnDefinition="BLOB")
 	private byte[] dados;
 	
 	private String tipo;
 	
 	private String nome;
+	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private String url;
 	
 	@OneToOne(mappedBy = "imagem")
 	private Produto produto;
@@ -84,6 +91,14 @@ public class Imagem {
 
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+	}
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	@Override

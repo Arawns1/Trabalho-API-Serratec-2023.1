@@ -1,10 +1,7 @@
 package com.residencia.ecommerce.controller;
 
-import com.residencia.ecommerce.dto.CategoriaDTO;
-import com.residencia.ecommerce.entites.Categoria;
-import com.residencia.ecommerce.services.CategoriaService;
-import jakarta.validation.Valid;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.ecommerce.dto.Seguranca.MessageResponseDTO;
+import com.residencia.ecommerce.entites.Categoria;
+import com.residencia.ecommerce.services.CategoriaService;
+
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
@@ -24,10 +25,32 @@ public class CategoriaController {
 	CategoriaService categoriaService;
 
 	@GetMapping
+
 	public ResponseEntity<List<Categoria>> getAllCategorias() {
 		return new ResponseEntity<>(categoriaService.getAllCategorias(), HttpStatus.FOUND);
 	}
 
+	@GetMapping("/{id}")
+	public ResponseEntity<Categoria> getCategoriaById(@PathVariable Integer id) {
+		Categoria categoriaResponse = categoriaService.getCategoriaById(id);
+		if (categoriaResponse == null) {
+			return new ResponseEntity<>(categoriaResponse, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(categoriaResponse, HttpStatus.FOUND);
+		}
+	}
+	
+	@PostMapping
+	public ResponseEntity<Categoria> saveCategoria(@RequestBody Categoria categoria) {
+		Categoria categoriaResponse = categoriaService.saveCategoria(categoria);
+		if (categoriaResponse == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
+		} else {
+			return new ResponseEntity<>(categoriaResponse, HttpStatus.OK);
+		}
+	}
+	
+	
 	@PutMapping
 	public ResponseEntity<Categoria> updateCategoria(@RequestBody Categoria categoria, Integer id) {
 		Categoria categoriaResponse = categoriaService.updateCategoria(categoria, id);
@@ -39,32 +62,15 @@ public class CategoriaController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Boolean> deleteCategoria(@PathVariable Integer id) {
+	public ResponseEntity<?> deleteCategoria(@PathVariable Integer id) {
 		Boolean response = categoriaService.deleteCategoria(id);
-
 		if (response) {
-			return new ResponseEntity<>(response, HttpStatus.OK);
+			return ResponseEntity.ok(new MessageResponseDTO("Categoria deletada com Sucesso!"));
 		} else {
-			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+			return ResponseEntity.badRequest()
+								 .body(
+								  new MessageResponseDTO("Não foi possível deletar a Categoria")
+								  );
 		}
-	}
-
-	// --------//
-	// DTOs //
-	// ------ //
-
-	@GetMapping("/dto/{id}")
-	public ResponseEntity<CategoriaDTO> getCategoriaDTOById(@PathVariable Integer id) {
-		CategoriaDTO categoriaResponse = categoriaService.getCategoriaDTOById(id);
-		if (categoriaResponse == null) {
-			return new ResponseEntity<>(categoriaResponse, HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<>(categoriaResponse, HttpStatus.FOUND);
-		}
-	}
-
-	@PostMapping("/dto")
-	public ResponseEntity<CategoriaDTO> saveCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO) {
-		return new ResponseEntity<>(categoriaService.saveCategoriaDTO(categoriaDTO), HttpStatus.CREATED);
 	}
 }

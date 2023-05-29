@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.residencia.ecommerce.dto.ProdutoDTO;
+import com.residencia.ecommerce.dto.Seguranca.MessageResponseDTO;
 import com.residencia.ecommerce.entites.Produto;
 import com.residencia.ecommerce.services.ProdutoService;
 
@@ -47,13 +48,15 @@ public class ProdutoController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Boolean> deleteProduto(@PathVariable Integer id) {
+	public ResponseEntity<?> deleteProduto(@PathVariable Integer id) {
 		Boolean response = produtoService.deleteProduto(id);
-
 		if (response) {
-			return new ResponseEntity<>(response, HttpStatus.OK);
+			return ResponseEntity.ok(new MessageResponseDTO("Produto deletado com Sucesso!"));
 		} else {
-			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+			return ResponseEntity.badRequest()
+								 .body(
+								  new MessageResponseDTO("Não foi possível deletar o Produto")
+								  );
 		}
 	}
 

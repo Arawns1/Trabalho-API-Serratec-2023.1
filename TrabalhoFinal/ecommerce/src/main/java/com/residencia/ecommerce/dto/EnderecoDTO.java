@@ -75,6 +75,11 @@ public class EnderecoDTO {
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "EnderecoDTO [idEndereco=" + idEndereco + ", cep=" + cep + ", rua=" + rua + ", bairro=" + bairro
+				+ ", cidade=" + cidade + ", numero=" + numero + ", complemento=" + complemento + ", uf=" + uf + "]";
+	}
 	
 }

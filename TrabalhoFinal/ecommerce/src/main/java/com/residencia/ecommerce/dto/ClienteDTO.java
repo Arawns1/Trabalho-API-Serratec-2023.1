@@ -147,4 +147,11 @@ public class ClienteDTO {
 		this.endereco = endereco;
 	}
 
+	@Override
+	public String toString() {
+		return "ClienteDTO [idCliente=" + idCliente + ", nomeCompleto=" + nomeCompleto + ", email=" + email + ", cpf="
+				+ cpf + ", telefone=" + telefone + ", dataNascimento=" + dataNascimento + ", cep=" + cep + ", numero="
+				+ numero + ", complemento=" + complemento + ", endereco=" + endereco + "]";
+	}
+
 }

@@ -134,5 +134,15 @@ public class PedidoDTO {
 	public void setCliente(ClienteDTO cliente) {
 		this.cliente = cliente;
 	}
+
+	@Override
+	public String toString() {
+		return "PedidoDTO [idPedido=" + idPedido + ", dataPedido=" + dataPedido + ", dataEnvio=" + dataEnvio
+				+ ", dataEntrega=" + dataEntrega + ", status=" + status + ", valorTotal=" + valorTotal + ", idCliente="
+				+ idCliente + ", cliente=" + cliente + ", idsItemPedido=" + idsItemPedido + ", itensPedido="
+				+ itensPedido + "]";
+	}
+	
+	
 	
 }
