@@ -34,6 +34,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         return problemDetail;
     }
 	
+	@ExceptionHandler(UploadArquivoException.class)
+    ProblemDetail handleBadRequestException(UploadArquivoException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        
+        problemDetail.setTitle("Erro ao fazer o Upload do Arquivo");
+        problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/bad-request"));
+        return problemDetail;
+    }
+	
+	
 	@ExceptionHandler(ProdutoNotFoundException.class)
     ProblemDetail handleBookmarkNotFoundException(ProdutoNotFoundException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
@@ -80,6 +90,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/bad-request"));
         return problemDetail;
     }
+	
+	@ExceptionHandler(EstoqueNegativoException.class)
+    ProblemDetail handleBadRequestException(EstoqueNegativoException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        
+        problemDetail.setTitle("Estoque negativo");
+        problemDetail.setType(URI.create("https://api.trabalho_final.com/errors/bad-request"));
+        return problemDetail;
+    }
+	
   
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, 

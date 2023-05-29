@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotEmpty;
 
 
 public class PedidoDTO {
@@ -37,6 +38,7 @@ public class PedidoDTO {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private ClienteDTO cliente;
 	
+	@NotEmpty(message = "O pedido deve ter ao menos um item")
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private List<Integer> idsItemPedido;
 	

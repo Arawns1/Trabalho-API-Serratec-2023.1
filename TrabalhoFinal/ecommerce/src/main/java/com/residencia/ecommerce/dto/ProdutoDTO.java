@@ -1,11 +1,16 @@
 package com.residencia.ecommerce.dto;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.persistence.Lob;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.residencia.ecommerce.entites.Produto;
+import com.residencia.ecommerce.repositories.ProdutoRepository;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
@@ -19,9 +24,6 @@ public class ProdutoDTO {
 
 	@Positive(message = "O valor do produto não pode ser nulo")
 	private BigDecimal valorUnitario;
-
-	@Lob
-	private byte[] imagem;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Integer idCategoria;
@@ -41,15 +43,14 @@ public class ProdutoDTO {
 	}
 
 	public ProdutoDTO(@NotBlank(message = "O nome do produto não pode ser nulo") String nome, String descricao,
-			@Positive(message = "O valor do produto não pode ser nulo") BigDecimal valorUnitario, byte[] imagem,
-			Integer idCategoria, Integer qtdEstoque,
+			@Positive(message = "O valor do produto não pode ser nulo") BigDecimal valorUnitario, Integer idCategoria,
+			Integer qtdEstoque,
 			@PastOrPresent(message = "A data cadastrada não pode estar no futuro") Date dataCadastro,
 			CategoriaDTO categoria) {
 		super();
 		this.nome = nome;
 		this.descricao = descricao;
 		this.valorUnitario = valorUnitario;
-		this.imagem = imagem;
 		this.idCategoria = idCategoria;
 		this.qtdEstoque = qtdEstoque;
 		this.dataCadastro = dataCadastro;
@@ -78,14 +79,6 @@ public class ProdutoDTO {
 
 	public void setValorUnitario(BigDecimal valorUnitario) {
 		this.valorUnitario = valorUnitario;
-	}
-
-	public byte[] getImagem() {
-		return imagem;
-	}
-
-	public void setImagem(byte[] imagem) {
-		this.imagem = imagem;
 	}
 
 	public Integer getIdCategoria() {
@@ -118,6 +111,13 @@ public class ProdutoDTO {
 
 	public void setCategoria(CategoriaDTO categoria) {
 		this.categoria = categoria;
+	}
+
+	@Override
+	public String toString() {
+		return "ProdutoDTO [nome=" + nome + ", descricao=" + descricao + ", valorUnitario=" + valorUnitario
+				+ ", idCategoria=" + idCategoria + ", qtdEstoque=" + qtdEstoque + ", dataCadastro=" + dataCadastro
+				+ ", categoria=" + categoria + "]";
 	}
 
 }

@@ -1,24 +1,28 @@
 package com.residencia.ecommerce.services;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.residencia.ecommerce.dto.ClienteDTO;
 import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.dto.PedidoDTO;
 import com.residencia.ecommerce.entites.Cliente;
 import com.residencia.ecommerce.entites.ItemPedido;
 import com.residencia.ecommerce.entites.Pedido;
+import com.residencia.ecommerce.entites.Produto;
 import com.residencia.ecommerce.exception.ClienteNotFoundException;
+import com.residencia.ecommerce.exception.EstoqueNegativoException;
 import com.residencia.ecommerce.exception.NoSuchElementException;
 import com.residencia.ecommerce.repositories.ClienteRepository;
 import com.residencia.ecommerce.repositories.ItemPedidoRepository;
 import com.residencia.ecommerce.repositories.PedidoRepository;
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class PedidoService {
@@ -60,6 +64,40 @@ public class PedidoService {
 	// DTOs //
 	// ----------------//
 
+	public List<PedidoDTO> getAllPedidosDTOByIdCliente(Integer idCliente) {
+
+		List<Pedido> pedidos = pedidoRepository.findAllByIdCliente(idCliente);
+		List<PedidoDTO> pedidosDto = new ArrayList<>();
+
+		for (Pedido pedido : pedidos) {
+			List<ItemPedidoDTO> itemsDTO = new ArrayList<>();
+			for (ItemPedido itemPedido : pedido.getItems()) {
+				ItemPedidoDTO itemPedidoDto = modelMapper.map(itemPedido, ItemPedidoDTO.class);
+				itemsDTO.add(itemPedidoDto);
+			}
+			PedidoDTO pedidoDto = modelMapper.map(pedido, PedidoDTO.class);
+			pedidoDto.setItensPedido(itemsDTO);
+			pedidosDto.add(pedidoDto);
+		}
+
+		return pedidosDto;
+	}
+
+	public PedidoDTO getPedidoDTOByIdCliente(Integer idCliente, Integer idPedido) {
+		Pedido pedido = pedidoRepository.findPedidoByIdCliente(idPedido, idCliente);
+
+		List<ItemPedidoDTO> itemsDTO = new ArrayList<>();
+
+		for (ItemPedido itemPedido : pedido.getItems()) {
+			ItemPedidoDTO itemPedidoDto = modelMapper.map(itemPedido, ItemPedidoDTO.class);
+			itemsDTO.add(itemPedidoDto);
+		}
+		PedidoDTO pedidoDto = modelMapper.map(pedido, PedidoDTO.class);
+		pedidoDto.setItensPedido(itemsDTO);
+
+		return pedidoDto;
+	}
+
 	public PedidoDTO getPedidoDTOById(Integer id) {
 		Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Pedido", id));
 		return modelMapper.map(pedido, PedidoDTO.class);
@@ -73,6 +111,7 @@ public class PedidoService {
 
 		pedido.setCliente(cliente);
 		pedido.setStatus("Pago");
+
 		List<ItemPedido> items = new ArrayList<>();
 		BigDecimal valorTotal = new BigDecimal("0.00");
 
@@ -80,14 +119,22 @@ public class PedidoService {
 			ItemPedido itemPedido = itemPedidoRepository.findById(itemPedidoId)
 					.orElseThrow(() -> new NoSuchElementException("Item Pedido", itemPedidoId));
 			itemPedido.setPedido(pedido);
+			Produto produto = itemPedido.getProduto();
+			produto.setQtdEstoque(produto.getQtdEstoque() - itemPedido.getQuantidade());
+			
+			if(produto.getQtdEstoque() < 0 ) {
+				throw new EstoqueNegativoException(produto.getIdProduto());
+			}
 			valorTotal = valorTotal.add(itemPedido.getValorLiquido());
 			items.add(itemPedido);
 		}
+		
 
 		pedido.setItems(items);
 		pedido.setValorTotal(valorTotal);
 		pedido.setDataPedido(Date.from(Instant.now()));
-
+		
+		
 		pedidoRepository.save(pedido);
 		itemPedidoRepository.saveAll(items);
 

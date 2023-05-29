@@ -118,5 +118,12 @@ public class ItemPedidoDTO {
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
+
+	@Override
+	public String toString() {
+		return "ItemPedidoDTO [idItemPedido=" + idItemPedido + ", produtoID=" + produtoID + ", quantidade=" + quantidade
+				+ ", percentualDesconto=" + percentualDesconto + ", precoVenda=" + precoVenda + ", valorBruto="
+				+ valorBruto + ", valorLiquido=" + valorLiquido + ", produto=" + produto + "]";
+	}
 	
 }

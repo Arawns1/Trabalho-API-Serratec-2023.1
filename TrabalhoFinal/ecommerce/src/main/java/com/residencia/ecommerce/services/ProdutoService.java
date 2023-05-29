@@ -1,5 +1,15 @@
 package com.residencia.ecommerce.services;
 
+import java.io.IOException;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entites.Categoria;
 import com.residencia.ecommerce.entites.Produto;
@@ -8,12 +18,6 @@ import com.residencia.ecommerce.exception.ProdutoDescricaoDuplicadaException;
 import com.residencia.ecommerce.exception.ProdutoNotFoundException;
 import com.residencia.ecommerce.repositories.CategoriaRepository;
 import com.residencia.ecommerce.repositories.ProdutoRepository;
-import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ProdutoService {
@@ -25,6 +29,7 @@ public class ProdutoService {
 
 	@Autowired
 	ModelMapper modelMapper;
+
 
 	public List<Produto> getAllProdutos() {
 		return produtoRepository.findAll();
@@ -65,7 +70,6 @@ public class ProdutoService {
 		Produto produto = new Produto();
 		produto.setNome(produtoDTO.getNome());
 		produto.setDescricao(produtoDTO.getDescricao());
-		produto.setImagem(produtoDTO.getImagem());
 		produto.setValorUnitario(produtoDTO.getValorUnitario());
 
 		Produto produtoExistente = produtoRepository.findByDescricao(produto.getDescricao());
@@ -75,17 +79,20 @@ public class ProdutoService {
 
 		Categoria categoria = categoriaRepository.findById(produtoDTO.getIdCategoria())
 				.orElseThrow(() -> new NoSuchElementException("Categoria", produtoDTO.getIdCategoria()));
-
 		produto.setCategoria(categoria);
-
+		
 		if (produto.getQtdEstoque() == null) {
 			produto.setQtdEstoque(0);
 		}
-
+		
 		produto.setQtdEstoque(produto.getQtdEstoque() + 1);
 		produto.setDataCadastro(Date.from(Instant.now()));
-
 		produtoRepository.save(produto);
-		return modelMapper.map(produto, ProdutoDTO.class);
+		
+		ProdutoDTO produtoDto = new ProdutoDTO();
+		produtoDto.setIdCategoria(produto.getIdProduto());
+		
+		return produtoDto;
 	}
+	
 }

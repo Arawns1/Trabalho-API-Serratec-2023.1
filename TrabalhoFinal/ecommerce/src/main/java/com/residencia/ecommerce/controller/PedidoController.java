@@ -52,7 +52,30 @@ public class PedidoController {
 	// --------//
 	// DTOs //
 	// ------ //
-
+	
+	
+	@GetMapping("/cliente/{idCliente}")
+	public ResponseEntity<List<PedidoDTO>> getPedidoDTOByIdCliente(@PathVariable Integer idCliente) {
+		List<PedidoDTO> pedidoResponse = pedidoService.getAllPedidosDTOByIdCliente(idCliente);
+		if (pedidoResponse == null) {
+			return new ResponseEntity<>(pedidoResponse, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(pedidoResponse, HttpStatus.FOUND);
+		}
+	}
+	
+	@GetMapping("{idPedido}/cliente/{idCliente}")
+	public ResponseEntity<PedidoDTO> getPedidoDTOByIdCliente(@PathVariable Integer idCliente,
+																		@PathVariable Integer idPedido) {
+		PedidoDTO pedidoResponse = pedidoService.getPedidoDTOByIdCliente(idCliente, idPedido);
+		if (pedidoResponse == null) {
+			return new ResponseEntity<>(pedidoResponse, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(pedidoResponse, HttpStatus.FOUND);
+		}
+	}
+	
+	
 	@GetMapping("/dto/{id}")
 	public ResponseEntity<PedidoDTO> getPedidoDTOById(@PathVariable Integer id) {
 		PedidoDTO pedidoResponse = pedidoService.getPedidoDTOById(id);
