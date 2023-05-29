@@ -38,6 +38,10 @@ public class PedidoService {
 
 	@Autowired
 	ModelMapper modelMapper;
+	
+	@Autowired
+	MailService mailService;
+	
 
 	public List<Pedido> getAllPedidos() {
 		return pedidoRepository.findAll();
@@ -51,11 +55,6 @@ public class PedidoService {
 		return pedidoRepository.save(pedido);
 	}
 	
-	private void enviarRelatorio (PedidoDTO pedidoDTO) {
-				RelatorioDTO relatorioDTO = new RelatorioDTO (pedidoDTO.getItensPedido(),pedidoDTO);
-				relatorioDTO.toString();
-			}
-
 	public Pedido updatePedido(Pedido pedido, Integer id) {
 		return pedidoRepository.save(pedido);
 	}
@@ -64,6 +63,14 @@ public class PedidoService {
 		pedidoRepository.deleteById(id);
 		Pedido pedidoDeletada = pedidoRepository.findById(id).orElse(null);
 		return pedidoDeletada == null;
+	}
+	
+	private void enviarRelatorio (PedidoDTO pedidoDTO) {
+		RelatorioDTO relatorioDTO = new RelatorioDTO (pedidoDTO.getItensPedido(),pedidoDTO);
+		relatorioDTO.toString();
+		mailService.enviarEmail(pedidoDTO.getCliente().getEmail(),
+     			"Pedido cadastrado", 
+     			pedidoDTO);
 	}
 
 	// ---------
@@ -152,6 +159,9 @@ public class PedidoService {
 		pedidoSalvo.setIdPedido(pedido.getIdPedido());
 		pedidoSalvo.setCliente(modelMapper.map(cliente, ClienteDTO.class));
 		pedidoSalvo.setValorTotal(valorTotal);
+		
+		enviarRelatorio(pedidoSalvo);
+       
 
 		return pedidoSalvo;
 	}

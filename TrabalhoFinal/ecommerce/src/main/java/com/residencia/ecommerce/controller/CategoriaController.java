@@ -18,8 +18,6 @@ import com.residencia.ecommerce.dto.Seguranca.MessageResponseDTO;
 import com.residencia.ecommerce.entites.Categoria;
 import com.residencia.ecommerce.services.CategoriaService;
 
-import io.swagger.v3.oas.annotations.Operation;
-
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
