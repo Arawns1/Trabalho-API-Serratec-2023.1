@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.residencia.ecommerce.dto.ClienteDTO;
 import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.dto.PedidoDTO;
+import com.residencia.ecommerce.dto.RelatorioDTO;
 import com.residencia.ecommerce.entites.Cliente;
 import com.residencia.ecommerce.entites.ItemPedido;
 import com.residencia.ecommerce.entites.Pedido;
@@ -49,6 +50,11 @@ public class PedidoService {
 	public Pedido savePedido(Pedido pedido) {
 		return pedidoRepository.save(pedido);
 	}
+	
+	private void enviarRelatorio (PedidoDTO pedidoDTO) {
+				RelatorioDTO relatorioDTO = new RelatorioDTO (pedidoDTO.getItensPedido(),pedidoDTO);
+				relatorioDTO.toString();
+			}
 
 	public Pedido updatePedido(Pedido pedido, Integer id) {
 		return pedidoRepository.save(pedido);
