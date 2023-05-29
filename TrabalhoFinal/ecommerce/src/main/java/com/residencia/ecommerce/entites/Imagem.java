@@ -3,6 +3,7 @@ package com.residencia.ecommerce.entites;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
@@ -10,7 +11,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -24,6 +24,7 @@ public class Imagem {
 	@Column(name="id_imagem")
 	private Integer idImagem;
 	
+	@JsonIgnore
 	@Column(name = "imagem_bytes", columnDefinition="BLOB")
 	private byte[] dados;
 	
