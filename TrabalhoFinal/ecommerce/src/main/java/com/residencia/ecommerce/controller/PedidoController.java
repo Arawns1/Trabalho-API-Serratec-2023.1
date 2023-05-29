@@ -24,11 +24,13 @@ public class PedidoController {
 	PedidoService pedidoService;
 
 	@GetMapping
+	@Operation( summary  = "Lista todos os pedidos")
 	public ResponseEntity<List<Pedido>> getAllPedidos() {
 		return new ResponseEntity<>(pedidoService.getAllPedidos(), HttpStatus.FOUND);
 	}
 
 	@PutMapping
+	@Operation( summary  = "Modifica todos os pedidos")
 	public ResponseEntity<Pedido> updatePedido(@RequestBody Pedido pedido, Integer id) {
 		Pedido pedidoResponse = pedidoService.updatePedido(pedido, id);
 		if (pedidoResponse == null) {
@@ -39,6 +41,7 @@ public class PedidoController {
 	}
 
 	@DeleteMapping("/{id}")
+	@Operation( summary  = "Deleta um pedido específico")
 	public ResponseEntity<Boolean> deletePedido(@PathVariable Integer id) {
 		Boolean response = pedidoService.deletePedido(id);
 

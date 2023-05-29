@@ -24,11 +24,13 @@ public class CategoriaController {
 	CategoriaService categoriaService;
 
 	@GetMapping
+	@Operation( summary  = "Lista todas as categorias")
 	public ResponseEntity<List<Categoria>> getAllCategorias() {
 		return new ResponseEntity<>(categoriaService.getAllCategorias(), HttpStatus.FOUND);
 	}
 
 	@PutMapping
+	@Operation( summary  = "Modifica todas as categorias")
 	public ResponseEntity<Categoria> updateCategoria(@RequestBody Categoria categoria, Integer id) {
 		Categoria categoriaResponse = categoriaService.updateCategoria(categoria, id);
 		if (categoriaResponse == null) {
@@ -39,6 +41,7 @@ public class CategoriaController {
 	}
 
 	@DeleteMapping("/{id}")
+	@Operation( summary  = "Deleta uma categoria especifica")
 	public ResponseEntity<Boolean> deleteCategoria(@PathVariable Integer id) {
 		Boolean response = categoriaService.deleteCategoria(id);
 

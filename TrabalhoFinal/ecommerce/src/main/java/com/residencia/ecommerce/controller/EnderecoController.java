@@ -23,11 +23,13 @@ public class EnderecoController {
 	EnderecoService enderecoService;
 
 	@GetMapping
+	@Operation( summary  = "Lista todos os endereços")
 	public ResponseEntity<List<Endereco>> getAllEnderecos() {
 		return new ResponseEntity<>(enderecoService.getAllEnderecos(), HttpStatus.FOUND);
 	}
 
 	@GetMapping("/{id}")
+	@Operation( summary  = "Retorna um endereço específico")
 	public ResponseEntity<Endereco> getEnderecoById(@PathVariable Integer id) {
 		Endereco enderecoResponse = enderecoService.getEnderecoById(id);
 		if (enderecoResponse == null) {
@@ -38,11 +40,13 @@ public class EnderecoController {
 	}
 
 	@PostMapping
+	@Operation( summary  = "Cria um novo endereço")
 	public ResponseEntity<Endereco> saveEndereco(@Valid @RequestBody Endereco endereco) {
 		return new ResponseEntity<>(enderecoService.saveEndereco(endereco), HttpStatus.CREATED);
 	}
 
 	@PutMapping
+	@Operation( summary  = "Modifica todos os endereços")
 	public ResponseEntity<Endereco> updateEndereco(@RequestBody Endereco endereco, Integer id) {
 		Endereco enderecoResponse = enderecoService.updateEndereco(endereco, id);
 		if (enderecoResponse == null) {
@@ -53,6 +57,7 @@ public class EnderecoController {
 	}
 
 	@DeleteMapping("/{id}")
+	@Operation( summary  = "Deleta um endereço específico")
 	public ResponseEntity<Boolean> deleteEndereco(@PathVariable Integer id) {
 		Boolean response = enderecoService.deleteEndereco(id);
 

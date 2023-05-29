@@ -24,11 +24,13 @@ public class ClienteController {
 	ClienteService clienteService;
 
 	@GetMapping
+	@Operation( summary  = "Lista todos os clientes")
 	public ResponseEntity<List<Cliente>> getAllClientes() {
 		return new ResponseEntity<>(clienteService.getAllClientes(), HttpStatus.FOUND);
 	}
 
 	@PutMapping
+	@Operation( summary  = "Modifica todas os clientes")
 	public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente cliente) {
 		Cliente clienteResponse = clienteService.updateCliente(cliente);
 		if (clienteResponse == null) {
@@ -39,6 +41,7 @@ public class ClienteController {
 	}
 
 	@DeleteMapping("/{id}")
+	@Operation( summary  = "Deleta um cliente específico")
 	public ResponseEntity<Boolean> deleteCliente(@PathVariable Integer id) {
 		Boolean response = clienteService.deleteCliente(id);
 
