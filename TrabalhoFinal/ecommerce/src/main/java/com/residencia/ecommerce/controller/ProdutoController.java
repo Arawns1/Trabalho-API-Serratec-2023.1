@@ -84,9 +84,24 @@ public class ProdutoController {
 			 headers.set("Content-type", MediaType.IMAGE_JPEG_VALUE);
 			   // headers.set("Content-type", MediaType.IMAGE_JPEG_VALUE);
 			    //headers.set("Content-Disposition","attachment; filename=\""+ produtoResponse.getNomeImagem()); // to view in browser change attachment to inline 
-			    return ResponseEntity.status(HttpStatus.OK).headers(headers).body(produtoResponse);
+			    //return ResponseEntity.status(HttpStatus.OK).headers(headers).body(produtoResponse);
+			 return new ResponseEntity<>(produtoResponse.getImagem(), headers, HttpStatus.OK);
 		}
 	}
+	
+	@GetMapping("/dto-comfoto/{id}/foto")
+	public ResponseEntity<?> getFotoByProdutoId(@PathVariable Integer id) {
+		ProdutoDTO produtoResponse = produtoService.getProdutoDTOByIdComFoto(id);
+		if (produtoResponse == null) {
+			return new ResponseEntity<>(produtoResponse, HttpStatus.NOT_FOUND);
+		} else {
+			 HttpHeaders headers = new HttpHeaders();
+			   headers.set("Content-type", MediaType.IMAGE_JPEG_VALUE);
+			   headers.set("Content-Disposition","inline; filename=\""+ produtoResponse.getNomeImagem()); // to view in browser change attachment to inline 
+			 return new ResponseEntity<>(produtoResponse.getImagem(), headers, HttpStatus.OK);
+		}
+	}
+	
 	
 	@PostMapping("/dto")
 	public ResponseEntity<ProdutoDTO> saveProduto(@RequestBody ProdutoDTO produtoDTO){

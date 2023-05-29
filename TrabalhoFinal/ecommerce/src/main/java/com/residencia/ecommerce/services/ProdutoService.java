@@ -173,6 +173,13 @@ public class ProdutoService {
 		produtoDtoSalvo.setNomeImagem(produto.getImagem().getNome());
 		produtoDtoSalvo.setIdImagem(produto.getImagem().getIdImagem());
 		
+		URI uri = ServletUriComponentsBuilder
+				.fromCurrentContextPath()
+				.path("/produtos/dto-comfoto/{id}/foto")
+				.buildAndExpand(produto.getIdProduto())
+				.toUri();
+		
+		produtoDtoSalvo.setUrl(uri.toString());
 		
 		return produtoDtoSalvo;
 	}

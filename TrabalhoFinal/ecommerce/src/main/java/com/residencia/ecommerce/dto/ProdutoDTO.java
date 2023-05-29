@@ -1,15 +1,10 @@
 package com.residencia.ecommerce.dto;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.residencia.ecommerce.entites.Produto;
-import com.residencia.ecommerce.repositories.ProdutoRepository;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
@@ -44,6 +39,7 @@ public class ProdutoDTO {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private String nomeImagem;
 	
+	@JsonIgnore
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private byte[] imagem;
 	
