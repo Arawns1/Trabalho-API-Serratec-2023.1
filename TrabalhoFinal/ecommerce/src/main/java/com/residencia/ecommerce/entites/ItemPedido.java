@@ -114,4 +114,11 @@ public class ItemPedido {
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
+
+	@Override
+	public String toString() {
+		return "ItemPedido [idItemPedido=" + idItemPedido + ", quantidade=" + quantidade + ", precoVenda=" + precoVenda
+				+ ", percentualDesconto=" + percentualDesconto + ", valorBruto=" + valorBruto + ", valorLiquido="
+				+ valorLiquido + ", produto=" + produto + "]";
+	}
 }

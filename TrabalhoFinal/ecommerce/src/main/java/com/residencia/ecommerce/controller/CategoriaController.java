@@ -1,7 +1,10 @@
 package com.residencia.ecommerce.controller;
 
+import com.residencia.ecommerce.dto.CategoriaDTO;
+import com.residencia.ecommerce.entites.Categoria;
+import com.residencia.ecommerce.services.CategoriaService;
+import jakarta.validation.Valid;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,75 +17,54 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.residencia.ecommerce.dto.CategoriaDTO;
-import com.residencia.ecommerce.entites.Categoria;
-import com.residencia.ecommerce.services.CategoriaService;
-
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
-	
 	@Autowired
 	CategoriaService categoriaService;
-	
+
 	@GetMapping
-	public ResponseEntity<List<Categoria>> getAllCategorias(){
-		return new ResponseEntity<>(categoriaService.getAllCategorias(),HttpStatus.FOUND);
+	public ResponseEntity<List<Categoria>> getAllCategorias() {
+		return new ResponseEntity<>(categoriaService.getAllCategorias(), HttpStatus.FOUND);
 	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<Categoria> getCategoriaById(@PathVariable Integer id){
-		Categoria categoriaResponse = categoriaService.getCategoriaById(id);
-		if(categoriaResponse == null) {
-			return new ResponseEntity<>(categoriaResponse, HttpStatus.NOT_FOUND);
-		}
-		else {
-			return new ResponseEntity<>(categoriaResponse,HttpStatus.FOUND);
-		}
-	}
-	
-	@PostMapping
-	public ResponseEntity<Categoria> saveCategoria(@Valid @RequestBody Categoria categoria){
-		return new ResponseEntity<>(categoriaService.saveCategoria(categoria),HttpStatus.CREATED);
-	}
-	
-	
+
 	@PutMapping
-	public ResponseEntity<Categoria> updateCategoria(@RequestBody Categoria categoria, Integer id){
-		
-		Categoria categoriaResponse = categoriaService.updateCategoria(categoria,id);
-		if(categoriaResponse == null) {
+	public ResponseEntity<Categoria> updateCategoria(@RequestBody Categoria categoria, Integer id) {
+		Categoria categoriaResponse = categoriaService.updateCategoria(categoria, id);
+		if (categoriaResponse == null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
-		}
-		else {
-			return new ResponseEntity<>(categoriaResponse,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(categoriaResponse, HttpStatus.OK);
 		}
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Boolean> deleteCategoria(@PathVariable Integer id) {
-		
 		Boolean response = categoriaService.deleteCategoria(id);
-		
-		if(response) {
-			return new ResponseEntity<>(response,HttpStatus.OK);
-		}
-		else {
+
+		if (response) {
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} else {
 			return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	
-	//--------//
-	//  DTOs  //
+
+	// --------//
+	// DTOs //
 	// ------ //
-	
-	/*  ---  INPUT --- */
-	@PostMapping("/dto")
-	public ResponseEntity<CategoriaDTO> saveCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO){
-		return new ResponseEntity<>(categoriaService.saveCategoriaDTO(categoriaDTO),HttpStatus.CREATED);
+
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<CategoriaDTO> getCategoriaDTOById(@PathVariable Integer id) {
+		CategoriaDTO categoriaResponse = categoriaService.getCategoriaDTOById(id);
+		if (categoriaResponse == null) {
+			return new ResponseEntity<>(categoriaResponse, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(categoriaResponse, HttpStatus.FOUND);
+		}
 	}
 
+	@PostMapping("/dto")
+	public ResponseEntity<CategoriaDTO> saveCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO) {
+		return new ResponseEntity<>(categoriaService.saveCategoriaDTO(categoriaDTO), HttpStatus.CREATED);
+	}
 }

@@ -1,24 +1,34 @@
 package com.residencia.ecommerce.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class ViaCepDTO {
 
+	
+	@NotBlank(message = "O cep não pode ser nulo")
 	private String cep;
 	private String logradouro;
 	private String bairro;
 	private String localidade;
 	private String uf;
+	private Boolean erro = false;
 	
 	public ViaCepDTO() {
 	}
 	
-	public ViaCepDTO(String cep, String logradouro, String bairro, String localidade, String uf) {
+
+	public ViaCepDTO(@NotBlank(message = "O cep não pode ser nulo") String cep, String logradouro, String bairro,
+			String localidade, String uf, Boolean erro) {
 		super();
 		this.cep = cep;
 		this.logradouro = logradouro;
 		this.bairro = bairro;
 		this.localidade = localidade;
 		this.uf = uf;
+		this.erro = erro;
 	}
+
+
 	public String getCep() {
 		return cep;
 	}
@@ -50,6 +60,20 @@ public class ViaCepDTO {
 		this.uf = uf;
 	}
 	
-	
+	public Boolean getErro() {
+		return erro;
+	}
 
+
+	public void setErro(Boolean erro) {
+		this.erro = erro;
+	}
+
+
+	@Override
+	public String toString() {
+		return "ViaCepDTO [cep=" + cep + ", logradouro=" + logradouro + ", bairro=" + bairro + ", localidade="
+				+ localidade + ", uf=" + uf + "]";
+	}
+	
 }

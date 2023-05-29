@@ -12,8 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
@@ -49,30 +49,34 @@ public class Produto {
 	@Column(name = "valor_unitario")
 	private BigDecimal valorUnitario;
 	
-	@Lob
-	@Column(name = "imagem")
-	private byte[] imagem;
-	
 	@ManyToOne
 	@JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
 	private Categoria categoria;
 	
-	
+	@OneToOne
+	@JoinColumn(name="id_imagem", referencedColumnName = "id_imagem")
+	private Imagem imagem;
+
 	public Integer getIdProduto() {
 		return idProduto;
 	}
+
 	public void setIdProduto(Integer idProduto) {
 		this.idProduto = idProduto;
 	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 	public String getDescricao() {
 		return descricao;
 	}
+
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
@@ -80,37 +84,42 @@ public class Produto {
 	public Integer getQtdEstoque() {
 		return qtdEstoque;
 	}
+
 	public void setQtdEstoque(Integer qtdEstoque) {
 		this.qtdEstoque = qtdEstoque;
 	}
+
 	public Date getDataCadastro() {
 		return dataCadastro;
 	}
+
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
+
 	public BigDecimal getValorUnitario() {
 		return valorUnitario;
 	}
+
 	public void setValorUnitario(BigDecimal valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
-	public byte[] getImagem() {
-		return imagem;
-	}
-	public void setImagem(byte[] imagem) {
-		this.imagem = imagem;
-	}
+
 	public Categoria getCategoria() {
 		return categoria;
 	}
+
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-	@Override
-	public String toString() {
-		return "Produto [idProduto=" + idProduto + ", nome=" + nome + ", descricao=" + descricao + ", qtdEstoque="
-				+ qtdEstoque + ", dataCadastro=" + dataCadastro + ", valorUnitario=" + valorUnitario +"]";
+
+	public Imagem getImagem() {
+		return imagem;
 	}
 
+	public void setImagem(Imagem imagem) {
+		this.imagem = imagem;
+	}
+
+	
 }

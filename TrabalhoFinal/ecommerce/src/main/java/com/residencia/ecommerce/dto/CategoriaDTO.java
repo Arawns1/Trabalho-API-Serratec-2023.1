@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 
 public class CategoriaDTO {
 	
+	private Integer idCategoria;
+	
 	@NotBlank
 	private String nome;
 	private String descricao;
@@ -16,6 +18,14 @@ public class CategoriaDTO {
 		super();
 		this.nome = nome;
 		this.descricao = descricao;
+	}
+	
+	public Integer getIdCategoria() {
+		return idCategoria;
+	}
+
+	public void setIdCategoria(Integer idCategoria) {
+		this.idCategoria = idCategoria;
 	}
 
 	public String getNome() {

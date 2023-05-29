@@ -1,7 +1,10 @@
 package com.residencia.ecommerce.controller;
 
+import com.residencia.ecommerce.dto.ClienteDTO;
+import com.residencia.ecommerce.entites.Cliente;
+import com.residencia.ecommerce.services.ClienteService;
+import jakarta.validation.Valid;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,45 +17,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.residencia.ecommerce.dto.ClienteDTO;
-import com.residencia.ecommerce.entites.Cliente;
-import com.residencia.ecommerce.services.ClienteService;
-
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
-
 	@Autowired
 	ClienteService clienteService;
 
 	@GetMapping
 	public ResponseEntity<List<Cliente>> getAllClientes() {
-		// return clienteService.getAllClientes();
 		return new ResponseEntity<>(clienteService.getAllClientes(), HttpStatus.FOUND);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Cliente> getClienteById(@PathVariable Integer id) {
-		// return clienteService.getClienteById(id);
-		Cliente clienteResponse = clienteService.getClienteById(id);
-		if (clienteResponse == null) {
-			return new ResponseEntity<>(clienteResponse, HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<>(clienteResponse, HttpStatus.FOUND);
-		}
-	}
-
-	@PostMapping
-	public ResponseEntity<Cliente> saveCliente(@Valid @RequestBody Cliente cliente) {
-		return new ResponseEntity<>(clienteService.saveCliente(cliente), HttpStatus.CREATED);
-	}
-
 	@PutMapping
-	public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente cliente, Integer id) {
-
-		Cliente clienteResponse = clienteService.updateCliente(cliente, id);
+	public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente cliente) {
+		Cliente clienteResponse = clienteService.updateCliente(cliente);
 		if (clienteResponse == null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
 		} else {
@@ -62,7 +40,6 @@ public class ClienteController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Boolean> deleteCliente(@PathVariable Integer id) {
-
 		Boolean response = clienteService.deleteCliente(id);
 
 		if (response) {
@@ -72,13 +49,23 @@ public class ClienteController {
 		}
 	}
 
-	// -------  //
-	//   DTOs 	//
-	// ------  //
+	// ------- //
+	// DTOs //
+	// ------ //
 	/* --- INPUT --- */
+
+	@GetMapping("/dto/{id}")
+	public ResponseEntity<ClienteDTO> getClienteDTOById(@PathVariable Integer id) {
+		ClienteDTO clienteResponse = clienteService.getClienteDTOById(id);
+		if (clienteResponse == null) {
+			return new ResponseEntity<>(clienteResponse, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(clienteResponse, HttpStatus.FOUND);
+		}
+	}
+
 	@PostMapping("/dto")
 	public ResponseEntity<ClienteDTO> saveCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
 		return new ResponseEntity<>(clienteService.saveClienteDTO(clienteDTO), HttpStatus.CREATED);
 	}
-
 }
