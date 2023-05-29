@@ -133,4 +133,11 @@ public class Cliente {
 		return Objects.equals(idCliente, other.idCliente);
 	}
 
+	@Override
+	public String toString() {
+		return "Cliente [idCliente=" + idCliente + ", email=" + email + ", nomeCompleto=" + nomeCompleto + ", cpf="
+				+ cpf + ", telefone=" + telefone + ", dataNascimento=" + dataNascimento + ", endereco=" + endereco
+				+ "]";
+	}
+	
 }

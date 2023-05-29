@@ -60,9 +60,9 @@ public class PedidoService {
 		return pedidoDeletada == null;
 	}
 
-	// --------------- //
-	// DTOs //
-	// ----------------//
+	// ---------
+	// DTOs 
+	// ----------
 
 	public List<PedidoDTO> getAllPedidosDTOByIdCliente(Integer idCliente) {
 

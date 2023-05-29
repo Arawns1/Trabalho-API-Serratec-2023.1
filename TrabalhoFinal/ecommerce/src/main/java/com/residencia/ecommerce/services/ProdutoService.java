@@ -5,6 +5,7 @@ import java.net.URI;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,16 +64,19 @@ public class ProdutoService {
 	}
 
 	public Boolean deleteProduto(Integer id) {
+		Optional<Produto> produtoEncontrada = produtoRepository.findById(id);
+		
+		if(produtoEncontrada.isEmpty()) {
+			throw new NoSuchElementException("Produto com id: " + id + " não encontrada!");
+		}
 		produtoRepository.deleteById(id);
 		Produto produtoDeletada = produtoRepository.findById(id).orElse(null);
 		return produtoDeletada == null;
 	}
 
-	// ---------------//
+	// -------------
 	// DTOs
-	// ----------------//
-	
-	
+	// -------------
 	
 	public ProdutoDTO getProdutoDTOById(Integer id) {
 		Produto produto = produtoRepository.findById(id).orElseThrow(() -> new ProdutoNotFoundException(id));
@@ -158,6 +162,15 @@ public class ProdutoService {
 		
 		produtoRepository.save(produto);
 		
+		URI uri = ServletUriComponentsBuilder
+				.fromCurrentContextPath()
+				.path("/produtos/dto-comfoto/{id}/foto")
+				.buildAndExpand(produto.getIdProduto())
+				.toUri();
+		produto.getImagem().setUrl(uri.toString());
+		
+		produtoRepository.save(produto);
+		
 		ProdutoDTO produtoDtoSalvo = new ProdutoDTO();
 		produtoDtoSalvo.setNome(produto.getNome());
 		produtoDtoSalvo.setDescricao(produto.getDescricao());
@@ -170,12 +183,6 @@ public class ProdutoService {
 		
 		CategoriaDTO categoriadto = modelMapper.map(produto.getCategoria(), CategoriaDTO.class);
 		produtoDtoSalvo.setCategoria(categoriadto);
-		
-		URI uri = ServletUriComponentsBuilder
-				.fromCurrentContextPath()
-				.path("/produtos/dto-comfoto/{id}/foto")
-				.buildAndExpand(produto.getIdProduto())
-				.toUri();
 		
 		produtoDtoSalvo.getImagem().setUrl(uri.toString());
 		

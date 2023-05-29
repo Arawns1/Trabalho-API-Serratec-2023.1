@@ -88,7 +88,12 @@ public class ClienteController {
 	}
 
 	@PostMapping("/dto")
-	public ResponseEntity<ClienteDTO> saveCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
-		return new ResponseEntity<>(clienteService.saveClienteDTO(clienteDTO), HttpStatus.CREATED);
+	public ResponseEntity<ClienteDTO> saveClienteDTO(@Valid @RequestBody ClienteDTO clienteDTO) {
+		ClienteDTO clienteResponse = clienteService.saveClienteDTO(clienteDTO);
+		if (clienteResponse == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
+		} else {
+			return new ResponseEntity<>(clienteResponse, HttpStatus.OK);
+		}
 	}
 }

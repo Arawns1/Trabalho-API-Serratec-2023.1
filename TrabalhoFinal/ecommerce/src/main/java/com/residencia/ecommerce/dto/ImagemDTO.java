@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idImagem", scope = ImagemDTO.class)
@@ -25,6 +26,7 @@ public class ImagemDTO {
 	private Integer idImagem;
 	
 	@JsonIgnore
+	@Lob
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private byte[] imagemDados;
 	
