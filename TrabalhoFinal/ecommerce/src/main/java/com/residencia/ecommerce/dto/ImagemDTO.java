@@ -28,6 +28,7 @@ public class ImagemDTO {
 	@JsonIgnore
 	@Lob
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@Column(name = "imagem_dados", columnDefinition="BLOB")
 	private byte[] imagemDados;
 	
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)

@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import com.residencia.ecommerce.dto.PedidoDTO;
 import com.residencia.ecommerce.exception.CustomException;
 
-import jakarta.mail.MessagingException;
-
 @Service
 public class MailService {
     @Autowired
