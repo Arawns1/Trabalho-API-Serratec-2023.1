@@ -22,6 +22,7 @@ import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entites.Produto;
 import com.residencia.ecommerce.services.ProdutoService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -32,11 +33,13 @@ public class ProdutoController {
 	
 
 	@GetMapping
+	@Operation( summary  = "Lista todos os produtos")
 	public ResponseEntity<List<Produto>> getAllProdutos() {
 		return new ResponseEntity<>(produtoService.getAllProdutos(), HttpStatus.FOUND);
 	}
 
 	@PutMapping
+	@Operation( summary  = "Modifica todos os produtos")
 	public ResponseEntity<Produto> updateProduto(@RequestBody Produto produto, Integer id) {
 		Produto produtoResponse = produtoService.updateProduto(produto, id);
 		if (produtoResponse == null) {
@@ -47,6 +50,7 @@ public class ProdutoController {
 	}
 
 	@DeleteMapping("/{id}")
+	@Operation( summary  = "Deleta um pedido específico")
 	public ResponseEntity<Boolean> deleteProduto(@PathVariable Integer id) {
 		Boolean response = produtoService.deleteProduto(id);
 
