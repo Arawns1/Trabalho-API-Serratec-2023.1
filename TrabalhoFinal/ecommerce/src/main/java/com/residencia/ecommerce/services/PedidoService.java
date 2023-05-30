@@ -25,6 +25,8 @@ import com.residencia.ecommerce.repositories.ClienteRepository;
 import com.residencia.ecommerce.repositories.ItemPedidoRepository;
 import com.residencia.ecommerce.repositories.PedidoRepository;
 
+import jakarta.mail.MessagingException;
+
 @Service
 public class PedidoService {
 	@Autowired
@@ -68,9 +70,62 @@ public class PedidoService {
 	private void enviarRelatorio (PedidoDTO pedidoDTO) {
 		RelatorioDTO relatorioDTO = new RelatorioDTO (pedidoDTO.getItensPedido(),pedidoDTO);
 		relatorioDTO.toString();
-		mailService.enviarEmail(pedidoDTO.getCliente().getEmail(),
-     			"Pedido cadastrado", 
-     			pedidoDTO);
+		String htmlItemsPedido = "";
+		for (ItemPedidoDTO itemPedidoDTO:pedidoDTO.getItensPedido()){
+			Integer quantidade = itemPedidoDTO.getQuantidade();
+			Integer id = itemPedidoDTO.getProdutoID();
+			BigDecimal precoVenda = itemPedidoDTO.getPrecoVenda();
+			Double percentualDesconto = itemPedidoDTO.getPercentualDesconto();
+			BigDecimal valorLiquido = itemPedidoDTO.getValorLiquido();
+			String nome = itemPedidoDTO.getProduto().getNome();
+			htmlItemsPedido += "<tr>";
+			htmlItemsPedido += "<td style='border:1px solid #000000;'>"+id+"</td>\r\n";
+			htmlItemsPedido += "<td style='border:1px solid #000000;'>"+nome+"</td>\r\n";
+			htmlItemsPedido += "<td style='border:1px solid #000000;'>"+precoVenda+"</td>\r\n";
+			htmlItemsPedido += "<td style='border:1px solid #000000;'>"+quantidade+"</td>\r\n";
+			htmlItemsPedido += "<td style='border:1px solid #000000;'>"+percentualDesconto+"</td>\r\n";
+			htmlItemsPedido += "<td style='border:1px solid #000000;'>"+valorLiquido+"</td>\r\n";
+			htmlItemsPedido += "</tr>";
+			};
+		String html = "<html>\r\n"
+				+ "    <body>\r\n"
+				+ "       <h2 style='color:green; text-align:center'> Pedido cadastrado! </h2>\r\n"
+				+ "        <hr/>\r\n"
+				+ "        <br/>\r\n"
+				+ "        <br/>\r\n"
+				+ "        <table style='margin-left: auto; margin-right:auto; border-collapse:collapse; border:1px solid #000000; background-color:#bfcac6'>\r\n"
+				+ "			<tr>"
+				+ "		    	<th>ID</th>"
+				+ "			    <th>DATA</th>"
+				+ "			    <th>VALOR TOTAL</th>"
+				+ "			 </tr>"
+				+ "            <tr>\r\n"
+				+ "                <td style='border:1px solid #000000;'>"+pedidoDTO.getIdPedido()+"</td>\r\n"
+				+ "                <td style='border:1px solid #000000;'>"+pedidoDTO.getDataPedido()+"</td>\r\n"
+				+ "                <td style='border:1px solid #000000;'>"+pedidoDTO.getValorTotal()+"</td>\r\n"
+				+ "            </tr>\r\n"
+				+ "        </table>\r\n"
+				+ "        <table style='margin-left: auto; margin-right:auto; border-collapse:collapse; border:1px solid #000000; background-color:#bfcac6'>\r\n"
+				+ "			<tr>"
+				+ "		    	<th>CODIGO</th>"
+				+ "			    <th>NOME</th>"
+				+ "			    <th>PREÇO</th>"
+				+ "			    <th>QUANTIDADE</th>"
+				+ "			    <th>DESCONTO</th>"
+				+ "			    <th>VALOR LIQUIDO</th>"
+				+ "			 </tr>"
+				+ htmlItemsPedido
+				+ "        </table>\r\n"
+				+ "    </body>\r\n"
+				+ "</html>";		
+		try {
+			mailService.enviarEmail(pedidoDTO.getCliente().getEmail(),
+					"Pedido cadastrado", 
+					html);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// ---------
