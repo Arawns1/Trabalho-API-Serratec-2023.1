@@ -36,6 +36,16 @@ public class ProdutoController {
 	public ResponseEntity<List<Produto>> getAllProdutos() {
 		return new ResponseEntity<>(produtoService.getAllProdutos(), HttpStatus.FOUND);
 	}
+	
+	@PostMapping
+	public ResponseEntity<Produto> saveProduto(@RequestBody Produto produto) {
+		Produto produtoResponse = produtoService.saveProduto(produto);
+		if (produtoResponse == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
+		} else {
+			return new ResponseEntity<>(produtoResponse, HttpStatus.OK);
+		}
+	}
 
 	@PutMapping
 	public ResponseEntity<Produto> updateProduto(@RequestBody Produto produto, Integer id) {
