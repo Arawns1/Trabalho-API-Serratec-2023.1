@@ -83,6 +83,7 @@ public class ItemPedidoService {
 		
 		itemPedidoRepository.save(itemPedido);
 		produto.setQtdEstoque(produto.getQtdEstoque() - itemPedido.getQuantidade());
+		
 		produtoRepository.save(produto);
 		
 		ItemPedidoDTO itemPedidoSalvo = modelMapper.map(itemPedido, ItemPedidoDTO.class);
