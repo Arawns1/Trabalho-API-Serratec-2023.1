@@ -10,7 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.residencia.ecommerce.entites.seguranca.User;
+import com.residencia.ecommerce.entites.Cliente;
 
 
 public class UserDetailsImpl implements UserDetails {
@@ -36,11 +36,11 @@ public class UserDetailsImpl implements UserDetails {
 		this.authorities = authorities;
 	}
 
-	public static UserDetailsImpl build(User user) {
-		List<GrantedAuthority> authorities = user.getRoles().stream()
+	public static UserDetailsImpl build(Cliente cliente) {
+		List<GrantedAuthority> authorities = cliente.getRoles().stream()
 				.map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
 
-		return new UserDetailsImpl(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), authorities);
+		return new UserDetailsImpl(cliente.getIdCliente(), cliente.getUsername(), cliente.getEmail(), cliente.getPassword(), authorities);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.residencia.ecommerce.security.services;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -7,22 +9,22 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.residencia.ecommerce.entites.seguranca.User;
-import com.residencia.ecommerce.repositories.seguranca.UserRepository;
+import com.residencia.ecommerce.entites.Cliente;
+import com.residencia.ecommerce.repositories.ClienteRepository;
 
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
-	UserRepository userRepository;
+	ClienteRepository clienteRepository;
 
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username)
+		Cliente cliente = clienteRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
-		return UserDetailsImpl.build(user);
+		return UserDetailsImpl.build(cliente);
 	}
 
 }

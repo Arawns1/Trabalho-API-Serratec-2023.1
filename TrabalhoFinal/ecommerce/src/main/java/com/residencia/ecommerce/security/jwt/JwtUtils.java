@@ -33,14 +33,14 @@ public class JwtUtils {
 		SecretKey sKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
 		
 		return Jwts.builder()
-					.setSubject((userPrincipal.getUsername()))
+					.setSubject((userPrincipal.getEmail()))
 					.setIssuedAt(new Date())
 					.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
 					.signWith(sKey)
 					.compact();
 	}
 
-	public String getUserNameFromJwtToken(String token) {
+	public String getEmailFromJwtToken(String token) {
 		SecretKey sKey = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
 		return Jwts.parserBuilder()
 				.setSigningKey(sKey)

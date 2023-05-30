@@ -52,13 +52,14 @@ public class EnderecoService {
 	}
   
   public Endereco buscaCep(ClienteDTO clienteDTO) {
+	Endereco endereco = new Endereco();
+	  try {
 		RestTemplate restTemplate = new RestTemplate();
 		String uri = "http://viacep.com.br/ws/{cep}/json";
 		Map<String, String> params = new HashMap<>();
 		params.put("cep", clienteDTO.getCep());
 		
-		Endereco endereco = new Endereco();
-		try {
+		
 			ViaCepDTO responseViaCep = restTemplate.getForObject(uri, ViaCepDTO.class, params);
 			if (responseViaCep == null || responseViaCep.getErro()) {
 				throw new CEPNotFoundException(clienteDTO.getCep());
@@ -78,5 +79,6 @@ public class EnderecoService {
 		
 		return endereco;
   }
+  
   
 }

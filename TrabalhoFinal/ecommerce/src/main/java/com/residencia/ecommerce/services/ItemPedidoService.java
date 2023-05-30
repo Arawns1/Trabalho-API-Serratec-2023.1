@@ -70,6 +70,7 @@ public class ItemPedidoService {
 		itemPedido.setValorBruto(
 				produto.getValorUnitario()
 				.multiply(BigDecimal.valueOf(itemPedidoDTO.getQuantidade())));
+		
 		BigDecimal valorPorcentagem = itemPedido.getValorBruto()
 				.multiply(BigDecimal.valueOf(itemPedidoDTO.getPercentualDesconto()));
 

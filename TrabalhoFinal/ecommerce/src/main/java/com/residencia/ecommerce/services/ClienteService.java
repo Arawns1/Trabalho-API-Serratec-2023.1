@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.residencia.ecommerce.dto.ClienteDTO;
@@ -14,10 +13,11 @@ import com.residencia.ecommerce.entites.Endereco;
 import com.residencia.ecommerce.exception.ClienteCpfDuplicadoException;
 import com.residencia.ecommerce.exception.ClienteEmailDuplicadoException;
 import com.residencia.ecommerce.exception.ClienteNotFoundException;
-import com.residencia.ecommerce.exception.CustomException;
 import com.residencia.ecommerce.exception.NoSuchElementException;
 import com.residencia.ecommerce.repositories.ClienteRepository;
 import com.residencia.ecommerce.repositories.EnderecoRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class ClienteService {
@@ -26,10 +26,10 @@ public class ClienteService {
 
 	@Autowired
 	EnderecoRepository enderecoRepository;
-	
+
 	@Autowired
 	EnderecoService enderecoService;
-	
+
 	@Autowired
 	ModelMapper modelMapper;
 
@@ -40,20 +40,22 @@ public class ClienteService {
 	public Cliente getClienteById(Integer id) {
 		return clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException(id));
 	}
+	
+	@Transactional
+	public Optional<Cliente> findClienteByEmail(String email){
+		return clienteRepository.findClienteByEmail(email);
+	}
 
 	public Cliente saveCliente(Cliente cliente) {
-		try {
-			Cliente clienteCpfExistente = clienteRepository.findByCpf(cliente.getCpf());
-			Cliente clienteEmailExistente = clienteRepository.findByEmail(cliente.getEmail());
-			if (clienteCpfExistente != null) {
-				throw new ClienteCpfDuplicadoException();
-			} else if (clienteEmailExistente != null) {
-				throw new ClienteEmailDuplicadoException();
-			} 
+		// Verificações de duplicacao de cpf e email
+		Cliente clienteCpfExistente = clienteRepository.findByCpf(cliente.getCpf());
+		Cliente clienteEmailExistente = clienteRepository.findByEmail(cliente.getEmail());
+		if (clienteCpfExistente != null) {
+			throw new ClienteCpfDuplicadoException();
+		} else if (clienteEmailExistente != null) {
+			throw new ClienteEmailDuplicadoException();
 		}
-		catch(DataIntegrityViolationException ex) {
-			throw new CustomException("É necessário utilizar um endereço cadastrado posteriormente neste tipo de operação");
-		}
+		// Fim da verificação
 		return clienteRepository.save(cliente);
 	}
 
@@ -63,8 +65,8 @@ public class ClienteService {
 
 	public Boolean deleteCliente(Integer id) {
 		Optional<Cliente> clienteEncontrada = clienteRepository.findById(id);
-		
-		if(clienteEncontrada.isEmpty()) {
+
+		if (clienteEncontrada.isEmpty()) {
 			throw new NoSuchElementException("Cliente com id: " + id + " não encontrada!");
 		}
 		clienteRepository.deleteById(id);
@@ -82,9 +84,10 @@ public class ClienteService {
 	}
 
 	public ClienteDTO saveClienteDTO(ClienteDTO clienteDTO) {
+
 		Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
-		
-		//Verificações de duplicacao de cpf e email
+
+		// Verificações de duplicacao de cpf e email
 		Cliente clienteCpfExistente = clienteRepository.findByCpf(cliente.getCpf());
 		Cliente clienteEmailExistente = clienteRepository.findByEmail(cliente.getEmail());
 		if (clienteCpfExistente != null) {
@@ -92,15 +95,20 @@ public class ClienteService {
 		} else if (clienteEmailExistente != null) {
 			throw new ClienteEmailDuplicadoException();
 		}
-		//Fim da verificação
-		
-		//Realiza a busca no ViaCep
+		// Fim da verificação
+
+		// Realiza a busca no ViaCep
 		Endereco enderecoViaCep = enderecoService.buscaCep(clienteDTO);
 		cliente.setEndereco(enderecoViaCep);
-		clienteRepository.save(cliente);
-		
-		ClienteDTO clienteSalvo = modelMapper.map(cliente, ClienteDTO.class);
-		clienteSalvo.setIdCliente(cliente.getIdCliente());
-		return clienteSalvo;
+		cliente.setRoles(clienteDTO.getRole());
+
+		Cliente clienteSalvo = clienteRepository.save(cliente);
+
+		ClienteDTO clienteSalvoDTO = modelMapper.map(clienteSalvo, ClienteDTO.class);
+		clienteSalvoDTO.setCep(clienteSalvo.getEndereco().getCep());
+		clienteSalvoDTO.setComplemento(clienteSalvo.getEndereco().getComplemento());
+		clienteSalvoDTO.setNumero(clienteSalvo.getEndereco().getNumero());
+		clienteSalvoDTO.setRole(clienteSalvo.getRoles());
+		return clienteSalvoDTO;
 	}
 }

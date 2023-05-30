@@ -6,17 +6,18 @@ public class JwtResponseDTO {
 	private String token;
 	private String type = "Bearer";
 	private Integer id;
-	private String username;
 	private String email;
 	private List<String> roles;
 
-	public JwtResponseDTO(String accessToken, Integer id, String username, String email, List<String> roles) {
-		this.token = accessToken;
+	public JwtResponseDTO(String token, Integer id, String email, List<String> roles) {
+		super();
+		this.token = token;
 		this.id = id;
-		this.username = username;
 		this.email = email;
 		this.roles = roles;
 	}
+
+
 
 	public String getAccessToken() {
 		return token;
@@ -48,14 +49,6 @@ public class JwtResponseDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public List<String> getRoles() {
