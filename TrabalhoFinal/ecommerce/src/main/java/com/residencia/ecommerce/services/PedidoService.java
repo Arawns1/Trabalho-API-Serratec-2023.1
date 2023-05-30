@@ -133,9 +133,6 @@ public class PedidoService {
 			Produto produto = itemPedido.getProduto();
 			produto.setQtdEstoque(produto.getQtdEstoque() - itemPedido.getQuantidade());
 			
-			if(produto.getQtdEstoque() < 0 ) {
-				throw new EstoqueNegativoException(produto.getIdProduto());
-			}
 			valorTotal = valorTotal.add(itemPedido.getValorLiquido());
 			items.add(itemPedido);
 		}
