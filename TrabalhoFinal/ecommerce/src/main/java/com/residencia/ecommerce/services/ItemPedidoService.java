@@ -3,6 +3,7 @@ package com.residencia.ecommerce.services;
 import com.residencia.ecommerce.dto.ItemPedidoDTO;
 import com.residencia.ecommerce.entites.ItemPedido;
 import com.residencia.ecommerce.entites.Produto;
+import com.residencia.ecommerce.exception.EstoqueNegativoException;
 import com.residencia.ecommerce.exception.NoSuchElementException;
 import com.residencia.ecommerce.repositories.ItemPedidoRepository;
 import com.residencia.ecommerce.repositories.ProdutoRepository;
@@ -59,22 +60,32 @@ public class ItemPedidoService {
 		ItemPedido itemPedido = new ItemPedido();
 
 		itemPedido.setQuantidade(itemPedidoDTO.getQuantidade());
+		
 		itemPedido.setPercentualDesconto(itemPedidoDTO.getPercentualDesconto());
 
 		Produto produto = produtoRepository.findById(itemPedidoDTO.getProdutoID())
 				.orElseThrow(() -> new NoSuchElementException("Produto", itemPedidoDTO.getProdutoID()));
-
+		
 		itemPedido.setPrecoVenda(produto.getValorUnitario());
-		itemPedido
-				.setValorBruto(produto.getValorUnitario().multiply(BigDecimal.valueOf(itemPedidoDTO.getQuantidade())));
+		itemPedido.setValorBruto(
+				produto.getValorUnitario()
+				.multiply(BigDecimal.valueOf(itemPedidoDTO.getQuantidade())));
 		BigDecimal valorPorcentagem = itemPedido.getValorBruto()
 				.multiply(BigDecimal.valueOf(itemPedidoDTO.getPercentualDesconto()));
 
 		itemPedido.setValorLiquido((itemPedido.getValorBruto()).subtract(valorPorcentagem));
 
 		itemPedido.setProduto(produto);
+		
+		if(itemPedido.getProduto().getQtdEstoque() < itemPedidoDTO.getQuantidade()) {
+			throw new EstoqueNegativoException(1);
+		}
+		
 		itemPedidoRepository.save(itemPedido);
-
+		produto.setQtdEstoque(produto.getQtdEstoque() - itemPedido.getQuantidade());
+		
+		produtoRepository.save(produto);
+		
 		ItemPedidoDTO itemPedidoSalvo = modelMapper.map(itemPedido, ItemPedidoDTO.class);
 		itemPedidoSalvo.setIdItemPedido(itemPedido.getIdItemPedido());
 

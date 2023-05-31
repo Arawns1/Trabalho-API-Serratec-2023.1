@@ -114,7 +114,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
                 problemDetailBody.setDetail("Ocorreu um erro ao processar a Requisição");
                 problemDetailBody.setProperty("message", "Validation failed for object='" + result.getObjectName());
                 
-                problemDetailBody.setProperty("errors", result.getAllErrors().get(0).getDefaultMessage());
+                for (int i = 0; i < result.getAllErrors().size(); i++) {    
+                	problemDetailBody.setProperty("error " + (i+1), result.getAllErrors().get(i).getDefaultMessage() ); 
+                }
             }
         }
         return response;
