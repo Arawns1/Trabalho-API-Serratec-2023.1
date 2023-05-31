@@ -3,7 +3,6 @@ package com.residencia.ecommerce.entites;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -43,7 +42,6 @@ public class Produto {
 	private Integer qtdEstoque;
 	
 	@PastOrPresent(message = "A data cadastrada não pode estar no futuro")
-	@JsonFormat(pattern = "dd/MM/yyyy", timezone = "America/Sao_Paulo" )
 	@Column(name = "data_cadastro")
 	private Date dataCadastro;
 	
