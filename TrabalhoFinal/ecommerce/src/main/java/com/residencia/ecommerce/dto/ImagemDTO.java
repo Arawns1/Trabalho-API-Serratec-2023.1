@@ -1,9 +1,6 @@
 package com.residencia.ecommerce.dto;
 
-import java.sql.Types;
 import java.util.Arrays;
-
-import org.hibernate.annotations.JdbcTypeCode;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,9 +27,7 @@ public class ImagemDTO {
 	
 	@JsonIgnore
 	@Lob
-	@JdbcTypeCode(Types.BINARY)
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	@Column(name = "imagem_dados")
 	private byte[] imagemDados;
 	
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)

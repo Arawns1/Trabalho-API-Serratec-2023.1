@@ -20,13 +20,13 @@ public class UserDetailsImpl implements UserDetails {
 
 	private String username;
 
-	//private String email;
+	private String email;
 
 	@JsonIgnore
 	private String password;
 
 	private Collection<? extends GrantedAuthority> authorities;
-/*
+
 	public UserDetailsImpl(Integer id, String username, String email, String password,
 			Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
@@ -34,33 +34,14 @@ public class UserDetailsImpl implements UserDetails {
 		this.email = email;
 		this.password = password;
 		this.authorities = authorities;
-	}*/
-	
+	}
 
-
-
-	public UserDetailsImpl(Integer id, String username, String password,
-		Collection<? extends GrantedAuthority> authorities) {
-	super();
-	this.id = id;
-	this.username = username;
-	this.password = password;
-	this.authorities = authorities;
-}
-	
-	/*public static UserDetailsImpl build(User user) {
+	public static UserDetailsImpl build(User user) {
 		List<GrantedAuthority> authorities = user.getRoles().stream()
 				.map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
 
 		return new UserDetailsImpl(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), authorities);
-	}*/
-	
-	public static UserDetailsImpl build(User user) {
-	List<GrantedAuthority> authorities = user.getRoles().stream()
-			.map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
-
-	return new UserDetailsImpl(user.getId(), user.getUsername(), user.getPassword(), authorities);
-}
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -71,10 +52,9 @@ public class UserDetailsImpl implements UserDetails {
 		return id;
 	}
 
-	/*
 	public String getEmail() {
 		return email;
-	}*/
+	}
 
 	@Override
 	public String getPassword() {

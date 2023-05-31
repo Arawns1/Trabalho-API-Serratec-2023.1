@@ -1,9 +1,6 @@
 package com.residencia.ecommerce.entites;
 
-import java.sql.Types;
 import java.util.Arrays;
-
-import org.hibernate.annotations.JdbcTypeCode;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,8 +28,7 @@ public class Imagem {
 	
 	@JsonIgnore
 	@Lob
-	@JdbcTypeCode(Types.BINARY)
-	@Column(name = "imagem_bytes")
+	@Column(name = "imagem_bytes", columnDefinition="BLOB")
 	private byte[] dados;
 	
 	private String tipo;

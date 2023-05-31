@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,36 +31,12 @@ public class ProdutoController {
 	@Autowired
 	ProdutoService produtoService;
 	
-	
-	@PreAuthorize("hasAnyRole('USER','ADMIN', 'CLIENTE')")
+
 	@GetMapping
 	public ResponseEntity<List<Produto>> getAllProdutos() {
 		return new ResponseEntity<>(produtoService.getAllProdutos(), HttpStatus.FOUND);
 	}
-	
-	@PreAuthorize("hasAnyRole('USER','ADMIN', 'CLIENTE')")
-	@GetMapping("/{id}")
-	public ResponseEntity<Produto> getProdutoById(@PathVariable Integer id) {
-		Produto produtoResponse = produtoService.getProdutoById(id);
-		if (produtoResponse == null) {
-			return new ResponseEntity<>(produtoResponse, HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<>(produtoResponse, HttpStatus.FOUND);
-		}
-	}
-	
-	@PreAuthorize("hasRole('ADMIN')")
-	@PostMapping
-	public ResponseEntity<Produto> saveProduto(@RequestBody Produto produto) {
-		Produto produtoResponse = produtoService.saveProduto(produto);
-		if (produtoResponse == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
-		} else {
-			return new ResponseEntity<>(produtoResponse, HttpStatus.OK);
-		}
-	}
 
-	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping
 	public ResponseEntity<Produto> updateProduto(@RequestBody Produto produto, Integer id) {
 		Produto produtoResponse = produtoService.updateProduto(produto, id);
@@ -72,7 +47,6 @@ public class ProdutoController {
 		}
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteProduto(@PathVariable Integer id) {
 		Boolean response = produtoService.deleteProduto(id);
@@ -90,7 +64,6 @@ public class ProdutoController {
 	// DTOs //
 	// ------ //
 
-	@PreAuthorize("hasAnyRole('USER','ADMIN', 'CLIENTE')")
 	@GetMapping("/dto/{id}")
 	public ResponseEntity<ProdutoDTO> getProdutoDTOById(@PathVariable Integer id) {
 		ProdutoDTO produtoResponse = produtoService.getProdutoDTOById(id);
@@ -100,7 +73,7 @@ public class ProdutoController {
 			return new ResponseEntity<>(produtoResponse, HttpStatus.FOUND);
 		}
 	}
-	@PreAuthorize("hasAnyRole('USER','ADMIN', 'CLIENTE')")
+	
 	@GetMapping("/dto-comfoto/{id}")
 	public ResponseEntity<?> getProdutoDTOByIdComFoto(@PathVariable Integer id) {
 		ProdutoDTO produtoResponse = produtoService.getProdutoDTOByIdComFoto(id);
@@ -110,7 +83,7 @@ public class ProdutoController {
 			 return new ResponseEntity<>(produtoResponse, HttpStatus.OK);
 		}
 	}
-	@PreAuthorize("hasAnyRole('USER','ADMIN', 'CLIENTE')")
+	
 	@GetMapping("/dto-comfoto/{id}/foto")
 	public ResponseEntity<?> getFotoByProdutoId(@PathVariable Integer id) {
 		ProdutoDTO produtoResponse = produtoService.getProdutoDTOByIdComFoto(id);
@@ -125,13 +98,12 @@ public class ProdutoController {
 		}
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	
 	@PostMapping("/dto")
 	public ResponseEntity<ProdutoDTO> saveProduto(@RequestBody ProdutoDTO produtoDTO){
 		return new ResponseEntity<>(produtoService.saveProdutoDTO(produtoDTO), HttpStatus.CREATED);
 	}
 	
-	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(value = "/dto-comfoto", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<ProdutoDTO> saveProdutoComImagem(@Valid @RequestPart("produto") String produtoDTO, 
 																  @RequestPart("file") MultipartFile file) throws Exception {
