@@ -23,7 +23,6 @@ import com.residencia.ecommerce.entites.ItemPedido;
 import com.residencia.ecommerce.entites.Pedido;
 import com.residencia.ecommerce.entites.Produto;
 import com.residencia.ecommerce.exception.ClienteNotFoundException;
-import com.residencia.ecommerce.exception.EstoqueNegativoException;
 import com.residencia.ecommerce.exception.NoSuchElementException;
 import com.residencia.ecommerce.repositories.ClienteRepository;
 import com.residencia.ecommerce.repositories.ItemPedidoRepository;
@@ -238,9 +237,6 @@ public class PedidoService {
 			Produto produto = itemPedido.getProduto();
 			produto.setQtdEstoque(produto.getQtdEstoque() - itemPedido.getQuantidade());
 			
-			if(produto.getQtdEstoque() < 0 ) {
-				throw new EstoqueNegativoException(produto.getIdProduto());
-			}
 			valorTotal = valorTotal.add(itemPedido.getValorLiquido());
 			items.add(itemPedido);
 		}

@@ -20,6 +20,7 @@ import com.residencia.ecommerce.dto.ProdutoDTO;
 import com.residencia.ecommerce.entites.Categoria;
 import com.residencia.ecommerce.entites.Imagem;
 import com.residencia.ecommerce.entites.Produto;
+import com.residencia.ecommerce.exception.CustomException;
 import com.residencia.ecommerce.exception.NoSuchElementException;
 import com.residencia.ecommerce.exception.ProdutoDescricaoDuplicadaException;
 import com.residencia.ecommerce.exception.ProdutoNotFoundException;
@@ -44,6 +45,11 @@ public class ProdutoService {
 
 
 	public List<Produto> getAllProdutos() {
+		
+		if(produtoRepository.count() == 0) {
+			throw new CustomException("Não há produtos cadastrados");
+		}
+		
 		return produtoRepository.findAll();
 	}
 
@@ -169,7 +175,6 @@ public class ProdutoService {
 				.toUri();
 		produto.getImagem().setUrl(uri.toString());
 		
-		produtoRepository.save(produto);
 		
 		ProdutoDTO produtoDtoSalvo = new ProdutoDTO();
 		produtoDtoSalvo.setNome(produto.getNome());

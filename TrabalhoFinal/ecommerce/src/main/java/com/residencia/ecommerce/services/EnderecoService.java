@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.UnknownHttpStatusCodeException;
 
 import com.residencia.ecommerce.dto.ClienteDTO;
+import com.residencia.ecommerce.dto.EnderecoDTO;
 import com.residencia.ecommerce.dto.ViaCepDTO;
 import com.residencia.ecommerce.entites.Endereco;
 import com.residencia.ecommerce.exception.CEPNotFoundException;
@@ -51,6 +52,13 @@ public class EnderecoService {
 		return enderecoDeletado == null;
 	}
   
+  
+  public Endereco saveEnderecoDTO(EnderecoDTO endereco) {
+	  	Endereco enderecoViaCep = buscaCep(endereco);
+	    return enderecoRepository.save(enderecoViaCep);
+	  }
+  
+  
   public Endereco buscaCep(ClienteDTO clienteDTO) {
 		RestTemplate restTemplate = new RestTemplate();
 		String uri = "http://viacep.com.br/ws/{cep}/json";
@@ -78,5 +86,33 @@ public class EnderecoService {
 		
 		return endereco;
   }
+  
+  public Endereco buscaCep(EnderecoDTO EnderecoDTO) {
+		RestTemplate restTemplate = new RestTemplate();
+		String uri = "http://viacep.com.br/ws/{cep}/json";
+		Map<String, String> params = new HashMap<>();
+		params.put("cep", EnderecoDTO.getCep());
+		
+		Endereco endereco = new Endereco();
+		try {
+			ViaCepDTO responseViaCep = restTemplate.getForObject(uri, ViaCepDTO.class, params);
+			if (responseViaCep == null || responseViaCep.getErro()) {
+				throw new CEPNotFoundException(EnderecoDTO.getCep());
+			}
+			endereco.setCep(responseViaCep.getCep());
+			endereco.setRua(responseViaCep.getLogradouro());
+			endereco.setBairro(responseViaCep.getBairro());
+			endereco.setCidade(responseViaCep.getLocalidade());
+			endereco.setUf(responseViaCep.getUf());
+			endereco.setComplemento(EnderecoDTO.getComplemento());
+			endereco.setNumero(EnderecoDTO.getNumero());
+			enderecoRepository.save(endereco);
+			
+		} catch (HttpClientErrorException | HttpServerErrorException | UnknownHttpStatusCodeException e) {
+			throw new CEPNotFoundException(EnderecoDTO.getCep());
+		}
+		
+		return endereco;
+}
   
 }
