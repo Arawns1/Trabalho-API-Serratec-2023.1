@@ -1,13 +1,29 @@
 package com.residencia.ecommerce.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EnderecoDTO {
 	private Integer idEndereco;
+	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String cep;
+	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private String rua;
+	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private String bairro;
+	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private String cidade;
+	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Integer numero;
+	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String complemento;
+	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private String uf;
 	
 	public EnderecoDTO() {
