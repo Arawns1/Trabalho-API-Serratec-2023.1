@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -44,10 +45,26 @@ public class WebSecurityConfig {
             	headers
                     .frameOptions((frameOptions) -> frameOptions.sameOrigin()))
                 	.authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/auth/**", "/h2-console/**", "/roles/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //define as rotas publicas/abertas
-                    .requestMatchers("/actuator/**").hasRole("ADMIN") // autoriza o acesso a rotas por perfil
-                    .requestMatchers("/test/user/**").hasAnyRole("USER", "ADMIN") //autoriza o acesso a rotas por perfis
-                    .anyRequest().permitAll()) //demais rotas, nao configuradas acima, so poderao ser acessadas mediante autenticacao
+                			.requestMatchers("/auth/**","/actuator/**", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**","/roles").permitAll() //define as rotas publicas/abertas
+                            .requestMatchers(HttpMethod.GET,"/clientes/dto/**").hasAnyRole("CLIENTE", "ADMIN")
+                            .requestMatchers(HttpMethod.GET,"/clientes/**").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.PUT,"/clientes/**").hasAnyRole("CLIENTE", "ADMIN")
+                            .requestMatchers(HttpMethod.POST,"/clientes/**").hasAnyRole("ADMIN","CLIENTE", "USER")
+                            .requestMatchers(HttpMethod.DELETE,"/clientes/**").hasRole("ADMIN")
+                            .requestMatchers("/categorias/**").hasRole("ADMIN")
+
+                            .requestMatchers(HttpMethod.GET, "/itempedidos/dto/**").hasAnyRole("CLIENTE", "ADMIN")
+                            .requestMatchers(HttpMethod.POST, "/itempedidos/dto/**").hasAnyRole("CLIENTE", "ADMIN")
+                            .requestMatchers(HttpMethod.GET, "/itempedidos/**").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.POST, "/itempedidos/**").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.PUT, "/itempedidos/**").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.DELETE, "/itempedidos/**").hasRole("ADMIN")
+                            /*
+                            .requestMatchers("/itempedidos/dto**").hasAnyRole("CLIENTE", "ADMIN")
+                            .requestMatchers("/pedidos/**").hasRole("ADMIN")
+                            .requestMatchers("/pedidos/dto**").hasAnyRole("CLIENTE", "ADMIN")
+                            .requestMatchers("/test/user/**").hasAnyRole("USER", "ADMIN") *///autoriza o acesso a rotas por perfis
+                            .anyRequest().authenticated()) //demais rotas, nao configuradas acima, so poderao ser acessadas mediante autenticacao
 		;		
         	
 		
