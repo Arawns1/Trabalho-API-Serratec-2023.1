@@ -1,10 +1,14 @@
 package com.residencia.ecommerce.services;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,8 @@ import com.residencia.ecommerce.exception.NoSuchElementException;
 import com.residencia.ecommerce.repositories.ClienteRepository;
 import com.residencia.ecommerce.repositories.ItemPedidoRepository;
 import com.residencia.ecommerce.repositories.PedidoRepository;
+
+import jakarta.mail.MessagingException;
 
 @Service
 public class PedidoService {
@@ -64,12 +70,111 @@ public class PedidoService {
 		return pedidoDeletada == null;
 	}
 	
+	
 	private void enviarRelatorio (PedidoDTO pedidoDTO) {
 		RelatorioDTO relatorioDTO = new RelatorioDTO (pedidoDTO.getItensPedido(),pedidoDTO);
 		relatorioDTO.toString();
-		mailService.enviarEmail(pedidoDTO.getCliente().getEmail(),
-     			"Pedido cadastrado", 
-     			pedidoDTO);
+		String htmlItemsPedido = "";
+		for (ItemPedidoDTO itemPedidoDTO:pedidoDTO.getItensPedido()){
+			Integer quantidade = itemPedidoDTO.getQuantidade();
+			Integer id = itemPedidoDTO.getProdutoID();
+			BigDecimal precoVenda = itemPedidoDTO.getPrecoVenda();
+			Double percentualDesconto = itemPedidoDTO.getPercentualDesconto();
+			BigDecimal valorLiquido = itemPedidoDTO.getValorLiquido();
+			String nome = itemPedidoDTO.getProduto().getNome();
+			BigDecimal valorBruto = itemPedidoDTO.getValorBruto();
+			String.format("%s.2f", Double.toString(valorBruto.doubleValue()));
+			String.format("%s.2f", Double.toString(precoVenda.doubleValue()));
+			String.format("%s.2f", Double.toString(valorLiquido.doubleValue()));
+			htmlItemsPedido += "<tr>";
+			htmlItemsPedido += "<td style='border:1px solid #000000;'>"+id+"</td>\r\n";
+			htmlItemsPedido += "<td style='border:1px solid #000000;'>"+nome+"</td>\r\n";
+			htmlItemsPedido += "<td style='border:1px solid #000000;'>R$ "+precoVenda+"</td>\r\n";
+			htmlItemsPedido += "<td style='border:1px solid #000000;'>"+quantidade+"</td>\r\n";
+			htmlItemsPedido += "<td style='border:1px solid #000000;'>% "+percentualDesconto+"</td>\r\n";
+			htmlItemsPedido += "<td style='border:1px solid #000000;'>R$ "+valorBruto+"</td>\r\n";
+			htmlItemsPedido += "<td style='border:1px solid #000000;'>R$ "+valorLiquido+"</td>\r\n";
+			htmlItemsPedido += "</tr>";
+			};
+		String htmlCliente = "";
+		Optional<Cliente> cliente = clienteRepository.findById(pedidoDTO.getIdCliente());
+		htmlCliente += "<table style='margin-left: auto; margin-right:auto; border-collapse:collapse; border:1px;'>";
+		htmlCliente += "<td><h4 style='border:1px solid #000000;'> Nome: "+ pedidoDTO.getCliente().getNomeCompleto() +"</h4></td>\r\n";
+		htmlCliente += "<td><h4 style='border:1px solid #000000;'> CPF: "+ pedidoDTO.getCliente().getCpf() +"</h4></td>\r\n";
+		htmlCliente += "<td><h4 style='border:1px solid #000000;'> Email: "+ pedidoDTO.getCliente().getEmail() +"</h4></td>\r\n";
+		htmlCliente += "</table>";
+		
+		String htmlEndereço = "";
+		htmlEndereço += "<hr/>\r\n";
+		htmlEndereço += "<br/>\r\n";
+		htmlEndereço += "<h2 style='color:green; text-align:center'> Endereço de entrega: </h2>\r\n";
+		htmlEndereço += "<h4> CEP: "+ pedidoDTO.getCliente().getEndereco().getCep() +"</h4>\r\n";
+		htmlEndereço += "<h4> UF: "+ pedidoDTO.getCliente().getEndereco().getUf() +"</h4>\r\n";
+		htmlEndereço += "<h4> Bairro: "+ pedidoDTO.getCliente().getEndereco().getBairro() +"</h4>\r\n";
+		htmlEndereço += "<h4> Rua: "+ pedidoDTO.getCliente().getEndereco().getRua() +"</h4>\r\n";
+		htmlEndereço += "<h4> Numero: "+ pedidoDTO.getCliente().getEndereco().getNumero() +"</h4>\r\n";
+		htmlEndereço += "<h4> Complemento: "+ pedidoDTO.getCliente().getEndereco().getComplemento() +"</h4>\r\n";
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yy HH:mm");
+		
+		Calendar data = new GregorianCalendar(pedidoDTO.getDataPedido().getYear(), pedidoDTO.getDataPedido().getMonth(),pedidoDTO.getDataPedido().getDay(),pedidoDTO.getDataPedido().getHours(),pedidoDTO.getDataPedido().getMinutes());
+	
+		
+		String htmlPedido = "";
+		htmlPedido += "<h4> ID do pedido: "+ pedidoDTO.getIdPedido() +"</h4>\r\n";
+		htmlPedido += "<h4> Data do pedido: "+ sdf.format(data.getTime()) +"</h4>\r\n";
+		String.format("%s.2f", Double.toString(pedidoDTO.getValorTotal().doubleValue()));
+		htmlPedido += "<h4> Valor Total: R$ "+ pedidoDTO.getValorTotal() +"</h4>\r\n";
+
+		String html = "<html>\r\n"
+				+ "	<body>\r\n"
+				+ "		<div style='text-align: center'>"
+				+ "     	<img src='https://cdn.discordapp.com/attachments/1094644010372583526/1113219670900744312/logo.png'>"
+				+ "		</div>"
+				+ "		<h1 style='color:green; text-align:center'> Pedido cadastrado com sucesso! </h1>\r\n"
+				+ "     <hr/>\r\n"
+				+ "     <br/>\r\n"
+				+ "     <br/>\r\n"
+				+ "		<h2 style='color:green; text-align:center'> Dados do Cliente: </h2>\r\n"
+				+ htmlCliente
+				+ htmlEndereço
+				+ "     <hr/>\r\n"
+				+ "     <br/>\r\n"
+				+ "     <br/>\r\n"
+				+ "		<h2 style='color:green; text-align:center'> Items: </h2>\r\n"
+				+ "     <table style='margin-left: auto; margin-right:auto; border-collapse:collapse; border:1px solid #000000;'>\r\n"
+				+ "			<tr>"
+				+ "		    	<th>CODIGO |</th>"
+				+ "			    <th> NOME |</th>"
+				+ "			    <th> PREÇO |</th>"
+				+ "			    <th> QUANTIDADE |</th>"
+				+ "			    <th> DESCONTO |</th>"
+				+ "			    <th> VALOR BRUTO |</th>"
+				+ "			    <th> VALOR LIQUIDO</th>"
+				+ "			 </tr>"
+				+ htmlItemsPedido
+				+ "     </table>\r\n"
+				+ "     <br/>\r\n"
+				+ "     <hr/>\r\n"
+				+ "     <br/>\r\n"
+				+ "     <br/>\r\n"
+				+ "		<h2 style='color:green; text-align:center'> Pedido: </h2>\r\n"	
+				+ htmlPedido
+				+ "     <br/>\r\n"
+				+ "     <hr/>\r\n"
+				+ "     <br/>\r\n"
+				+ "     <br/>\r\n"
+				+ "		<h1 style='color:green; text-align:center'> Obrigado por comprar conosco!! :) </h1>\r\n"
+				+ "	</body>\r\n"
+				+ "</html>";		
+		try {
+			mailService.enviarEmail(pedidoDTO.getCliente().getEmail(),
+					"Pedido cadastrado", 
+					html);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// ---------
