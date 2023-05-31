@@ -99,10 +99,10 @@ public class PedidoService {
 			};
 		String htmlCliente = "";
 		Optional<Cliente> cliente = clienteRepository.findById(pedidoDTO.getIdCliente());
-		htmlCliente += "<table style='margin-left: auto; margin-right:auto; border-collapse:collapse; border:1px solid #000000;'>";
-		htmlCliente += "<td><h4> Nome: "+ pedidoDTO.getCliente().getNomeCompleto() +"</h4></td>\r\n";
-		htmlCliente += "<td><h4> CPF: "+ pedidoDTO.getCliente().getCpf() +"</h4></td>\r\n";
-		htmlCliente += "<td><h4> Email: "+ pedidoDTO.getCliente().getEmail() +"</h4></td>\r\n";
+		htmlCliente += "<table style='margin-left: auto; margin-right:auto; border-collapse:collapse; border:1px;'>";
+		htmlCliente += "<td><h4 style='border:1px solid #000000;'> Nome: "+ pedidoDTO.getCliente().getNomeCompleto() +"</h4></td>\r\n";
+		htmlCliente += "<td><h4 style='border:1px solid #000000;'> CPF: "+ pedidoDTO.getCliente().getCpf() +"</h4></td>\r\n";
+		htmlCliente += "<td><h4 style='border:1px solid #000000;'> Email: "+ pedidoDTO.getCliente().getEmail() +"</h4></td>\r\n";
 		htmlCliente += "</table>";
 		
 		String htmlEndereço = "";
@@ -161,6 +161,11 @@ public class PedidoService {
 				+ "     <br/>\r\n"
 				+ "		<h2 style='color:green; text-align:center'> Pedido: </h2>\r\n"	
 				+ htmlPedido
+				+ "     <br/>\r\n"
+				+ "     <hr/>\r\n"
+				+ "     <br/>\r\n"
+				+ "     <br/>\r\n"
+				+ "		<h1 style='color:green; text-align:center'> Obrigado por comprar conosco!! :) </h1>\r\n"
 				+ "	</body>\r\n"
 				+ "</html>";		
 		try {
