@@ -175,7 +175,6 @@ public class ProdutoService {
 				.toUri();
 		produto.getImagem().setUrl(uri.toString());
 		
-		produtoRepository.save(produto);
 		
 		ProdutoDTO produtoDtoSalvo = new ProdutoDTO();
 		produtoDtoSalvo.setNome(produto.getNome());

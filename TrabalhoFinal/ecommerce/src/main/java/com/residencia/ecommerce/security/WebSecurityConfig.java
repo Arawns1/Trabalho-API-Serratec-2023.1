@@ -45,7 +45,7 @@ public class WebSecurityConfig {
             	headers
                     .frameOptions((frameOptions) -> frameOptions.sameOrigin()))
                 	.authorizeHttpRequests(auth -> auth
-                			.requestMatchers("/auth/**","/actuator/**", "/roles", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //define as rotas publicas/abertas
+                			.requestMatchers("/auth/**","/actuator/**", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**","/roles").permitAll() //define as rotas publicas/abertas
                             .requestMatchers(HttpMethod.GET,"/clientes/dto/**").hasAnyRole("CLIENTE", "ADMIN")
                             .requestMatchers(HttpMethod.GET,"/clientes/**").hasRole("ADMIN")
                             .requestMatchers(HttpMethod.PUT,"/clientes/**").hasAnyRole("CLIENTE", "ADMIN")
