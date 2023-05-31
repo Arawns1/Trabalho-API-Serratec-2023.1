@@ -65,7 +65,7 @@ public class AuthController {
 				.collect(Collectors.toList());
 
 		return ResponseEntity.ok(
-				new JwtResponseDTO(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+				new JwtResponseDTO(jwt, userDetails.getId(), userDetails.getUsername(), roles));
 	}
 
 	@PostMapping("/signup")
@@ -74,14 +74,7 @@ public class AuthController {
 			return ResponseEntity.badRequest().body(new MessageResponseDTO("Erro: Username já utilizado!"));
 		}
 
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity.badRequest().body(new MessageResponseDTO("Erro: Email já utilizado!"));
-		}
-
-		// Cria a nova conta de usuario
-		User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
-				encoder.encode(signUpRequest.getPassword()));
-
+		User user = new User(signUpRequest.getUsername(),encoder.encode(signUpRequest.getPassword()));
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
 
@@ -96,6 +89,12 @@ public class AuthController {
 					Role adminRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
 							.orElseThrow(() -> new RuntimeException("Erro: Role não encontrada."));
 					roles.add(adminRole);
+
+					break;
+				case "cliente":
+					Role clienteRole = roleRepository.findByName(RoleEnum.ROLE_CLIENTE)
+							.orElseThrow(() -> new RuntimeException("Erro: Role não encontrada."));
+					roles.add(clienteRole);
 
 					break;
 				default:
